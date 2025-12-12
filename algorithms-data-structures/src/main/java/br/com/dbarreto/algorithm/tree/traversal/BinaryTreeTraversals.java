@@ -43,7 +43,7 @@ public class BinaryTreeTraversals {
 
         if (node.right() != null) {
             traversePreOrder(node.right(), visitor);
-        };
+        }
     }
 
     public static <T> void traversePostOrder(BinaryTree<T> binaryTree, Consumer<T> visitor) {

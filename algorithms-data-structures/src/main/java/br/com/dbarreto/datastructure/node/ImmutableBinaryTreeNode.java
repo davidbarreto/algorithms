@@ -30,8 +30,4 @@ public class ImmutableBinaryTreeNode<T> implements BinaryTreeNode<T> {
     public T value() {
         return value;
     }
-
-    public String toString() {
-        return value.toString();
-    }
 }

@@ -2,6 +2,8 @@ package br.com.dbarreto.datastructure.tree;
 
 import br.com.dbarreto.algorithm.tree.traversal.BinaryTreeTraversals;
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
+
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public interface BinaryTree<T> extends RootedTree<T> {
@@ -42,7 +44,7 @@ public interface BinaryTree<T> extends RootedTree<T> {
     private boolean contains(BinaryTreeNode<T> root, T value) {
         if (root == null) return false;
 
-        if (root.value().equals(value)) return true;
+        if (Objects.equals(root.value(), value)) return true;
 
         return contains(root.left(), value) || contains(root.right(), value);
     }

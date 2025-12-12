@@ -121,6 +121,9 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
     }
 
     public String print() {
+        if (root == null) {
+            return "";
+        }
         StringBuilder buffer = new StringBuilder(50);
         root.print(buffer, "", "", 'r');
         return buffer.toString();
