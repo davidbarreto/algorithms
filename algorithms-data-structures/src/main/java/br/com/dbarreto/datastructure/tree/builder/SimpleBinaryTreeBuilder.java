@@ -1,8 +1,8 @@
 package br.com.dbarreto.datastructure.tree.builder;
 
-import br.com.dbarreto.datastructure.node.ImmutableBinaryTreeNode;
+import br.com.dbarreto.datastructure.node.impl.SimpleImmutableBinaryTreeNode;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
-import br.com.dbarreto.datastructure.tree.SimpleBinaryTree;
+import br.com.dbarreto.datastructure.tree.impl.SimpleBinaryTree;
 
 public final class SimpleBinaryTreeBuilder<T> {
 
@@ -17,7 +17,7 @@ public final class SimpleBinaryTreeBuilder<T> {
     }
 
     public BinaryTree<T> build() {
-        ImmutableBinaryTreeNode<T> rootNode = rootBuilder.buildNode();
+        SimpleImmutableBinaryTreeNode<T> rootNode = rootBuilder.buildNode();
         return new SimpleBinaryTree<>(rootNode);
     }
 
@@ -49,10 +49,10 @@ public final class SimpleBinaryTreeBuilder<T> {
         }
 
         /** recursively build immutable node */
-        ImmutableBinaryTreeNode<T> buildNode() {
-            ImmutableBinaryTreeNode<T> leftNode = leftBuilder == null ? null : leftBuilder.buildNode();
-            ImmutableBinaryTreeNode<T> rightNode = rightBuilder == null ? null : rightBuilder.buildNode();
-            return new ImmutableBinaryTreeNode<>(value, leftNode, rightNode);
+        SimpleImmutableBinaryTreeNode<T> buildNode() {
+            SimpleImmutableBinaryTreeNode<T> leftNode = leftBuilder == null ? null : leftBuilder.buildNode();
+            SimpleImmutableBinaryTreeNode<T> rightNode = rightBuilder == null ? null : rightBuilder.buildNode();
+            return new SimpleImmutableBinaryTreeNode<>(value, leftNode, rightNode);
         }
     }
 }

@@ -1,16 +1,18 @@
-package br.com.dbarreto.datastructure.node;
+package br.com.dbarreto.datastructure.node.impl;
 
-public class ImmutableBinaryTreeNode<T> implements BinaryTreeNode<T> {
+import br.com.dbarreto.datastructure.node.BinaryTreeNode;
+
+public class SimpleImmutableBinaryTreeNode<T> implements BinaryTreeNode<T> {
 
     private final T value;
     private final BinaryTreeNode<T> left;
     private final BinaryTreeNode<T> right;
 
-    public ImmutableBinaryTreeNode(T value) {
+    public SimpleImmutableBinaryTreeNode(T value) {
         this(value, null, null);
     }
 
-    public ImmutableBinaryTreeNode(T value, BinaryTreeNode<T> left, BinaryTreeNode<T> right) {
+    public SimpleImmutableBinaryTreeNode(T value, BinaryTreeNode<T> left, BinaryTreeNode<T> right) {
         this.value = value;
         this.left = left;
         this.right = right;

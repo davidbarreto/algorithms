@@ -1,9 +1,9 @@
 package br.com.dbarreto.datastructure.tree;
 
-import br.com.dbarreto.algorithm.tree.traversal.BinaryTreeTraversals;
+import br.com.dbarreto.algorithm.tree.BinaryTreeProperties;
+import br.com.dbarreto.algorithm.tree.BinaryTreeTraversals;
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 
-import java.util.Objects;
 import java.util.function.Consumer;
 
 public interface BinaryTree<T> extends RootedTree<T> {
@@ -13,40 +13,21 @@ public interface BinaryTree<T> extends RootedTree<T> {
 
     @Override
     default int height() {
-        return height(root());
-    }
-
-    private int height(BinaryTreeNode<T> root) {
-        if (root == null) {
-            return 0;
-        }
-
-        return 1 + Math.max(height(root.left()), height(root.right()));
+        return BinaryTreeProperties.height(this);
     }
 
     @Override
     default int size() {
-        return size(root());
+        return BinaryTreeProperties.size(this);
     }
 
-    private int size(BinaryTreeNode<T> root) {
-        if (root == null) {
-            return 0;
-        }
-
-        return 1 + size(root.left()) + size(root.right());
-    }
-
+    @Override
     default boolean contains(T value) {
-        return contains(root(), value);
+        return BinaryTreeProperties.contains(this, value);
     }
 
-    private boolean contains(BinaryTreeNode<T> root, T value) {
-        if (root == null) return false;
-
-        if (Objects.equals(root.value(), value)) return true;
-
-        return contains(root.left(), value) || contains(root.right(), value);
+    default boolean isBalanced() {
+        return BinaryTreeProperties.isBalanced(this);
     }
 
     default void traverseInOrder(Consumer<T> visitor) {
@@ -59,6 +40,10 @@ public interface BinaryTree<T> extends RootedTree<T> {
 
     default void traversePostOrder(Consumer<T> visitor) {
         BinaryTreeTraversals.traversePostOrder(this, visitor);
+    }
+
+    default void traverseLevelOrder(Consumer<T> visitor) {
+        BinaryTreeTraversals.traverseLevelOrder(this, visitor);
     }
 }
 

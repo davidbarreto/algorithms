@@ -1,6 +1,7 @@
-package br.com.dbarreto.datastructure.tree;
+package br.com.dbarreto.datastructure.tree.impl;
 
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
+import br.com.dbarreto.datastructure.tree.BinaryTree;
 
 public class SimpleBinaryTree<T> implements BinaryTree<T> {
 

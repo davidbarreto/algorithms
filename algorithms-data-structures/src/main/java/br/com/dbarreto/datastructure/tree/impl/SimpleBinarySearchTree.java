@@ -1,26 +1,37 @@
-package br.com.dbarreto.datastructure.tree;
+package br.com.dbarreto.datastructure.tree.impl;
 
+import br.com.dbarreto.datastructure.node.BinarySearchTreeNode;
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
-import br.com.dbarreto.datastructure.node.SimpleBinaryTreeNode;
+import br.com.dbarreto.datastructure.node.MutableBinarySearchTreeNode;
+import br.com.dbarreto.datastructure.node.impl.SimpleMutableBinarySearchTreeNode;
+import br.com.dbarreto.datastructure.tree.BinarySearchTree;
 
 public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySearchTree<T> {
 
-    private SimpleBinaryTreeNode<T> root;
+    private MutableBinarySearchTreeNode<T> root;
+
+    public SimpleBinarySearchTree() {
+        this(null);
+    }
+
+    public SimpleBinarySearchTree(MutableBinarySearchTreeNode<T> root) {
+        this.root = root;
+    }
 
     @Override
     public void insert(T value) {
         this.root = insert(root, value);
     }
 
-    private SimpleBinaryTreeNode<T> insert(SimpleBinaryTreeNode<T> root, T value) {
+    private MutableBinarySearchTreeNode<T> insert(MutableBinarySearchTreeNode<T> root, T value) {
         if (root == null) {
-            return new SimpleBinaryTreeNode<>(value);
+            return new SimpleMutableBinarySearchTreeNode<>(value);
         }
 
         if (value.compareTo(root.value()) < 0) {
-            root.setLeft(insert(root.left(), value));
+            root.setLeft(insert(root.leftMutable(), value));
         } else {
-            root.setRight(insert(root.right(), value));
+            root.setRight(insert(root.rightMutable(), value));
         }
 
         return root;
@@ -31,30 +42,30 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
         this.root = delete(root, value);
     }
 
-    private SimpleBinaryTreeNode<T> delete(SimpleBinaryTreeNode<T> root, T value) {
+    private MutableBinarySearchTreeNode<T> delete(MutableBinarySearchTreeNode<T> root, T value) {
         if (root == null) {
             return null;
         }
 
         if (root.value().compareTo(value) > 0) {
-            root.setLeft(delete(root.left(), value));
+            root.setLeft(delete(root.leftMutable(), value));
         } else if (root.value().compareTo(value) < 0) {
-            root.setRight(delete(root.right(), value));
+            root.setRight(delete(root.rightMutable(), value));
         } else {
             if (root.left() == null) {
-                return root.right();
+                return root.rightMutable();
             }
             if (root.right() == null) {
-                return root.left();
+                return root.leftMutable();
             }
-            SimpleBinaryTreeNode<T> succ = successor(root);
+            var succ = successor(root);
             root.setValue(succ.value());
-            root.setRight(delete(root.right(), succ.value()));
+            root.setRight(delete(root.rightMutable(), succ.value()));
         }
         return root;
     }
 
-    private SimpleBinaryTreeNode<T> successor(SimpleBinaryTreeNode<T> current) {
+    private BinaryTreeNode<T> successor(BinaryTreeNode<T> current) {
         current = current.right();
         while (current != null && current.left() != null) {
             current = current.left();
@@ -67,16 +78,17 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
         return min(root);
     }
 
-    private T min(SimpleBinaryTreeNode<T> root) {
+    private T min(MutableBinarySearchTreeNode<T> root) {
         if (root == null) {
             return null;
         }
 
-        if (root.left() == null) {
+        var left = root.leftMutable();
+        if (left == null) {
             return root.value();
         }
 
-        return min(root.left());
+        return min(left);
     }
 
     @Override
@@ -84,20 +96,21 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
         return max(root);
     }
 
-    private T max(SimpleBinaryTreeNode<T> root) {
+    private T max(MutableBinarySearchTreeNode<T> root) {
         if (root == null) {
             return null;
         }
 
-        if (root.right() == null) {
+        var right = root.rightMutable();
+        if (right == null) {
             return root.value();
         }
 
-        return max(root.right());
+        return max(right);
     }
 
     @Override
-    public BinaryTreeNode<T> root() {
+    public BinarySearchTreeNode<T> root() {
         return root;
     }
 
@@ -106,7 +119,7 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
         return contains(root, value);
     }
 
-    private boolean contains(SimpleBinaryTreeNode<T> root, T value) {
+    private boolean contains(BinaryTreeNode<T> root, T value) {
 
         if (root != null && value != null) {
             if (root.value().compareTo(value) > 0) {
@@ -118,14 +131,5 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
             }
         }
         return false;
-    }
-
-    public String print() {
-        if (root == null) {
-            return "";
-        }
-        StringBuilder buffer = new StringBuilder(50);
-        root.print(buffer, "", "", 'r');
-        return buffer.toString();
     }
 }

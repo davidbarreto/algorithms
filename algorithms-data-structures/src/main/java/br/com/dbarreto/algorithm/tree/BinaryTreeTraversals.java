@@ -1,8 +1,10 @@
-package br.com.dbarreto.algorithm.tree.traversal;
+package br.com.dbarreto.algorithm.tree;
 
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.function.Consumer;
 
 public class BinaryTreeTraversals {
@@ -64,5 +66,29 @@ public class BinaryTreeTraversals {
         }
 
         visitor.accept(node.value());
+    }
+
+    public static <T> void traverseLevelOrder(BinaryTree<T> binaryTree, Consumer<T> visitor) {
+
+        if (binaryTree.root() == null) {
+            return;
+        }
+        
+        Deque<BinaryTreeNode<T>> queue = new ArrayDeque<>();
+        queue.add(binaryTree.root());
+
+        while (!queue.isEmpty()) {
+
+            var node = queue.poll();
+            visitor.accept(node.value());
+            
+            if (node.left() != null) {
+                queue.add(node.left());
+            }
+
+            if (node.right() != null) {
+                queue.add(node.right());
+            }
+        }
     }
 }

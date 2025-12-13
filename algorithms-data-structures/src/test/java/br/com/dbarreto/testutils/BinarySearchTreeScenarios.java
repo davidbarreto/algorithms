@@ -1,9 +1,10 @@
-package br.com.dbarreto.datastructure.testutils;
+package br.com.dbarreto.testutils;
 
 import br.com.dbarreto.datastructure.tree.BinarySearchTree;
-import br.com.dbarreto.datastructure.tree.SimpleBinarySearchTree;
+import br.com.dbarreto.datastructure.tree.impl.AvlTree;
+import br.com.dbarreto.datastructure.tree.impl.SimpleBinarySearchTree;
 
-public class BinarySearchTreeFactory {
+public class BinarySearchTreeScenarios {
 
     public static BinarySearchTree<Integer> createEmptyBst() {
         return new SimpleBinarySearchTree<>();
@@ -34,8 +35,15 @@ public class BinarySearchTreeFactory {
         return tree;
     }
 
-    public static void main(String[] args) {
-        var tree = createBstWithUnorderedInserts();
-        System.out.println(tree.toString());
+    public static BinarySearchTree<Integer> createAvlTree() {
+        var tree = new AvlTree<Integer>();
+        tree.insert(10);
+        tree.insert(20);
+        tree.insert(30);
+        tree.insert(40);
+        tree.insert(50);
+        tree.insert(25);
+
+        return tree;
     }
 }

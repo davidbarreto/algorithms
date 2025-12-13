@@ -1,6 +1,10 @@
-package br.com.dbarreto.datastructure.tree;
+package br.com.dbarreto.datastructure.tree.impl;
 
-import br.com.dbarreto.datastructure.testutils.BinarySearchTreeFactory;
+import br.com.dbarreto.testutils.BinarySearchTreeScenarios;
+import br.com.dbarreto.datastructure.tree.BinarySearchTree;
+import br.com.dbarreto.datastructure.tree.BinaryTree;
+
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,7 +27,7 @@ class SimpleBinarySearchTreeTest {
     @ParameterizedTest
     @MethodSource("deleteArguments")
     void delete(Integer valueToDelete, List<Integer> expected) {
-        var tree = BinarySearchTreeFactory.createBstWithUnorderedInserts();
+        var tree = BinarySearchTreeScenarios.createBstWithUnorderedInserts();
         tree.delete(valueToDelete);
         assertTree(tree, expected);
     }
@@ -49,8 +53,39 @@ class SimpleBinarySearchTreeTest {
     @ParameterizedTest
     @MethodSource("containsArguments")
     void contains(Integer searchedVal, boolean expected) {
-        var tree = BinarySearchTreeFactory.createBstWithUnorderedInserts();
+        var tree = BinarySearchTreeScenarios.createBstWithUnorderedInserts();
         assertEquals(expected, tree.contains(searchedVal));
+    }
+
+    @Test
+    void testInsertAndSearch() {
+        SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
+        tree.insert(5);
+        tree.insert(3);
+        tree.insert(7);
+        assertTrue(tree.contains(5));
+        assertTrue(tree.contains(3));
+        assertFalse(tree.contains(10));
+    }
+
+    @Test
+    void testMinMax() {
+        SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
+        tree.insert(5);
+        tree.insert(3);
+        tree.insert(7);
+        assertEquals(3, tree.min());
+        assertEquals(7, tree.max());
+    }
+
+    @Test
+    void testLargeInsert() {
+        SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
+        for (int i = 0; i < 100; i++) {
+            tree.insert(i);
+        }
+        assertEquals(99, tree.max());
+        assertTrue(tree.contains(50));
     }
 
     private void assertTree(BinaryTree<Integer> tree, List<Integer> expected) {
@@ -61,9 +96,9 @@ class SimpleBinarySearchTreeTest {
 
     private static Stream<Arguments> insertArguments() {
         return Stream.of(
-                Arguments.of(BinarySearchTreeFactory.createEmptyBst(), Collections.emptyList()),
-                Arguments.of(BinarySearchTreeFactory.createBstWithOrderedInserts(), List.of(1, 2, 3, 4, 5)),
-                Arguments.of(BinarySearchTreeFactory.createBstWithUnorderedInserts(), List.of(-100, -3, -1, 0, 1, 2, 3, 4, 5, 10))
+                Arguments.of(BinarySearchTreeScenarios.createEmptyBst(), Collections.emptyList()),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), List.of(1, 2, 3, 4, 5)),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), List.of(-100, -3, -1, 0, 1, 2, 3, 4, 5, 10))
         );
     }
 
@@ -84,25 +119,25 @@ class SimpleBinarySearchTreeTest {
 
     private static Stream<Arguments> minArguments() {
         return Stream.of(
-                Arguments.of(BinarySearchTreeFactory.createEmptyBst(), null),
-                Arguments.of(BinarySearchTreeFactory.createBstWithOrderedInserts(), 1),
-                Arguments.of(BinarySearchTreeFactory.createBstWithUnorderedInserts(), -100)
+                Arguments.of(BinarySearchTreeScenarios.createEmptyBst(), null),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), 1),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), -100)
         );
     }
 
     private static Stream<Arguments> maxArguments() {
         return Stream.of(
-                Arguments.of(BinarySearchTreeFactory.createEmptyBst(), null),
-                Arguments.of(BinarySearchTreeFactory.createBstWithOrderedInserts(), 5),
-                Arguments.of(BinarySearchTreeFactory.createBstWithUnorderedInserts(), 10)
+                Arguments.of(BinarySearchTreeScenarios.createEmptyBst(), null),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), 5),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), 10)
         );
     }
 
     private static Stream<Arguments> rootArguments() {
         return Stream.of(
-            Arguments.of(BinarySearchTreeFactory.createEmptyBst(), null),
-            Arguments.of(BinarySearchTreeFactory.createBstWithOrderedInserts(), 1),
-            Arguments.of(BinarySearchTreeFactory.createBstWithUnorderedInserts(), 2)
+            Arguments.of(BinarySearchTreeScenarios.createEmptyBst(), null),
+            Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), 1),
+            Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), 2)
         );
     }
 
