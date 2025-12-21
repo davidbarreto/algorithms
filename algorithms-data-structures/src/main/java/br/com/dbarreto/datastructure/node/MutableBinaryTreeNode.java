@@ -1,9 +1,9 @@
 package br.com.dbarreto.datastructure.node;
 
-public interface MutableBinaryTreeNode<T> extends BinaryTreeNode<T>, MutableTreeNode<T> {
+public interface MutableBinaryTreeNode<T, N extends MutableBinaryTreeNode<T, N>> extends BinaryTreeNode<T>, MutableTreeNode<T> {
     
-    void setLeft(MutableBinaryTreeNode<T> left);
-    void setRight(MutableBinaryTreeNode<T> right);
+    void setLeft(N left);
+    void setRight(N right);
 
     @Override
     default BinaryTreeNode<T> left() {
@@ -15,6 +15,6 @@ public interface MutableBinaryTreeNode<T> extends BinaryTreeNode<T>, MutableTree
         return rightMutable();
     }
 
-    MutableBinaryTreeNode<T> leftMutable();
-    MutableBinaryTreeNode<T> rightMutable();
+    N leftMutable();
+    N rightMutable();
 }

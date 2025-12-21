@@ -1,29 +1,26 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
-import br.com.dbarreto.datastructure.node.BinarySearchTreeNode;
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
-import br.com.dbarreto.datastructure.node.MutableBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.node.impl.SimpleMutableBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.tree.BinarySearchTree;
 
 public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySearchTree<T> {
 
-    private MutableBinarySearchTreeNode<T> root;
+    private SimpleMutableBinarySearchTreeNode<T> root;
 
     public SimpleBinarySearchTree() {
-        this(null);
     }
 
-    public SimpleBinarySearchTree(MutableBinarySearchTreeNode<T> root) {
+    public SimpleBinarySearchTree(SimpleMutableBinarySearchTreeNode<T> root) {
         this.root = root;
     }
 
     @Override
     public void insert(T value) {
-        this.root = insert(root, value);
+        this.root = insert(this.root, value);
     }
 
-    private MutableBinarySearchTreeNode<T> insert(MutableBinarySearchTreeNode<T> root, T value) {
+    private SimpleMutableBinarySearchTreeNode<T> insert(SimpleMutableBinarySearchTreeNode<T> root, T value) {
         if (root == null) {
             return new SimpleMutableBinarySearchTreeNode<>(value);
         }
@@ -42,7 +39,7 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
         this.root = delete(root, value);
     }
 
-    private MutableBinarySearchTreeNode<T> delete(MutableBinarySearchTreeNode<T> root, T value) {
+    private SimpleMutableBinarySearchTreeNode<T> delete(SimpleMutableBinarySearchTreeNode<T> root, T value) {
         if (root == null) {
             return null;
         }
@@ -78,7 +75,7 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
         return min(root);
     }
 
-    private T min(MutableBinarySearchTreeNode<T> root) {
+    private T min(SimpleMutableBinarySearchTreeNode<T> root) {
         if (root == null) {
             return null;
         }
@@ -96,7 +93,7 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
         return max(root);
     }
 
-    private T max(MutableBinarySearchTreeNode<T> root) {
+    private T max(SimpleMutableBinarySearchTreeNode<T> root) {
         if (root == null) {
             return null;
         }
@@ -110,7 +107,7 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
     }
 
     @Override
-    public BinarySearchTreeNode<T> root() {
+    public BinaryTreeNode<T> root() {
         return root;
     }
 
@@ -120,11 +117,10 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
     }
 
     private boolean contains(BinaryTreeNode<T> root, T value) {
-
         if (root != null && value != null) {
             if (root.value().compareTo(value) > 0) {
                 return contains(root.left(), value);
-            } else if (root.value().compareTo(value) < 0){
+            } else if (root.value().compareTo(value) < 0) {
                 return contains(root.right(), value);
             } else {
                 return true;

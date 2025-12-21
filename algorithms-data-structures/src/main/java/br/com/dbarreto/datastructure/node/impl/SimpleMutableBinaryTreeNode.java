@@ -2,24 +2,14 @@ package br.com.dbarreto.datastructure.node.impl;
 
 import br.com.dbarreto.datastructure.node.MutableBinaryTreeNode;
 
-public class SimpleMutableBinaryTreeNode<T> implements MutableBinaryTreeNode<T> {
+public class SimpleMutableBinaryTreeNode<T> implements MutableBinaryTreeNode<T, SimpleMutableBinaryTreeNode<T>> {
     
     private T value;
-    private MutableBinaryTreeNode<T> left;
-    private MutableBinaryTreeNode<T> right;
-
-    public SimpleMutableBinaryTreeNode() {
-        this(null, null, null);
-    }
+    private SimpleMutableBinaryTreeNode<T> left;
+    private SimpleMutableBinaryTreeNode<T> right;
 
     public SimpleMutableBinaryTreeNode(T value) {
-        this(value, null, null);
-    }
-
-    public SimpleMutableBinaryTreeNode(T value, MutableBinaryTreeNode<T> left, MutableBinaryTreeNode<T> right) {
         this.value = value;
-        this.left = left;
-        this.right = right;
     }
 
     @Override
@@ -33,22 +23,22 @@ public class SimpleMutableBinaryTreeNode<T> implements MutableBinaryTreeNode<T> 
     }
 
     @Override
-    public void setLeft(MutableBinaryTreeNode<T> left) {
+    public void setLeft(SimpleMutableBinaryTreeNode<T> left) {
         this.left = left;
     }
 
     @Override
-    public void setRight(MutableBinaryTreeNode<T> right) {
+    public void setRight(SimpleMutableBinaryTreeNode<T> right) {
         this.right = right;
     }
 
     @Override
-    public MutableBinaryTreeNode<T> leftMutable() {
+    public SimpleMutableBinaryTreeNode<T> leftMutable() {
         return this.left;
     }
 
     @Override
-    public MutableBinaryTreeNode<T> rightMutable() {
+    public SimpleMutableBinaryTreeNode<T> rightMutable() {
         return this.right;
     }
 }

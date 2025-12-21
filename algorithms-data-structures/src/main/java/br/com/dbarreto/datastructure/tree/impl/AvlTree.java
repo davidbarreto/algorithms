@@ -1,24 +1,23 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
 import br.com.dbarreto.algorithm.tree.BinaryTreeProperties;
-import br.com.dbarreto.datastructure.node.MutableBinarySearchTreeNode;
-import br.com.dbarreto.datastructure.node.impl.SimpleMutableBinarySearchTreeNode;
+import br.com.dbarreto.datastructure.node.impl.SimpleMutableHeightBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.tree.SelfBalancingBinarySearchTree;
 
-public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> implements SelfBalancingBinarySearchTree<T> {
+public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> implements SelfBalancingBinarySearchTree<T, SimpleMutableHeightBinarySearchTreeNode<T>> {
 
-    private MutableBinarySearchTreeNode<T> root;
+    private SimpleMutableHeightBinarySearchTreeNode<T> root;
 
     public AvlTree() {
         this(null);
     }
 
-    public AvlTree(MutableBinarySearchTreeNode<T> root) {
+    public AvlTree(SimpleMutableHeightBinarySearchTreeNode<T> root) {
         this.root = root;
     }
 
     @Override
-    public MutableBinarySearchTreeNode<T> root() {
+    public SimpleMutableHeightBinarySearchTreeNode<T> root() {
         return this.root;
     }
 
@@ -27,12 +26,12 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
         return height(this.root);
     }
 
-    private int height(MutableBinarySearchTreeNode<T> node) {
+    private int height(SimpleMutableHeightBinarySearchTreeNode<T> node) {
         return node == null ? 0 : node.height();
     }
 
     @Override
-    public MutableBinarySearchTreeNode<T> rotateLeft(MutableBinarySearchTreeNode<T> node) {
+    public SimpleMutableHeightBinarySearchTreeNode<T> rotateLeft(SimpleMutableHeightBinarySearchTreeNode<T> node) {
         var right = node.rightMutable();
         var temp = right.leftMutable();
 
@@ -46,7 +45,7 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
     }
 
     @Override
-    public MutableBinarySearchTreeNode<T> rotateRight(MutableBinarySearchTreeNode<T> node) {
+    public SimpleMutableHeightBinarySearchTreeNode<T> rotateRight(SimpleMutableHeightBinarySearchTreeNode<T> node) {
         var left = node.leftMutable();
         var temp = left.rightMutable();
 
@@ -64,9 +63,9 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
         this.root = insert(this.root, value);
     }
 
-    private MutableBinarySearchTreeNode<T> insert(MutableBinarySearchTreeNode<T> root, T value) {
+    private SimpleMutableHeightBinarySearchTreeNode<T> insert(SimpleMutableHeightBinarySearchTreeNode<T> root, T value) {
         if (root == null) {
-            return new SimpleMutableBinarySearchTreeNode<>(value);
+            return new SimpleMutableHeightBinarySearchTreeNode<>(value);
         }
 
         if (value.compareTo(root.value()) < 0) {
@@ -103,7 +102,7 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
         return root;
     }
 
-    private int getBalance(MutableBinarySearchTreeNode<T> node) {
+    private int getBalance(SimpleMutableHeightBinarySearchTreeNode<T> node) {
         if (node == null) {
             return 0;
         }
