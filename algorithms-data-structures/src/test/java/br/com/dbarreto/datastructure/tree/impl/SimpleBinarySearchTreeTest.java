@@ -1,6 +1,6 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
-import br.com.dbarreto.testutils.BinarySearchTreeScenarios;
+import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 import br.com.dbarreto.datastructure.tree.BinarySearchTree;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
 

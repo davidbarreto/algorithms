@@ -2,7 +2,7 @@ package br.com.dbarreto.algorithm.tree.traversal;
 
 import br.com.dbarreto.algorithm.tree.BinaryTreeProperties;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
-import br.com.dbarreto.testutils.BinaryTreeScenarios;
+import br.com.dbarreto.utils.BinaryTreeScenarios;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

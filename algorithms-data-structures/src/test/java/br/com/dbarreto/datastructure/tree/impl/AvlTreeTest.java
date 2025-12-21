@@ -1,6 +1,6 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
-import br.com.dbarreto.testutils.BinarySearchTreeScenarios;
+import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 
 import org.junit.jupiter.api.Test;
 

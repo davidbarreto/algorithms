@@ -1,4 +1,4 @@
-package br.com.dbarreto.testutils;
+package br.com.dbarreto.utils;
 
 import br.com.dbarreto.datastructure.tree.BinaryTree;
 import br.com.dbarreto.datastructure.tree.builder.SimpleBinaryTreeBuilder;
