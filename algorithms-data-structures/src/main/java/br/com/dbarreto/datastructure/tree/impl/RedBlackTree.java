@@ -1,6 +1,5 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
-import br.com.dbarreto.datastructure.node.MutableHeightBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.node.impl.RedBlackTreeNode;
 import br.com.dbarreto.datastructure.tree.SelfBalancingBinarySearchTree;
 
