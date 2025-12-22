@@ -2,7 +2,6 @@ package br.com.dbarreto.datastructure.tree.impl;
 
 import br.com.dbarreto.datastructure.node.BinaryTreeChildDirection;
 import br.com.dbarreto.datastructure.node.impl.RedBlackTreeNode;
-import br.com.dbarreto.datastructure.node.impl.SimpleMutableHeightBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.tree.SelfBalancingBinarySearchTree;
 
 public class RedBlackTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> implements SelfBalancingBinarySearchTree<T, RedBlackTreeNode<T>> {
@@ -57,7 +56,7 @@ public class RedBlackTree<T extends Comparable<T>> extends SimpleBinarySearchTre
     /**
      * Inserts new value in this Red-black tree
      * Duplicates go on the right side
-     * @param value
+     * @param value The value to be inserted in this Red-black tree
      */
     @Override
     public void insert(T value) {
