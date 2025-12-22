@@ -6,6 +6,10 @@ public interface BinaryTreeNode<T> extends TreeNode<T> {
     BinaryTreeNode<T> left();
     BinaryTreeNode<T> right();
 
+    default BinaryTreeNode<T> child(BinaryTreeChildDirection direction) {
+        return (direction == BinaryTreeChildDirection.LEFT) ? left() : right();
+    }
+
     default int height() {
         return BinaryTreeProperties.height(this);
     }

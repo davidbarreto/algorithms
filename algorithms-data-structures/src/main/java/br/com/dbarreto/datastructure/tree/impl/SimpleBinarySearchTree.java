@@ -56,8 +56,9 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
                 return root.leftMutable();
             }
             var succ = successor(root);
-            root.setValue(succ.value());
-            root.setRight(delete(root.rightMutable(), succ.value()));
+            var valSucc = succ != null ? succ.value() : null;
+            root.setValue(valSucc);
+            root.setRight(delete(root.rightMutable(), valSucc));
         }
         return root;
     }
@@ -109,23 +110,5 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
     @Override
     public BinaryTreeNode<T> root() {
         return root;
-    }
-
-    @Override
-    public boolean contains(T value) {
-        return contains(root, value);
-    }
-
-    private boolean contains(BinaryTreeNode<T> root, T value) {
-        if (root != null && value != null) {
-            if (root.value().compareTo(value) > 0) {
-                return contains(root.left(), value);
-            } else if (root.value().compareTo(value) < 0) {
-                return contains(root.right(), value);
-            } else {
-                return true;
-            }
-        }
-        return false;
     }
 }

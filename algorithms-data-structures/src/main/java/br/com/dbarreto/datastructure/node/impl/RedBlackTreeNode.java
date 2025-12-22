@@ -12,6 +12,7 @@ public class RedBlackTreeNode<T extends Comparable<T>> implements MutableColored
 
     public RedBlackTreeNode(T value) {
         this.value = value;
+        color = Color.RED;
     }
 
     @Override
@@ -42,6 +43,14 @@ public class RedBlackTreeNode<T extends Comparable<T>> implements MutableColored
     @Override
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public void turnBlack() {
+        setColor(Color.BLACK);
+    }
+
+    public void turnRed() {
+        setColor(Color.RED);
     }
 
     @Override

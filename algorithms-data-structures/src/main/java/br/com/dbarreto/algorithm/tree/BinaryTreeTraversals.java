@@ -9,6 +9,8 @@ import java.util.function.Consumer;
 
 public class BinaryTreeTraversals {
 
+    private BinaryTreeTraversals() {}
+
     public static <T> void traverseInOrder(BinaryTree<T> binaryTree, Consumer<T> visitor) {
         traverseInOrder(binaryTree.root(), visitor);
     }

@@ -5,6 +5,14 @@ public interface MutableBinaryTreeNode<T, N extends MutableBinaryTreeNode<T, N>>
     void setLeft(N left);
     void setRight(N right);
 
+    default void setChild(N childNode, BinaryTreeChildDirection direction) {
+        if (direction == BinaryTreeChildDirection.LEFT) {
+            setLeft(childNode);
+        } else {
+            setRight(childNode);
+        }
+    }
+
     @Override
     default BinaryTreeNode<T> left() {
         return leftMutable();
@@ -17,4 +25,8 @@ public interface MutableBinaryTreeNode<T, N extends MutableBinaryTreeNode<T, N>>
 
     N leftMutable();
     N rightMutable();
+
+    default N childMutable(BinaryTreeChildDirection direction) {
+        return (direction == BinaryTreeChildDirection.LEFT) ? leftMutable() : rightMutable();
+    }
 }

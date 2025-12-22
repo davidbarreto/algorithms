@@ -7,6 +7,8 @@ import br.com.dbarreto.datastructure.tree.BinaryTree;
 
 public class BinaryTreeProperties {
 
+    private BinaryTreeProperties() {}
+
     public static <T> int height(BinaryTree<T> binaryTree) {
         return height(binaryTree.root());
     }
