@@ -1,6 +1,5 @@
 package br.com.dbarreto.datastructure.node.impl;
 
-import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 import br.com.dbarreto.datastructure.node.MutableHeightBinarySearchTreeNode;
 
 public class SimpleMutableHeightBinarySearchTreeNode<T extends Comparable<T>> implements MutableHeightBinarySearchTreeNode<T, SimpleMutableHeightBinarySearchTreeNode<T>> {
