@@ -9,5 +9,15 @@ public interface MutableHeightBinarySearchTreeNode<T extends Comparable<T>, N ex
     @Override
     N rightMutable();
 
+    @Override
+    default N right() {
+        return rightMutable();
+    }
+
+    @Override
+    default N left() {
+        return leftMutable();
+    }
+
     void setHeight(int height);
 }

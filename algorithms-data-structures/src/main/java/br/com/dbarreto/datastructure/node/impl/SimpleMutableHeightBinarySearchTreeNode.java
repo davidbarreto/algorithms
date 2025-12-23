@@ -54,14 +54,4 @@ public class SimpleMutableHeightBinarySearchTreeNode<T extends Comparable<T>> im
     public void setHeight(int height) {
         this.height = height;
     }
-
-    @Override
-    public BinaryTreeNode<T> left() {
-        return leftMutable();
-    }
-
-    @Override
-    public BinaryTreeNode<T> right() {
-        return rightMutable();
-    }
 }
