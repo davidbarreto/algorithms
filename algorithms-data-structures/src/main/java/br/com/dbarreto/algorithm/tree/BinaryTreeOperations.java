@@ -33,7 +33,7 @@ public class BinaryTreeOperations {
         return 1 + size(root.left()) + size(root.right());
     }
 
-        public static <T> boolean contains(BinaryTree<T> binaryTree, T value) {
+    public static <T> boolean contains(BinaryTree<T> binaryTree, T value) {
         return contains(binaryTree.root(), value);
     }
 

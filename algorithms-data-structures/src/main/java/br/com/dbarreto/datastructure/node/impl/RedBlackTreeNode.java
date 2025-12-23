@@ -23,6 +23,7 @@ public class RedBlackTreeNode<T extends Comparable<T>> implements MutableColored
     @Override
     public void setRight(RedBlackTreeNode<T> right) {
         this.right = right;
+        updateParent(right);
     }
 
     @Override
@@ -38,6 +39,7 @@ public class RedBlackTreeNode<T extends Comparable<T>> implements MutableColored
     @Override
     public void setLeft(RedBlackTreeNode<T> left) {
         this.left = left;
+        updateParent(left);
     }
 
     @Override
@@ -71,5 +73,11 @@ public class RedBlackTreeNode<T extends Comparable<T>> implements MutableColored
     @Override
     public T value() {
         return this.value;
+    }
+
+    private void updateParent(RedBlackTreeNode<T> node) {
+        if (node != null) {
+            node.setParent(this);
+        }
     }
 }

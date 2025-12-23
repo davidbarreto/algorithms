@@ -10,10 +10,15 @@ public interface BinarySearchTree<T extends Comparable<T>> extends BinaryTree<T>
     BinarySearchTreeNode<T> root();
 
     default T min() {
-        return BinarySearchTreeOperations.min(root());
+        return BinarySearchTreeOperations.min(this);
     }
 
     default T max() {
-        return BinarySearchTreeOperations.max(root());
+        return BinarySearchTreeOperations.max(this);
+    }
+
+    @Override
+    default boolean contains(T value) {
+        return BinarySearchTreeOperations.contains(this, value);
     }
 }

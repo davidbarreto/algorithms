@@ -3,6 +3,8 @@ package br.com.dbarreto.algorithm.tree;
 import br.com.dbarreto.datastructure.node.BinarySearchTreeNode;
 import br.com.dbarreto.datastructure.tree.BinarySearchTree;
 
+import java.util.Objects;
+
 public class BinarySearchTreeOperations {
 
     private BinarySearchTreeOperations() {}
@@ -39,5 +41,17 @@ public class BinarySearchTreeOperations {
         }
 
         return max(right);
+    }
+
+    public static <T extends Comparable<T>> boolean contains(BinarySearchTree<T> binaryTree, T value) {
+        return contains(binaryTree.root(), value);
+    }
+
+    public static <T extends Comparable<T>> boolean contains(BinarySearchTreeNode<T> root, T value) {
+        if (root == null || value == null) return false;
+        if (Objects.equals(root.value(), value)) return true;
+
+        return value.compareTo(root.value()) < 0 ?
+                contains(root.left(), value) : contains(root.right(), value);
     }
 }

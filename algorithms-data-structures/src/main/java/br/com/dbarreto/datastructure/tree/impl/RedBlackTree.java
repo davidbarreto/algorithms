@@ -1,6 +1,7 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
 import br.com.dbarreto.datastructure.node.BinaryTreeChildDirection;
+import br.com.dbarreto.datastructure.node.ColoredBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.node.impl.RedBlackTreeNode;
 import br.com.dbarreto.datastructure.tree.SelfBalancingBinarySearchTree;
 
@@ -33,6 +34,8 @@ public class RedBlackTree<T extends Comparable<T>> extends SimpleBinarySearchTre
         var child = node.childMutable(invertedDirection);
         var temp = child.childMutable(direction);
         var parent = node.parentMutable();
+
+        node.setChild(temp, invertedDirection);
 
         if (temp != null) {
             temp.setParent(node);
@@ -97,8 +100,13 @@ public class RedBlackTree<T extends Comparable<T>> extends SimpleBinarySearchTre
         return findParent(parent, current, value);
     }
 
+    @Override
+    public RedBlackTreeNode<T> root() {
+        return this.root;
+    }
+
     private void fixInsert(RedBlackTreeNode<T> node) {
-        while (node != this.root && node.parent().color().isRed()) {
+        while (node != this.root && isRed(node.parent())) {
 
             if (isLeftParent(node)) {
                 node = fixInsert(node, BinaryTreeChildDirection.LEFT);
@@ -121,7 +129,7 @@ public class RedBlackTree<T extends Comparable<T>> extends SimpleBinarySearchTre
         var grandParent = parent.parentMutable();
         var uncle = grandParent.childMutable(invertedDirection);
 
-        if (uncle.color().isRed()) {
+        if (isRed(uncle)) {
             recolor(parent, uncle, grandParent);
             return grandParent;
         }
@@ -135,6 +143,10 @@ public class RedBlackTree<T extends Comparable<T>> extends SimpleBinarySearchTre
 
         rotateAndRecolor(parent, grandParent, invertedDirection);
         return node;
+    }
+
+    private boolean isRed(ColoredBinarySearchTreeNode<T> node) {
+        return node != null && node.color().isRed();
     }
 
     private static <T extends Comparable<T>> void recolor(RedBlackTreeNode<T> parent, RedBlackTreeNode<T> uncle, RedBlackTreeNode<T> grandParent) {
