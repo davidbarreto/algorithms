@@ -22,7 +22,7 @@ public class BinaryTreeOperations {
     }
 
     public static <T> int size(BinaryTree<T> binaryTree) {
-        return height(binaryTree.root());
+        return size(binaryTree.root());
     }
 
     public static <T> int size(BinaryTreeNode<T> root) {

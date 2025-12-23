@@ -171,8 +171,8 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
         }
 
         // Right-Right case: Right subtree is heavy, and new node is in right-right
-        // Balance < -1 means right-heavy, and value > root.right.value() means it went right of right child
-        if (balance < -1 && value.compareTo(root.right().value()) > 0) {
+        // Balance < -1 means right-heavy, and value >= root.right.value() means it went right of right child
+        if (balance < -1 && value.compareTo(root.right().value()) >= 0) {
             return rotateLeft(root);
         }
 
@@ -196,6 +196,15 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
     }
 
     /**
+     * Returns the balance factor of this AVL tree.
+     *
+     * @return the balance of the tree (0 if empty)
+     */
+    public int getBalance() {
+        return getBalance(this.root);
+    }
+
+    /**
      * Calculates the balance factor of a node.
      *
      * Balance factor = height(left subtree) - height(right subtree)
@@ -210,6 +219,6 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
         if (node == null) {
             return 0;
         }
-        return BinaryTreeOperations.height(node.left()) - BinaryTreeOperations.height(node.right());
+        return height(node.left()) - height(node.right());
     }
 }
