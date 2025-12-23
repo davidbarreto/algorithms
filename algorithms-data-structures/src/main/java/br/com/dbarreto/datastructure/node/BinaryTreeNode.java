@@ -1,6 +1,6 @@
 package br.com.dbarreto.datastructure.node;
 
-import br.com.dbarreto.algorithm.tree.BinaryTreeProperties;
+import br.com.dbarreto.algorithm.tree.BinaryTreeOperations;
 
 public interface BinaryTreeNode<T> extends TreeNode<T> {
     BinaryTreeNode<T> left();
@@ -11,18 +11,18 @@ public interface BinaryTreeNode<T> extends TreeNode<T> {
     }
 
     default int height() {
-        return BinaryTreeProperties.height(this);
+        return BinaryTreeOperations.height(this);
     }
 
     default int size() {
-        return BinaryTreeProperties.size(this);
+        return BinaryTreeOperations.size(this);
     }
 
     default boolean contains(T value) {
-        return BinaryTreeProperties.contains(this, value);
+        return BinaryTreeOperations.contains(this, value);
     }
 
     default boolean isBalanced() {
-        return BinaryTreeProperties.isBalanced(this);
+        return BinaryTreeOperations.isBalanced(this);
     }
 }

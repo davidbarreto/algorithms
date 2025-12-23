@@ -5,9 +5,9 @@ import java.util.Objects;
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
 
-public class BinaryTreeProperties {
+public class BinaryTreeOperations {
 
-    private BinaryTreeProperties() {}
+    private BinaryTreeOperations() {}
 
     public static <T> int height(BinaryTree<T> binaryTree) {
         return height(binaryTree.root());

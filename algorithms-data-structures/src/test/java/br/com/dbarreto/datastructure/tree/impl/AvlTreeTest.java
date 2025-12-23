@@ -108,4 +108,63 @@ class AvlTreeTest {
         assertEquals(0, tree.height());
         assertFalse(tree.contains(1));
     }
+
+    @Test
+    void testContains() {
+        AvlTree<Integer> tree = new AvlTree<>();
+        tree.insert(5);
+        tree.insert(3);
+        tree.insert(7);
+        tree.insert(1);
+        tree.insert(9);
+
+        assertTrue(tree.contains(5));
+        assertTrue(tree.contains(3));
+        assertTrue(tree.contains(7));
+        assertTrue(tree.contains(1));
+        assertTrue(tree.contains(9));
+        assertFalse(tree.contains(0));
+        assertFalse(tree.contains(10));
+    }
+
+    @Test
+    void testMinMax() {
+        AvlTree<Integer> tree = new AvlTree<>();
+        tree.insert(5);
+        tree.insert(3);
+        tree.insert(7);
+        tree.insert(1);
+        tree.insert(9);
+
+        assertEquals(1, tree.min());
+        assertEquals(9, tree.max());
+    }
+
+    @Test
+    void testContainsAfterRotations() {
+        AvlTree<Integer> tree = new AvlTree<>();
+        tree.insert(10);
+        tree.insert(20);
+        tree.insert(30);  // Right-right rotation
+
+        assertTrue(tree.contains(10));
+        assertTrue(tree.contains(20));
+        assertTrue(tree.contains(30));
+        assertEquals(2, tree.height());
+    }
+
+    @Test
+    void testLargeTreeOperations() {
+        AvlTree<Integer> tree = new AvlTree<>();
+        for (int i = 1; i <= 100; i++) {
+            tree.insert(i);
+        }
+
+        assertEquals(1, tree.min());
+        assertEquals(100, tree.max());
+        assertTrue(tree.contains(50));
+        assertFalse(tree.contains(101));
+        assertTrue(tree.isBalanced());
+    }
+
 }

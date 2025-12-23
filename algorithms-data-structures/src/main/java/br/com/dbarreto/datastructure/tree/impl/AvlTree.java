@@ -1,6 +1,6 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
-import br.com.dbarreto.algorithm.tree.BinaryTreeProperties;
+import br.com.dbarreto.algorithm.tree.BinaryTreeOperations;
 import br.com.dbarreto.datastructure.node.impl.SimpleMutableHeightBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.tree.SelfBalancingBinarySearchTree;
 
@@ -106,6 +106,6 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
         if (node == null) {
             return 0;
         }
-        return BinaryTreeProperties.height(node.left()) - BinaryTreeProperties.height(node.right());
+        return BinaryTreeOperations.height(node.left()) - BinaryTreeOperations.height(node.right());
     }
 }

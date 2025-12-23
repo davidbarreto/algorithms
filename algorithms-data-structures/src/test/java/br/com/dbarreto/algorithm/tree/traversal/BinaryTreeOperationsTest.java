@@ -1,6 +1,6 @@
 package br.com.dbarreto.algorithm.tree.traversal;
 
-import br.com.dbarreto.algorithm.tree.BinaryTreeProperties;
+import br.com.dbarreto.algorithm.tree.BinaryTreeOperations;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
 import br.com.dbarreto.utils.BinaryTreeScenarios;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,31 +11,31 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class BinaryTreePropertiesTest {
+class BinaryTreeOperationsTest {
 
     @ParameterizedTest
     @MethodSource("sizeArguments")
     void testSize(BinaryTree<Integer> tree, Integer expected) {
-        assertEquals(expected, BinaryTreeProperties.size(tree));
+        assertEquals(expected, BinaryTreeOperations.size(tree));
     }
 
     @ParameterizedTest
     @MethodSource("heightArguments")
     void testHeight(BinaryTree<Integer> tree, Integer expected) {
-        assertEquals(expected, BinaryTreeProperties.height(tree));
+        assertEquals(expected, BinaryTreeOperations.height(tree));
     }
 
     @ParameterizedTest
     @MethodSource("containsArguments")
     void testContains(Integer searchedValue, boolean expected) {
         var tree = BinaryTreeScenarios.createPerfectBinaryTree();
-        assertEquals(expected, BinaryTreeProperties.contains(tree, searchedValue));
+        assertEquals(expected, BinaryTreeOperations.contains(tree, searchedValue));
     }
 
     @ParameterizedTest
     @MethodSource("isBalancedArguments")
     void testIsBalanced(BinaryTree<Integer> tree, boolean expected) {
-        assertEquals(expected, BinaryTreeProperties.isBalanced(tree));
+        assertEquals(expected, BinaryTreeOperations.isBalanced(tree));
     }
 
     private static Stream<Arguments> sizeArguments() {

@@ -1,5 +1,6 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
+import br.com.dbarreto.datastructure.node.BinarySearchTreeNode;
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 import br.com.dbarreto.datastructure.node.impl.SimpleMutableBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.tree.BinarySearchTree;
@@ -72,43 +73,7 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
     }
 
     @Override
-    public T min() {
-        return min(root);
-    }
-
-    private T min(SimpleMutableBinarySearchTreeNode<T> root) {
-        if (root == null) {
-            return null;
-        }
-
-        var left = root.leftMutable();
-        if (left == null) {
-            return root.value();
-        }
-
-        return min(left);
-    }
-
-    @Override
-    public T max() {
-        return max(root);
-    }
-
-    private T max(SimpleMutableBinarySearchTreeNode<T> root) {
-        if (root == null) {
-            return null;
-        }
-
-        var right = root.rightMutable();
-        if (right == null) {
-            return root.value();
-        }
-
-        return max(right);
-    }
-
-    @Override
-    public BinaryTreeNode<T> root() {
+    public BinarySearchTreeNode<T> root() {
         return root;
     }
 }

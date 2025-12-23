@@ -1,6 +1,6 @@
 package br.com.dbarreto.datastructure.tree;
 
-import br.com.dbarreto.algorithm.tree.BinaryTreeProperties;
+import br.com.dbarreto.algorithm.tree.BinaryTreeOperations;
 import br.com.dbarreto.algorithm.tree.BinaryTreeTraversals;
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 
@@ -13,21 +13,21 @@ public interface BinaryTree<T> extends RootedTree<T> {
 
     @Override
     default int height() {
-        return BinaryTreeProperties.height(this);
+        return BinaryTreeOperations.height(this);
     }
 
     @Override
     default int size() {
-        return BinaryTreeProperties.size(this);
+        return BinaryTreeOperations.size(this);
     }
 
     @Override
     default boolean contains(T value) {
-        return BinaryTreeProperties.contains(this, value);
+        return BinaryTreeOperations.contains(this, value);
     }
 
     default boolean isBalanced() {
-        return BinaryTreeProperties.isBalanced(this);
+        return BinaryTreeOperations.isBalanced(this);
     }
 
     default void traverseInOrder(Consumer<T> visitor) {
