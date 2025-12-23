@@ -82,7 +82,7 @@ class RedBlackTreeTest {
     void testRootIsBlack() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         tree.insert(10);
-        assertTrue(((RedBlackTreeNode<Integer>) tree.root()).color().isBlack());
+        assertTrue(tree.root().color().isBlack());
     }
 
     // Helper methods to validate Red-Black properties
