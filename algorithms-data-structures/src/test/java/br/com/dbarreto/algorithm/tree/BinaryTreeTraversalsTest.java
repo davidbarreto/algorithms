@@ -1,4 +1,4 @@
-package br.com.dbarreto.algorithm.tree.traversal;
+package br.com.dbarreto.algorithm.tree;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,12 +13,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import br.com.dbarreto.algorithm.tree.BinaryTreeTraversals;
 import br.com.dbarreto.utils.BinaryTreeScenarios;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
 import br.com.dbarreto.datastructure.tree.impl.SimpleBinaryTree;
 
-public class BinaryTreeTraversalsTest {
+class BinaryTreeTraversalsTest {
 
     @ParameterizedTest
     @MethodSource("inOrderArguments")
