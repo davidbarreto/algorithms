@@ -173,7 +173,9 @@ class TreePropertyTests {
     }
 
     private void isValidRedBlackTree(RedBlackTree<Integer> tree, BinaryTreeNode<Integer> node) {
-        if (node == null) return;
+        if (node == null) {
+            return;
+        }
 
         // Must be a colored node for RB validation
         if (!(node instanceof RedBlackTreeNode<Integer> rbNode)) {
@@ -186,20 +188,21 @@ class TreePropertyTests {
         }
 
         // Property 4: If a node is red, both children must be black
-        if (rbNode.color() == RED && ((rbNode.leftMutable() != null && rbNode.leftMutable().color() == RED) ||
-                (rbNode.rightMutable() != null && rbNode.rightMutable().color() == RED))) {
+        if (rbNode.color() == RED && (isRed(rbNode.leftMutable()) || isRed(rbNode.rightMutable()))) {
                 throw new AssertionError("Property 4 violation: Red node has red child");
-            }
-
+        }
 
         // Property 5: Every path from node to leaf has same number of black nodes
-        int blackHeight = tree.blackHeight(rbNode);
-        if (blackHeight == -1) {
+        if (tree.blackHeight(rbNode) == -1) {
             throw new AssertionError("Property 5 violation: Inconsistent black heights in subtrees");
         }
 
         // Recursively check subtrees
         isValidRedBlackTree(tree, node.left());
         isValidRedBlackTree(tree, node.right());
+    }
+
+    private boolean isRed(RedBlackTreeNode<Integer> node) {
+        return node != null && node.color() == RED;
     }
 }
