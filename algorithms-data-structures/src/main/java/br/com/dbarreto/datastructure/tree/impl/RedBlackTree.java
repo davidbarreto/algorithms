@@ -5,6 +5,10 @@ import br.com.dbarreto.datastructure.node.ColoredBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.node.impl.RedBlackTreeNode;
 import br.com.dbarreto.datastructure.tree.SelfBalancingBinarySearchTree;
 
+import static br.com.dbarreto.datastructure.node.BinaryTreeChildDirection.LEFT;
+import static br.com.dbarreto.datastructure.node.BinaryTreeChildDirection.RIGHT;
+import static br.com.dbarreto.datastructure.node.ColoredBinarySearchTreeNode.Color.BLACK;
+
 /**
  * Red-Black Tree implementation.
  *
@@ -46,7 +50,7 @@ public class RedBlackTree<T extends Comparable<T>> extends SimpleBinarySearchTre
      */
     @Override
     public RedBlackTreeNode<T> rotateLeft(RedBlackTreeNode<T> node) {
-        return rotate(node, BinaryTreeChildDirection.LEFT);
+        return rotate(node, LEFT);
     }
 
     /**
@@ -61,7 +65,7 @@ public class RedBlackTree<T extends Comparable<T>> extends SimpleBinarySearchTre
      */
     @Override
     public RedBlackTreeNode<T> rotateRight(RedBlackTreeNode<T> node) {
-        return rotate(node, BinaryTreeChildDirection.RIGHT);
+        return rotate(node, RIGHT);
     }
 
     /**
@@ -198,9 +202,9 @@ public class RedBlackTree<T extends Comparable<T>> extends SimpleBinarySearchTre
 
             // Determine which side the parent is on relative to grandparent
             if (isLeftParent(node)) {
-                node = fixInsert(node, BinaryTreeChildDirection.LEFT);
+                node = fixInsert(node, LEFT);
             } else {
-                node = fixInsert(node, BinaryTreeChildDirection.RIGHT);
+                node = fixInsert(node, RIGHT);
             }
             // Ensure root remains black
             this.root.turnBlack();
@@ -255,6 +259,30 @@ public class RedBlackTree<T extends Comparable<T>> extends SimpleBinarySearchTre
         // Case 3: Uncle is black and node is the "outer" child - rotate grandparent and recolor
         rotateAndRecolor(parent, grandParent, invertedDirection);
         return node;
+    }
+
+    /**
+     * Returns the black height of the given node.
+     * Black height is the number of black nodes on any path from the node to a leaf.
+     * Returns -1 if the black heights are inconsistent (violation of property 5).
+     * 
+     * @param node the node to get black height for
+     * @return the black height, or -1 if inconsistent
+     */
+    public int blackHeight(RedBlackTreeNode<T> node) {
+        if (node == null) return 1; // null nodes are black
+
+        int leftHeight = blackHeight(node.leftMutable());
+        int rightHeight = blackHeight(node.rightMutable());
+
+        if (leftHeight == -1 || rightHeight == -1 || leftHeight != rightHeight) {
+            return -1; // violation
+        }
+
+        // Add 1 if current node is black
+        // It does not matter whether you use leftHeight or rightHeight,
+        // because at that point they are guaranteed to be equal.
+        return leftHeight + (node.color() == BLACK ? 1 : 0);
     }
 
     /**
