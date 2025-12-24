@@ -170,6 +170,6 @@ class AvlTreeTest {
         assertFalse(tree.contains(101));
         assertTrue(tree.isBalanced());
         assertTrue(tree.height() <= 8); // AVL height bound: logarithmic, not fixed for 100 nodes
-        assertThat(tree.getBalance()).isBetween(-1, 1);
+        assertThat(tree.balanceFactor()).isBetween(-1, 1);
     }
 }

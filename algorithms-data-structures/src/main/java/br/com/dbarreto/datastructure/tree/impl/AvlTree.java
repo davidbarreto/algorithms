@@ -165,7 +165,7 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
         root.setHeight(1 + Math.max(height(root.leftMutable()), height(root.rightMutable())));
 
         // Get balance factor
-        int balance = getBalance(root);
+        int balance = balanceFactor(root);
 
         // Left-Left case: Left subtree is heavy, and new node is in left-left
         // Balance > 1 means left-heavy, and value < root.left.value() means it went left of left child
@@ -203,8 +203,8 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
      *
      * @return the balance of the tree (0 if empty)
      */
-    public int getBalance() {
-        return getBalance(this.root);
+    public int balanceFactor() {
+        return balanceFactor(this.root);
     }
 
     /**
@@ -218,7 +218,7 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
      * @param node the node to calculate balance factor for
      * @return the balance factor
      */
-    private int getBalance(SimpleMutableHeightBinarySearchTreeNode<T> node) {
+    public int balanceFactor(SimpleMutableHeightBinarySearchTreeNode<T> node) {
         if (node == null) {
             return 0;
         }
