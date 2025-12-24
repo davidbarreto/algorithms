@@ -1,6 +1,5 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
-import br.com.dbarreto.algorithm.tree.BinaryTreeOperations;
 import br.com.dbarreto.datastructure.node.impl.SimpleMutableHeightBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.tree.SelfBalancingBinarySearchTree;
 
@@ -152,10 +151,14 @@ public class AvlTree<T extends Comparable<T>> extends SimpleBinarySearchTree<T> 
         }
 
         // Recursively insert into left or right subtree
-        if (value.compareTo(root.value()) < 0) {
+        int comparison = value.compareTo(root.value());
+        if (comparison < 0) {
             root.setLeft(insert(root.leftMutable(), value));
-        } else {
+        } else if (comparison > 0) {
             root.setRight(insert(root.rightMutable(), value));
+        } else {
+            // It's a duplication. Discard it by returning the current root unchanged
+            return root;
         }
 
         // Update height of current node

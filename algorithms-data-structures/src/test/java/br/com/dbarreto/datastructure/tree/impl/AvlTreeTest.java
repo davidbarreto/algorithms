@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AvlTreeTest {
@@ -98,7 +99,7 @@ class AvlTreeTest {
 
         List<Integer> inOrder = new ArrayList<>();
         tree.traverseInOrder(inOrder::add);
-        assertEquals(List.of(10, 10), inOrder);  // Duplicates in right
+        assertEquals(List.of(10), inOrder);  // Duplicates discarded
     }
 
     @Test
@@ -106,6 +107,7 @@ class AvlTreeTest {
         AvlTree<Integer> tree = new AvlTree<>();
         assertNull(tree.root());
         assertEquals(0, tree.height());
+        assertTrue(tree.isEmpty());
         assertFalse(tree.contains(1));
     }
 
@@ -160,11 +162,14 @@ class AvlTreeTest {
             tree.insert(i);
         }
 
+        assertFalse(tree.isEmpty());
+        assertEquals(100, tree.size());
         assertEquals(1, tree.min());
         assertEquals(100, tree.max());
         assertTrue(tree.contains(50));
         assertFalse(tree.contains(101));
         assertTrue(tree.isBalanced());
+        assertTrue(tree.height() <= 8); // AVL height bound: logarithmic, not fixed for 100 nodes
+        assertThat(tree.getBalance()).isBetween(-1, 1);
     }
-
 }
