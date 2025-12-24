@@ -1,5 +1,11 @@
 package br.com.dbarreto.utils;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.Random;
+
+import br.com.dbarreto.datastructure.node.BinaryTreeNode;
+import br.com.dbarreto.datastructure.node.impl.SimpleBinaryTreeNode;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
 import br.com.dbarreto.datastructure.tree.builder.SimpleBinaryTreeBuilder;
 import br.com.dbarreto.datastructure.tree.impl.SimpleBinaryTree;
@@ -83,4 +89,36 @@ public class BinaryTreeScenarios {
                 .end()
                 .build();
     }
+
+    public static BinaryTree<Integer> createBigBinaryTree() {
+
+        var random = new Random();
+        Queue<Pair> queue = new ArrayDeque<>();
+        var root = new SimpleBinaryTreeNode<Integer>(1);
+        queue.add(new Pair(root, 1));
+
+        int maxLevels = 10; // total elements = 2^(maxLevels) - 1
+        while (!queue.isEmpty()) {
+            var pair = queue.poll();
+            var node = pair.node();
+            var currentLevel = pair.level() + 1;
+
+            if (currentLevel > maxLevels) {
+                break;
+            }
+
+            var left = new SimpleBinaryTreeNode<Integer>(random.nextInt());
+            var right = new SimpleBinaryTreeNode<Integer>(random.nextInt());
+
+            node.setLeft(left);
+            node.setRight(right);
+
+            queue.add(new Pair(left, currentLevel));
+            queue.add(new Pair(right, currentLevel));
+        }
+
+        return new SimpleBinaryTree<>(root);
+    }
+
+    record Pair(SimpleBinaryTreeNode<Integer> node, Integer level) {}
 }

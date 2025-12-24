@@ -41,8 +41,9 @@ class BinaryTreeOperationsTest {
     private static Stream<Arguments> sizeArguments() {
         return Stream.of(
                 Arguments.of(BinaryTreeScenarios.createEmptyBinaryTree(), 0),
-                Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree(), 3),
-                Arguments.of(BinaryTreeScenarios.createMissingChildrenBinaryTree(), 4)
+                Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree(), 7),
+                Arguments.of(BinaryTreeScenarios.createMissingChildrenBinaryTree(), 7),
+                Arguments.of(BinaryTreeScenarios.createBigBinaryTree(), 1023)
         );
     }
 
@@ -50,7 +51,8 @@ class BinaryTreeOperationsTest {
         return Stream.of(
                 Arguments.of(BinaryTreeScenarios.createEmptyBinaryTree(), 0),
                 Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree(), 3),
-                Arguments.of(BinaryTreeScenarios.createMissingChildrenBinaryTree(), 4)
+                Arguments.of(BinaryTreeScenarios.createMissingChildrenBinaryTree(), 4),
+                Arguments.of(BinaryTreeScenarios.createBigBinaryTree(), 10)
         );
     }
 
@@ -60,7 +62,8 @@ class BinaryTreeOperationsTest {
                 Arguments.of(0, false),
                 Arguments.of(-100, false),
                 Arguments.of(1, true),
-                Arguments.of(7, true)
+                Arguments.of(7, true),
+                Arguments.of(null, false)
         );
     }
 
@@ -70,7 +73,8 @@ class BinaryTreeOperationsTest {
                 Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree(), true),
                 Arguments.of(BinaryTreeScenarios.createMissingChildrenBinaryTree(), true),
                 Arguments.of(BinaryTreeScenarios.createLeftUnbalancedBinaryTree(), false),
-                Arguments.of(BinaryTreeScenarios.createRightUnbalancedBinaryTree(), false)
+                Arguments.of(BinaryTreeScenarios.createRightUnbalancedBinaryTree(), false),
+                Arguments.of(BinaryTreeScenarios.createBigBinaryTree(), true)
         );
     }
 }
