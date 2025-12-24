@@ -4,7 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Random;
 
-import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 import br.com.dbarreto.datastructure.node.impl.SimpleBinaryTreeNode;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
 import br.com.dbarreto.datastructure.tree.builder.SimpleBinaryTreeBuilder;
