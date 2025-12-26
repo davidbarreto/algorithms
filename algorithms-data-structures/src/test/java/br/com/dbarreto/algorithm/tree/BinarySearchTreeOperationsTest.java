@@ -1,0 +1,88 @@
+package br.com.dbarreto.algorithm.tree;
+
+import br.com.dbarreto.datastructure.tree.BinarySearchTree;
+import br.com.dbarreto.datastructure.tree.BinaryTree;
+import br.com.dbarreto.utils.BinarySearchTreeScenarios;
+import br.com.dbarreto.utils.BinaryTreeScenarios;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class BinarySearchTreeOperationsTest {
+
+    @ParameterizedTest
+    @MethodSource("minArguments")
+    void testMin(BinarySearchTree<Integer> tree, int expected) {
+        assertEquals(expected, tree.min());
+    }
+
+    @ParameterizedTest
+    @MethodSource("maxArguments")
+    void testMax(BinarySearchTree<Integer> tree, int expected) {
+        assertEquals(expected, tree.max());
+    }
+
+    @ParameterizedTest
+    @MethodSource("containsArguments")
+    void testContains(BinarySearchTree<Integer> tree, Integer searchedElement, boolean expected) {
+        assertEquals(expected, tree.contains(searchedElement));
+    }
+
+    @ParameterizedTest
+    @MethodSource("isBinarySearchTreeArguments")
+    void testIsBinarySearchTree(BinaryTree<Integer> tree, boolean expected) {
+        assertEquals(expected, BinarySearchTreeOperations.isBinarySearchTree(tree));
+    }
+
+    private static Stream<Arguments> minArguments() {
+        return Stream.of(
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), -100),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), 1),
+                Arguments.of(BinarySearchTreeScenarios.createAvlTree(), 10),
+                Arguments.of(BinarySearchTreeScenarios.createRedBlackTree(), Integer.MIN_VALUE)
+        );
+    }
+
+    private static Stream<Arguments> maxArguments() {
+        return Stream.of(
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), 10),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), 5),
+                Arguments.of(BinarySearchTreeScenarios.createAvlTree(), 50),
+                Arguments.of(BinarySearchTreeScenarios.createRedBlackTree(), 300)
+        );
+    }
+
+    private static Stream<Arguments> containsArguments() {
+        return Stream.of(
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), -1, true),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), -100, true),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), 0, true),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), 4, true),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), -200, false),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), 3, true),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), -1, false),
+                Arguments.of(BinarySearchTreeScenarios.createAvlTree(), 30, true),
+                Arguments.of(BinarySearchTreeScenarios.createAvlTree(), 100, false),
+                Arguments.of(BinarySearchTreeScenarios.createRedBlackTree(), -234, true),
+                Arguments.of(BinarySearchTreeScenarios.createRedBlackTree(), 234, false)
+        );
+    }
+
+    private static Stream<Arguments> isBinarySearchTreeArguments() {
+        return Stream.of(
+                Arguments.of(BinaryTreeScenarios.createEmptyBinaryTree(), true),
+                Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree(), false),
+                Arguments.of(BinaryTreeScenarios.createMissingChildrenBinaryTree(), false),
+                Arguments.of(BinaryTreeScenarios.createSimpleBinaryTree(), false),
+                Arguments.of(BinaryTreeScenarios.createBstBinaryTree(), true),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), true),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), true),
+                Arguments.of(BinarySearchTreeScenarios.createAvlTree(), true),
+                Arguments.of(BinarySearchTreeScenarios.createRedBlackTree(), true)
+        );
+    }
+}

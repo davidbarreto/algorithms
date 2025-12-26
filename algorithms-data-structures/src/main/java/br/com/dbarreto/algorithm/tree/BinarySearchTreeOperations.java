@@ -1,7 +1,9 @@
 package br.com.dbarreto.algorithm.tree;
 
 import br.com.dbarreto.datastructure.node.BinarySearchTreeNode;
+import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 import br.com.dbarreto.datastructure.tree.BinarySearchTree;
+import br.com.dbarreto.datastructure.tree.BinaryTree;
 
 import java.util.Objects;
 
@@ -53,5 +55,35 @@ public class BinarySearchTreeOperations {
 
         return value.compareTo(root.value()) < 0 ?
                 contains(root.left(), value) : contains(root.right(), value);
+    }
+
+    public static <T extends Comparable<T>> boolean isBinarySearchTree(BinaryTree<T> tree) {
+
+        if (tree == null) {
+            throw new NullPointerException("Tree object cannot be null");
+        }
+
+        var treeSize = tree.size();
+        if (treeSize == 0 || treeSize == 1) {
+            return true;
+        }
+
+        return isBinarySearchTree(tree.root());
+    }
+
+    public static <T extends Comparable<T>> boolean isBinarySearchTree(BinaryTreeNode<T> root) {
+        if (root == null) {
+            return true;
+        }
+
+        var value = root.value();
+        var left = root.left();
+        var right = root.right();
+
+        if (left != null && left.value().compareTo(value) > 0 || right != null && right.value().compareTo(value) < 0) {
+            return false;
+        }
+
+        return isBinarySearchTree(left) && isBinarySearchTree(right);
     }
 }

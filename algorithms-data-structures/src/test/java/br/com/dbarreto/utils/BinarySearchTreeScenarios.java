@@ -2,6 +2,7 @@ package br.com.dbarreto.utils;
 
 import br.com.dbarreto.datastructure.tree.BinarySearchTree;
 import br.com.dbarreto.datastructure.tree.impl.AvlTree;
+import br.com.dbarreto.datastructure.tree.impl.RedBlackTree;
 import br.com.dbarreto.datastructure.tree.impl.SimpleBinarySearchTree;
 
 public class BinarySearchTreeScenarios {
@@ -43,6 +44,18 @@ public class BinarySearchTreeScenarios {
         tree.insert(40);
         tree.insert(50);
         tree.insert(25);
+
+        return tree;
+    }
+
+    public static BinarySearchTree<Integer> createRedBlackTree() {
+        var tree = new RedBlackTree<Integer>();
+        tree.insert(300);
+        tree.insert(-23);
+        tree.insert(Integer.MIN_VALUE);
+        tree.insert(40);
+        tree.insert(230);
+        tree.insert(-234);
 
         return tree;
     }

@@ -91,6 +91,8 @@ public class BinaryTreeScenarios {
 
     public static BinaryTree<Integer> createBigBinaryTree() {
 
+        record Pair(SimpleBinaryTreeNode<Integer> node, Integer level) {}
+
         var random = new Random();
         Queue<Pair> queue = new ArrayDeque<>();
         var root = new SimpleBinaryTreeNode<Integer>(1);
@@ -119,5 +121,29 @@ public class BinaryTreeScenarios {
         return new SimpleBinaryTree<>(root);
     }
 
-    record Pair(SimpleBinaryTreeNode<Integer> node, Integer level) {}
+    public static BinaryTree<Integer> createSimpleBinaryTree() {
+        return new SimpleBinaryTreeBuilder<Integer>(200)
+                .root()
+                    .left(5).end()
+                    .right(3).end()
+                .end()
+                .build();
+    }
+
+    public static BinaryTree<Integer> createBstBinaryTree() {
+        return new SimpleBinaryTreeBuilder<Integer>(20)
+                .root()
+                    .left(17)
+                        .left(15)
+                            .left(12).end()
+                        .end()
+                        .right(28)
+                            .right(35).end()
+                        .end()
+                    .end()
+                    .right(38)
+                    .end()
+                .end()
+                .build();
+    }
 }

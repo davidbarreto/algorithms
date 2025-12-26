@@ -1,10 +1,6 @@
 package br.com.dbarreto.datastructure.tree;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Stack;
-import java.util.Queue;
-import java.util.LinkedList;
+import java.util.*;
 
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 
@@ -19,12 +15,14 @@ import br.com.dbarreto.datastructure.node.BinaryTreeNode;
  */
 public class TreeIterators {
 
+    private TreeIterators() {}
+
     /**
      * In-order iterator: visits nodes in ascending order for BSTs.
      * Uses a stack to simulate recursion.
      */
     private static class InOrderIterator<T> implements Iterator<T> {
-        private final Stack<BinaryTreeNode<T>> stack = new Stack<>();
+        private final Deque<BinaryTreeNode<T>> stack = new ArrayDeque<>();
         private BinaryTreeNode<T> current;
 
         public InOrderIterator(BinaryTreeNode<T> root) {
@@ -64,7 +62,7 @@ public class TreeIterators {
      * Uses a stack for iterative traversal.
      */
     private static class PreOrderIterator<T> implements Iterator<T> {
-        private final Stack<BinaryTreeNode<T>> stack = new Stack<>();
+        private final Deque<BinaryTreeNode<T>> stack = new ArrayDeque<>();
 
         public PreOrderIterator(BinaryTreeNode<T> root) {
             if (root != null) {
@@ -103,8 +101,8 @@ public class TreeIterators {
      * Uses two stacks for iterative traversal.
      */
     private static class PostOrderIterator<T> implements Iterator<T> {
-        private final Stack<BinaryTreeNode<T>> stack1 = new Stack<>();
-        private final Stack<BinaryTreeNode<T>> stack2 = new Stack<>();
+        private final Deque<BinaryTreeNode<T>> stack1 = new ArrayDeque<>();
+        private final Deque<BinaryTreeNode<T>> stack2 = new ArrayDeque<>();
 
         public PostOrderIterator(BinaryTreeNode<T> root) {
             if (root != null) {
@@ -183,18 +181,18 @@ public class TreeIterators {
      * Factory methods for creating iterators from trees.
      */
     public static <T> Iterator<T> inOrder(BinaryTree<T> tree) {
-        return new InOrderIterator<T>(tree.root());
+        return new InOrderIterator<>(tree.root());
     }
 
     public static <T> Iterator<T> preOrder(BinaryTree<T> tree) {
-        return new PreOrderIterator<T>(tree.root());
+        return new PreOrderIterator<>(tree.root());
     }
 
     public static <T> Iterator<T> postOrder(BinaryTree<T> tree) {
-        return new PostOrderIterator<T>(tree.root());
+        return new PostOrderIterator<>(tree.root());
     }
 
     public static <T> Iterator<T> levelOrder(BinaryTree<T> tree) {
-        return new LevelOrderIterator<T>(tree.root());
+        return new LevelOrderIterator<>(tree.root());
     }
 }
