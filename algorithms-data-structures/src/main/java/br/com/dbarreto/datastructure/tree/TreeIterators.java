@@ -6,7 +6,6 @@ import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 
 /**
  * Iterator implementations for tree traversals.
- *
  * Provides lazy iterators for different tree traversal orders:
  * - In-order: Left, Root, Right
  * - Pre-order: Root, Left, Right
@@ -163,7 +162,7 @@ public class TreeIterators {
                 throw new NoSuchElementException();
             }
 
-            BinaryTreeNode<T> node = queue.poll();
+            BinaryTreeNode<T> node = Objects.requireNonNull(queue.poll());
             T result = node.value();
 
             if (node.left() != null) {

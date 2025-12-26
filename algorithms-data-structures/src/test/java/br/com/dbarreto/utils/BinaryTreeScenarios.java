@@ -16,7 +16,7 @@ public class BinaryTreeScenarios {
     }
 
     public static BinaryTree<Integer> createPerfectBinaryTree() {
-        return new SimpleBinaryTreeBuilder<Integer>(1)
+        return new SimpleBinaryTreeBuilder<>(1)
                 .root()
                     .left(2)
                         .left(4).end()
@@ -31,7 +31,7 @@ public class BinaryTreeScenarios {
     }
 
     public static BinaryTree<Integer> createMissingChildrenBinaryTree() {
-        return new SimpleBinaryTreeBuilder<Integer>(1)
+        return new SimpleBinaryTreeBuilder<>(1)
                 .root()
                     .left(2)
                         .left(4).end()
@@ -47,7 +47,7 @@ public class BinaryTreeScenarios {
     }
 
     public static BinaryTree<Integer> createLeftUnbalancedBinaryTree() {
-        return new SimpleBinaryTreeBuilder<Integer>(1)
+        return new SimpleBinaryTreeBuilder<>(1)
                 .root()
                     .left(2)
                         .left(4)
@@ -67,7 +67,7 @@ public class BinaryTreeScenarios {
     }
 
     public static BinaryTree<Integer> createRightUnbalancedBinaryTree() {
-        return new SimpleBinaryTreeBuilder<Integer>(1)
+        return new SimpleBinaryTreeBuilder<>(1)
                 .root()
                     .left(2)
                         .left(4).end()
@@ -108,8 +108,8 @@ public class BinaryTreeScenarios {
                 break;
             }
 
-            var left = new SimpleBinaryTreeNode<Integer>(random.nextInt());
-            var right = new SimpleBinaryTreeNode<Integer>(random.nextInt());
+            var left = new SimpleBinaryTreeNode<>(random.nextInt());
+            var right = new SimpleBinaryTreeNode<>(random.nextInt());
 
             node.setLeft(left);
             node.setRight(right);
@@ -122,7 +122,7 @@ public class BinaryTreeScenarios {
     }
 
     public static BinaryTree<Integer> createSimpleBinaryTree() {
-        return new SimpleBinaryTreeBuilder<Integer>(200)
+        return new SimpleBinaryTreeBuilder<>(200)
                 .root()
                     .left(5).end()
                     .right(3).end()
@@ -131,7 +131,7 @@ public class BinaryTreeScenarios {
     }
 
     public static BinaryTree<Integer> createBstBinaryTree() {
-        return new SimpleBinaryTreeBuilder<Integer>(20)
+        return new SimpleBinaryTreeBuilder<>(20)
                 .root()
                     .left(17)
                         .left(15)
