@@ -80,6 +80,27 @@ class TreePropertyTests {
         }
     }
 
+    @Property
+    void balancedTreeHeightIsLogarithmic(@ForAll("largeIntegerLists") List<Integer> values,
+                                         @ForAll("selfBalancedTrees") BinarySearchTree<Integer> tree)
+    {
+        values.forEach(tree::insert);
+
+        int n = values.size();
+        int height = tree.height();
+
+        int maxAllowed = maxAllowedHeight(n);
+        assertTrue(height <= maxAllowed);
+    }
+
+    @Provide
+    Arbitrary<List<Integer>> largeIntegerLists() {
+        return Arbitraries.integers()
+                .between(-1000, 1000)
+                .list()
+                .ofSize(1000);
+    }
+
     @Provide
     Arbitrary<List<Integer>> integerLists() {
         return Arbitraries.integers()
@@ -94,6 +115,14 @@ class TreePropertyTests {
                 .between(-1000, 1000)
                 .list()
                 .ofSize(20);
+    }
+
+    @Provide
+    Arbitrary<BinarySearchTree<Integer>> selfBalancedTrees() {
+        return Arbitraries.ofSuppliers(
+                AvlTree::new,
+                RedBlackTree::new
+        );
     }
 
     // Helper methods for property validation
@@ -177,7 +206,7 @@ class TreePropertyTests {
     private void isHeightLogarithmic(BinarySearchTree<Integer> tree) {
         int n = tree.size();
         int height = tree.height();
-        int maxHeightAllowed = (int) (2 *  (Math.log(n + 1) / Math.log(2)));
+        int maxHeightAllowed = maxAllowedHeight(n);
 
         if (height > maxHeightAllowed) {
             throw new AssertionError("Height [" + height + "] exceeds max height allowed [2*log2("
@@ -187,5 +216,29 @@ class TreePropertyTests {
 
     private boolean isRed(RedBlackTreeNode<Integer> node) {
         return node != null && node.color() == RED;
+    }
+
+    /**
+     * Computes the maximum allowed height for a self-balancing binary search tree
+     * (AVL, Red-Black, etc.) given the number of nodes.
+     * <p>
+     * For simplicity and robustness, we use the same upper bound for all auto-balanced
+     * tree implementations, even though AVL trees have a tighter theoretical bound
+     * (~1.44 * log2(n + 2)).
+     * </p>
+     * <p>
+     * Formula: {@code 2.0 * log2(n + 2)}
+     * - The factor 2.0 safely covers Red-Black trees and also includes a margin for AVL trees.
+     * - Adding 2 to n ensures correct computation for very small trees (n = 0 or 1) and avoids rounding issues.
+     * - This bound is theoretical; actual tree heights are usually smaller.
+     * - Purpose: used in property-based tests to verify trees maintain logarithmic height
+     *   and do not degenerate.
+     * </p>
+     *
+     * @param n the number of nodes in the tree
+     * @return the maximum allowed height
+     */
+    private int maxAllowedHeight(int n) {
+        return (int) (2.0 * Math.log(n + 2) / Math.log(2));
     }
 }
