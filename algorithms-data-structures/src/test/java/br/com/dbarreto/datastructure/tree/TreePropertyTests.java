@@ -22,7 +22,6 @@ import static br.com.dbarreto.datastructure.node.ColoredBinarySearchTreeNode.Col
 
 /**
  * Property-based tests for tree data structures.
- *
  * These tests use jqwik to generate random inputs and verify that
  * tree properties hold under various scenarios.
  */
@@ -37,7 +36,7 @@ class TreePropertyTests {
     }
 
     @Property
-    void avlTreeRemainsBalanced(@ForAll("smallIntegerLists") @Size(max = 20) List<Integer> values) {
+    void avlTreeMaintainProperties(@ForAll("smallIntegerLists") @Size(max = 20) List<Integer> values) {
         AvlTree<Integer> tree = new AvlTree<>();
         values.forEach(tree::insert);
 
@@ -47,10 +46,11 @@ class TreePropertyTests {
         assertTrue(tree.isBalanced());
         isValidBST(tree.root());
         isValidAvlTree(tree);
+        isHeightLogarithmic(tree);
     }
 
     @Property
-    void redBlackTreeMaintainsProperties(@ForAll("verySmallIntegerLists") @Size(max = 15) List<Integer> values) {
+    void redBlackTreeMaintainsProperties(@ForAll("smallIntegerLists") @Size(max = 20) List<Integer> values) {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         values.forEach(tree::insert);
 
@@ -58,6 +58,7 @@ class TreePropertyTests {
         assertEquals(values.size(), tree.size());
         isValidBST(tree.root());
         isValidRedBlackTree(tree);
+        isHeightLogarithmic(tree);
     }
 
     @Property
@@ -77,19 +78,6 @@ class TreePropertyTests {
         for (Integer value : values) {
             assertThat(tree.contains(value)).isTrue();
         }
-    }
-
-    @Property
-    void treeHeightIsReasonable(@ForAll("mediumIntegerLists") @Size(max = 50) List<Integer> values) {
-        SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
-        values.forEach(tree::insert);
-
-        int height = tree.height();
-        int optimalHeight = (int) (Math.log(values.size()) / Math.log(2));
-
-        // Height should not be excessively large (allowing some tolerance for unbalanced trees)
-        assertThat(height).isLessThanOrEqualTo(values.size()); // worst case
-        assertThat(height).isGreaterThanOrEqualTo(optimalHeight - 2); // not too unbalanced
     }
 
     @Provide
@@ -200,6 +188,17 @@ class TreePropertyTests {
         // Recursively check subtrees
         isValidRedBlackTree(tree, node.left());
         isValidRedBlackTree(tree, node.right());
+    }
+
+    private void isHeightLogarithmic(BinarySearchTree<Integer> tree) {
+        int n = tree.size();
+        int height = tree.height();
+        int maxHeightAllowed = (int) (2 *  (Math.log(n + 1) / Math.log(2)));
+
+        if (height > maxHeightAllowed) {
+            throw new AssertionError("Height [" + height + "] exceeds max height allowed [2*log2("
+                    + n + "] = [" + maxHeightAllowed + ")]");
+        }
     }
 
     private boolean isRed(RedBlackTreeNode<Integer> node) {
