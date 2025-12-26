@@ -96,22 +96,6 @@ class TreePropertyTests {
                 .ofSize(20);
     }
 
-    @Provide
-    Arbitrary<List<Integer>> verySmallIntegerLists() {
-        return Arbitraries.integers()
-                .between(-1000, 1000)
-                .list()
-                .ofSize(15);
-    }
-
-    @Provide
-    Arbitrary<List<Integer>> mediumIntegerLists() {
-        return Arbitraries.integers()
-                .between(-1000, 1000)
-                .list()
-                .ofSize(50);
-    }
-
     // Helper methods for property validation
 
     private void isValidBST(BinarySearchTreeNode<Integer> node) {
