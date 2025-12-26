@@ -95,7 +95,7 @@ public class BinaryTreeScenarios {
 
         var random = new Random();
         Queue<Pair> queue = new ArrayDeque<>();
-        var root = new SimpleBinaryTreeNode<Integer>(1);
+        var root = new SimpleBinaryTreeNode<>(1);
         queue.add(new Pair(root, 1));
 
         int maxLevels = 10; // total elements = 2^(maxLevels) - 1
