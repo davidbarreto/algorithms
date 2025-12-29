@@ -1,9 +1,12 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
+import br.com.dbarreto.algorithm.tree.BinarySearchTreeOperations;
+import br.com.dbarreto.algorithm.tree.BinaryTreeOperations;
 import br.com.dbarreto.datastructure.node.BinarySearchTreeNode;
 import br.com.dbarreto.datastructure.node.BinaryTreeNode;
 import br.com.dbarreto.datastructure.node.impl.SimpleMutableBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.tree.BinarySearchTree;
+import br.com.dbarreto.datastructure.tree.BinaryTree;
 
 /**
  * Simple Binary Search Tree implementation.
@@ -32,6 +35,13 @@ public class SimpleBinarySearchTree<T extends Comparable<T>> implements BinarySe
      * Constructs an empty binary search tree.
      */
     public SimpleBinarySearchTree() {
+    }
+
+    public SimpleBinarySearchTree(BinaryTree<T> tree) {
+        if (!BinarySearchTreeOperations.isBinarySearchTree(tree)) {
+            throw new IllegalArgumentException("Tree is not a BST");
+        }
+        this.root = BinaryTreeOperations.deepCopy(tree.root(), SimpleMutableBinarySearchTreeNode::new);
     }
 
     /**
