@@ -15,8 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BinaryTreeOperationsTest {
 
@@ -64,7 +63,7 @@ class BinaryTreeOperationsTest {
         var copiedTree = BinaryTreeOperations.deepCopy(source, treeConstructor, nodeConstructor);
         assertTrue(BinaryTreeOperations.equals(source, copiedTree));
         // Verify it's a different instance
-        assertTrue(source != copiedTree);
+        assertNotSame(source, copiedTree);
     }
 
     private static Stream<Arguments> sizeArguments() {
@@ -140,17 +139,17 @@ class BinaryTreeOperationsTest {
     }
 
     private static Function<Integer, SimpleMutableBinarySearchTreeNode<Integer>> simpleBstConstructor() {
-        return value -> new SimpleMutableBinarySearchTreeNode<>(value);
+        return SimpleMutableBinarySearchTreeNode::new;
     }
 
     private static Function<Integer, SimpleMutableHeightBinarySearchTreeNode<Integer>> heightBstConstructor() {
-        return value -> new SimpleMutableHeightBinarySearchTreeNode<>(value);
+        return SimpleMutableHeightBinarySearchTreeNode::new;
     }
 
     private static Function<SimpleMutableBinaryTreeNode<Integer>, SimpleBinaryTree<Integer>> simpleBinaryTreeConstructor() {
-        return root -> new SimpleBinaryTree<>(root);
+        return SimpleBinaryTree::new;
     }
 
     private static Function<Integer, SimpleMutableBinaryTreeNode<Integer>> simpleMutableBinaryTreeNodeConstructor() {
-        return value -> new SimpleMutableBinaryTreeNode<>(value);
+        return SimpleMutableBinaryTreeNode::new;
     }}
