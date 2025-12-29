@@ -1,15 +1,22 @@
 package br.com.dbarreto.algorithm.tree;
 
+import br.com.dbarreto.datastructure.node.MutableBinaryTreeNode;
+import br.com.dbarreto.datastructure.node.impl.SimpleMutableBinarySearchTreeNode;
+import br.com.dbarreto.datastructure.node.impl.SimpleMutableBinaryTreeNode;
+import br.com.dbarreto.datastructure.node.impl.SimpleMutableHeightBinarySearchTreeNode;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
+import br.com.dbarreto.datastructure.tree.impl.SimpleBinaryTree;
 import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 import br.com.dbarreto.utils.BinaryTreeScenarios;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BinaryTreeOperationsTest {
 
@@ -42,6 +49,22 @@ class BinaryTreeOperationsTest {
     @MethodSource("equalsArguments")
     void testEquals(BinaryTree<Integer> tree1, BinaryTree<Integer> tree2, boolean expected) {
         assertEquals(expected, BinaryTreeOperations.equals(tree1, tree2));
+    }
+
+    @ParameterizedTest
+    @MethodSource("deepCopyArguments")
+    <T, N extends MutableBinaryTreeNode<T, N>> void testDeepCopy(BinaryTree<T> source, Function<T, N> constructor) {
+        var copiedRoot = BinaryTreeOperations.deepCopy(source.root(), constructor);
+        assertTrue(BinaryTreeOperations.equals(source.root(), copiedRoot));
+    }
+
+    @ParameterizedTest
+    @MethodSource("deepCopyTreeArguments")
+    <T, M extends BinaryTree<T>, N extends MutableBinaryTreeNode<T, N>> void testDeepCopyTree(BinaryTree<T> source, Function<N, M> treeConstructor, Function<T, N> nodeConstructor) {
+        var copiedTree = BinaryTreeOperations.deepCopy(source, treeConstructor, nodeConstructor);
+        assertTrue(BinaryTreeOperations.equals(source, copiedTree));
+        // Verify it's a different instance
+        assertTrue(source != copiedTree);
     }
 
     private static Stream<Arguments> sizeArguments() {
@@ -97,4 +120,37 @@ class BinaryTreeOperationsTest {
                 Arguments.of(BinarySearchTreeScenarios.createAvlTreeWithPerfectInserts(), BinarySearchTreeScenarios.createRedBlackTreeWithPerfectInserts(), true)
         );
     }
-}
+    private static Stream<Arguments> deepCopyArguments() {
+        return Stream.of(
+                Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree(), simpleBstConstructor()),
+                Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree(), heightBstConstructor()),
+                Arguments.of(BinaryTreeScenarios.createPerfectBstTree(), simpleBstConstructor()),
+                Arguments.of(BinaryTreeScenarios.createPerfectBstTree(), heightBstConstructor()),
+                Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), heightBstConstructor())
+        );
+    }
+
+    private static Stream<Arguments> deepCopyTreeArguments() {
+        return Stream.of(
+                Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree(), simpleBinaryTreeConstructor(), simpleMutableBinaryTreeNodeConstructor()),
+                Arguments.of(BinaryTreeScenarios.createEmptyBinaryTree(), simpleBinaryTreeConstructor(), simpleMutableBinaryTreeNodeConstructor()),
+                Arguments.of(BinaryTreeScenarios.createMissingChildrenBinaryTree(), simpleBinaryTreeConstructor(), simpleMutableBinaryTreeNodeConstructor()),
+                Arguments.of(BinarySearchTreeScenarios.createSimpleBstWithPerfectStructure(), simpleBinaryTreeConstructor(), simpleMutableBinaryTreeNodeConstructor())
+        );
+    }
+
+    private static Function<Integer, SimpleMutableBinarySearchTreeNode<Integer>> simpleBstConstructor() {
+        return value -> new SimpleMutableBinarySearchTreeNode<>(value);
+    }
+
+    private static Function<Integer, SimpleMutableHeightBinarySearchTreeNode<Integer>> heightBstConstructor() {
+        return value -> new SimpleMutableHeightBinarySearchTreeNode<>(value);
+    }
+
+    private static Function<SimpleMutableBinaryTreeNode<Integer>, SimpleBinaryTree<Integer>> simpleBinaryTreeConstructor() {
+        return root -> new SimpleBinaryTree<>(root);
+    }
+
+    private static Function<Integer, SimpleMutableBinaryTreeNode<Integer>> simpleMutableBinaryTreeNodeConstructor() {
+        return value -> new SimpleMutableBinaryTreeNode<>(value);
+    }}
