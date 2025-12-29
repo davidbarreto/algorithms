@@ -65,7 +65,7 @@ public class BinaryTreeOperations {
         return equals(tree1.root(), tree2.root());
     }
 
-    private static <T> boolean equals(BinaryTreeNode<T> node1, BinaryTreeNode<T> node2) {
+    public static <T> boolean equals(BinaryTreeNode<T> node1, BinaryTreeNode<T> node2) {
         if (node1 == null && node2 == null) {
             return true;
         }
