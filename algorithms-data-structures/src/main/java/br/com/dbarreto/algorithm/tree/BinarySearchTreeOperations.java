@@ -68,6 +68,10 @@ public class BinarySearchTreeOperations {
             return true;
         }
 
+        if (tree instanceof BinarySearchTree) {
+            return true;
+        }
+
         return isBinarySearchTree(tree.root());
     }
 

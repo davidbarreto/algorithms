@@ -74,11 +74,15 @@ class BinarySearchTreeOperationsTest {
 
     private static Stream<Arguments> isBinarySearchTreeArguments() {
         return Stream.of(
+                // Empty tree is considered a valid BST
                 Arguments.of(BinaryTreeScenarios.createEmptyBinaryTree(), true),
+                // Regular binary trees that are not BSTs
                 Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree(), false),
                 Arguments.of(BinaryTreeScenarios.createMissingChildrenBinaryTree(), false),
                 Arguments.of(BinaryTreeScenarios.createSimpleBinaryTree(), false),
+                // Binary tree that happens to be a BST
                 Arguments.of(BinaryTreeScenarios.createBstBinaryTree(), true),
+                // BinarySearchTree instances - these return true immediately via instanceof check
                 Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), true),
                 Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), true),
                 Arguments.of(BinarySearchTreeScenarios.createAvlTree(), true),
