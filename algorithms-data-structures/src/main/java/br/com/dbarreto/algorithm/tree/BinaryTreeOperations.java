@@ -60,4 +60,21 @@ public class BinaryTreeOperations {
 
         return isBalanced(root.left()) && isBalanced(root.right());
     }
+
+    public static <T> boolean equals(BinaryTree<T> tree1, BinaryTree<T> tree2) {
+        return equals(tree1.root(), tree2.root());
+    }
+
+    private static <T> boolean equals(BinaryTreeNode<T> node1, BinaryTreeNode<T> node2) {
+        if (node1 == null && node2 == null) {
+            return true;
+        }
+        if (node1 == null || node2 == null) {
+            return false;
+        }
+        if (!Objects.equals(node1.value(), node2.value())) {
+            return false;
+        }
+        return equals(node1.left(), node2.left()) && equals(node1.right(), node2.right());
+    }
 }

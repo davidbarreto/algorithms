@@ -1,6 +1,7 @@
 package br.com.dbarreto.utils;
 
 import br.com.dbarreto.datastructure.tree.BinarySearchTree;
+import br.com.dbarreto.datastructure.tree.BinaryTree;
 import br.com.dbarreto.datastructure.tree.impl.AvlTree;
 import br.com.dbarreto.datastructure.tree.impl.RedBlackTree;
 import br.com.dbarreto.datastructure.tree.impl.SimpleBinarySearchTree;
@@ -57,6 +58,45 @@ public class BinarySearchTreeScenarios {
         tree.insert(230);
         tree.insert(-234);
 
+        return tree;
+    }
+
+    public static BinaryTree<Integer> createSimpleBstWithPerfectStructure() {
+        var tree = new SimpleBinarySearchTree<Integer>();
+        // Insert in order to match the BST structure: 4,2,6,1,3,5,7
+        tree.insert(4);
+        tree.insert(2);
+        tree.insert(6);
+        tree.insert(1);
+        tree.insert(3);
+        tree.insert(5);
+        tree.insert(7);
+        return tree;
+    }
+
+    public static BinaryTree<Integer> createAvlTreeWithPerfectInserts() {
+        var tree = new AvlTree<Integer>();
+        // Insert in same order, but AVL will balance, so structure differs
+        tree.insert(4);
+        tree.insert(2);
+        tree.insert(6);
+        tree.insert(1);
+        tree.insert(3);
+        tree.insert(5);
+        tree.insert(7);
+        return tree;
+    }
+
+    public static BinaryTree<Integer> createRedBlackTreeWithPerfectInserts() {
+        var tree = new RedBlackTree<Integer>();
+        // Insert in same order, but Red-Black will balance, so structure differs
+        tree.insert(4);
+        tree.insert(2);
+        tree.insert(6);
+        tree.insert(1);
+        tree.insert(3);
+        tree.insert(5);
+        tree.insert(7);
         return tree;
     }
 }

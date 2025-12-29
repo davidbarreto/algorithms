@@ -146,4 +146,19 @@ public class BinaryTreeScenarios {
                 .end()
                 .build();
     }
+
+    public static BinaryTree<Integer> createPerfectBstTree() {
+        return new SimpleBinaryTreeBuilder<>(4)
+                .root()
+                    .left(2)
+                        .left(1).end()
+                        .right(3).end()
+                    .end()
+                    .right(6)
+                        .left(5).end()
+                        .right(7).end()
+                    .end()
+                .end()
+                .build();
+    }
 }
