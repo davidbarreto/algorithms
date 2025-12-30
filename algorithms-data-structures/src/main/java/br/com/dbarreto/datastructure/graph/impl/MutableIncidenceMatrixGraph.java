@@ -89,11 +89,11 @@ public class MutableIncidenceMatrixGraph<V> implements MutableGraph<V> {
 
     @Override
     public void addVertex(V v) {
-        if (!this.vertexIndexMapping.containsKey(v)) {
+        this.vertexIndexMapping.computeIfAbsent(v, k -> {
             var index = vertexCount++;
-            this.vertexIndexMapping.put(v, index);
             this.indexVertexMapping.put(index, v);
-        }
+            return index;
+        });
     }
 
     @Override

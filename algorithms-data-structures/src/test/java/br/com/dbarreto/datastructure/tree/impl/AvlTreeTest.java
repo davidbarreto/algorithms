@@ -3,9 +3,13 @@ package br.com.dbarreto.datastructure.tree.impl;
 import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,52 +33,9 @@ class AvlTreeTest {
         assertEquals(List.of(30, 20, 10, 25, 40, 50), preOrderList);
     }
 
-    @Test
-    void testLeftLeftRotation() {
-        AvlTree<Integer> tree = new AvlTree<>();
-        tree.insert(30);
-        tree.insert(20);
-        tree.insert(10);  // Triggers left-left rotation
-
-        List<Integer> inOrder = new ArrayList<>();
-        tree.traverseInOrder(inOrder::add);
-        assertEquals(List.of(10, 20, 30), inOrder);
-        assertEquals(2, tree.height());  // Balanced
-    }
-
-    @Test
-    void testRightRightRotation() {
-        AvlTree<Integer> tree = new AvlTree<>();
-        tree.insert(10);
-        tree.insert(20);
-        tree.insert(30);  // Triggers right-right rotation
-
-        List<Integer> inOrder = new ArrayList<>();
-        tree.traverseInOrder(inOrder::add);
-        assertEquals(List.of(10, 20, 30), inOrder);
-        assertEquals(2, tree.height());
-    }
-
-    @Test
-    void testLeftRightRotation() {
-        AvlTree<Integer> tree = new AvlTree<>();
-        tree.insert(30);
-        tree.insert(10);
-        tree.insert(20);  // Triggers left-right rotation
-
-        List<Integer> inOrder = new ArrayList<>();
-        tree.traverseInOrder(inOrder::add);
-        assertEquals(List.of(10, 20, 30), inOrder);
-        assertEquals(2, tree.height());
-    }
-
-    @Test
-    void testRightLeftRotation() {
-        AvlTree<Integer> tree = new AvlTree<>();
-        tree.insert(10);
-        tree.insert(30);
-        tree.insert(20);  // Triggers right-left rotation
-
+    @ParameterizedTest
+    @MethodSource("rotationArguments")
+    void testRotation(AvlTree<Integer> tree) {
         List<Integer> inOrder = new ArrayList<>();
         tree.traverseInOrder(inOrder::add);
         assertEquals(List.of(10, 20, 30), inOrder);
@@ -171,5 +132,14 @@ class AvlTreeTest {
         assertTrue(tree.isBalanced());
         assertTrue(tree.height() <= 8); // AVL height bound: logarithmic, not fixed for 100 nodes
         assertThat(tree.balanceFactor()).isBetween(-1, 1);
+    }
+
+    static Stream<Arguments> rotationArguments() {
+        return Stream.of(
+                Arguments.of(BinarySearchTreeScenarios.createAvlTreeThatTriggersLeftLeftRotation()),
+                Arguments.of(BinarySearchTreeScenarios.createAvlTreeThatTriggersRightRightRotation()),
+                Arguments.of(BinarySearchTreeScenarios.createAvlTreeThatTriggersRightLeftRotation()),
+                Arguments.of(BinarySearchTreeScenarios.createAvlTreeThatTriggersLeftRightRotation())
+        );
     }
 }

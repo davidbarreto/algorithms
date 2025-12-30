@@ -99,4 +99,37 @@ public class BinarySearchTreeScenarios {
         tree.insert(7);
         return tree;
     }
+
+    public static BinaryTree<Integer> createAvlTreeThatTriggersLeftLeftRotation() {
+        AvlTree<Integer> tree = new AvlTree<>();
+        tree.insert(30);
+        tree.insert(20);
+        tree.insert(10);  // Triggers left-left rotation
+
+        return tree;
+    }
+
+    public static BinaryTree<Integer> createAvlTreeThatTriggersRightRightRotation() {
+        AvlTree<Integer> tree = new AvlTree<>();
+        tree.insert(10);
+        tree.insert(20);
+        tree.insert(30);  // Triggers right-right rotation
+        return tree;
+    }
+
+    public static BinaryTree<Integer> createAvlTreeThatTriggersRightLeftRotation() {
+        AvlTree<Integer> tree = new AvlTree<>();
+        tree.insert(30);
+        tree.insert(10);
+        tree.insert(20);  // Triggers left-right rotation
+        return tree;
+    }
+
+    public static BinaryTree<Integer> createAvlTreeThatTriggersLeftRightRotation() {
+        AvlTree<Integer> tree = new AvlTree<>();
+        tree.insert(10);
+        tree.insert(30);
+        tree.insert(20);  // Triggers right-left rotation
+        return tree;
+    }
 }
