@@ -1,8 +1,12 @@
 package br.com.dbarreto.datastructure.graph;
 
+import java.util.Collection;
+
 public interface Graph<V> {
-    void addVertex(V v);
-    void addEdge(V from, V to);
+    boolean containsVertex(V vertex);
     boolean hasEdge(V from, V to);
-    int size();
+    Collection<V> vertices();
+    Collection<V> neighborsOf(V vertex);
+    int vertexCount();
+    int edgeCount();
 }
