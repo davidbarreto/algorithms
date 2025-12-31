@@ -24,7 +24,7 @@ class GraphTest {
         assertEquals(9, graph.edgeCount());
 
         assertThat(graph.neighborsOf("A")).containsExactlyInAnyOrder("B", "D", "E");
-        assertThat(graph.neighborsOf("B")).contains("E", "C", "G");
+        assertThat(graph.neighborsOf("B")).containsExactlyInAnyOrder("E", "C", "G");
         assertThat(graph.neighborsOf("F")).isEmpty();
     }
 
@@ -46,9 +46,10 @@ class GraphTest {
 
     static Stream<Arguments> graphArguments() {
         return Stream.of(
-            Arguments.of(GraphScenarios.createAdjacencyListGraph()),
-            Arguments.of(GraphScenarios.createAdjacencyMatrixGraph()),
-            Arguments.of(GraphScenarios.createIncidenceMatrixGraph())
+                Arguments.of(GraphScenarios.createAdjacencyListGraph()),
+                Arguments.of(GraphScenarios.createAdjacencyMatrixGraph()),
+                Arguments.of(GraphScenarios.createIncidenceMatrixGraph()),
+                Arguments.of(GraphScenarios.createNodeBasedGraph())
         );
     }
 }

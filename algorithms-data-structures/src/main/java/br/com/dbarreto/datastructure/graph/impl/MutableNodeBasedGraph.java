@@ -1,43 +1,44 @@
 package br.com.dbarreto.datastructure.graph.impl;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import br.com.dbarreto.datastructure.graph.MutableGraph;
 import br.com.dbarreto.datastructure.node.GraphNode;
+import br.com.dbarreto.datastructure.node.impl.SimpleGraphNode;
 
-public class MutableNodeBasedGraph<T> implements MutableGraph<GraphNode<T>> {
-
-    private final Set<GraphNode<T>> vertices;
+public class MutableNodeBasedGraph<T> implements MutableGraph<T> {
+    private final Map<T, GraphNode<T>> vertices;
     private Integer edgeCount;
 
     public MutableNodeBasedGraph() {
-        this.vertices = new HashSet<>();
+        this.vertices = new HashMap<>();
         this.edgeCount = 0;
     }
 
     @Override
-    public boolean containsVertex(GraphNode<T> vertex) {
-        return this.vertices.contains(vertex);
+    public boolean containsVertex(T vertex) {
+        return this.vertices.containsKey(vertex);
     }
 
     @Override
-    public boolean hasEdge(GraphNode<T> from, GraphNode<T> to) {
-        return this.vertices.contains(from) && from.neighbors().contains(to);
+    public boolean hasEdge(T from, T to) {
+        return this.vertices.containsKey(from) && this.vertices.containsKey(to)
+                && this.vertices.get(from).neighbors().contains(this.vertices.get(to));
     }
 
     @Override
-    public Collection<GraphNode<T>> vertices() {
-        return this.vertices;
+    public Collection<T> vertices() {
+        return this.vertices.keySet();
     }
 
     @Override
-    public Collection<GraphNode<T>> neighborsOf(GraphNode<T> vertex) {
-        if (!this.vertices.contains(vertex)) {
+    public Collection<T> neighborsOf(T vertex) {
+        if (!this.vertices.containsKey(vertex)) {
             return Set.of();
         }
-        return vertex.neighbors();
+        return this.vertices.get(vertex).neighbors().stream()
+                .map(GraphNode::value).collect(Collectors.toUnmodifiableSet());
     }
 
     @Override
@@ -51,35 +52,40 @@ public class MutableNodeBasedGraph<T> implements MutableGraph<GraphNode<T>> {
     }
 
     @Override
-    public void addVertex(GraphNode<T> v) {
-        this.vertices.add(v);
+    public void addVertex(T v) {
+        this.vertices.putIfAbsent(v, new SimpleGraphNode<>(v));
     }
 
     @Override
-    public void addEdge(GraphNode<T> from, GraphNode<T> to) {
-        if (this.vertices.contains(from)) {
-            from.addNeighbor(to);
+    public void addEdge(T from, T to) {
+        addVertex(from);
+        addVertex(to);
+
+        if (!hasEdge(from, to)) {
+            this.vertices.get(from).addNeighbor(this.vertices.get(to));
+            this.edgeCount++;
         }
     }
 
     @Override
-    public void removeEdge(GraphNode<T> from, GraphNode<T> to) {
-        if (this.vertices.contains(from)) {
-            from.removeNeighbor(to);
+    public void removeEdge(T from, T to) {
+        if (this.vertices.containsKey(from) && hasEdge(from, to)) {
+            this.vertices.get(from).removeNeighbor(this.vertices.get(to));
             this.edgeCount--;
         }
     }
 
     @Override
-    public void removeVertex(GraphNode<T> v) {
-        if (this.vertices.contains(v)) {
+    public void removeVertex(T v) {
+        if (this.vertices.containsKey(v)) {
             // Count edges to remove
-            int edgesToRemove = v.neighbors().size();
+            var vertexToRemove = this.vertices.get(v);
+            int edgesToRemove = vertexToRemove.neighbors().size();
             
             // Remove this vertex from all other vertices' neighbor lists
-            for (GraphNode<T> vertex : this.vertices) {
-                if (vertex.neighbors().contains(v)) {
-                    vertex.removeNeighbor(v);
+            for (GraphNode<T> vertex : this.vertices.values()) {
+                if (vertex.neighbors().contains(vertexToRemove)) {
+                    vertex.removeNeighbor(vertexToRemove);
                     edgesToRemove++;
                 }
             }

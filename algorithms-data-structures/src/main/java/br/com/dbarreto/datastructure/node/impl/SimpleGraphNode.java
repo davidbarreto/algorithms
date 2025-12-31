@@ -4,6 +4,7 @@ import br.com.dbarreto.datastructure.node.GraphNode;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class SimpleGraphNode<T> implements GraphNode<T> {
@@ -38,5 +39,17 @@ public class SimpleGraphNode<T> implements GraphNode<T> {
     @Override
     public T value() {
         return this.value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SimpleGraphNode<?> that)) return false;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }
