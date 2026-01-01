@@ -3,37 +3,42 @@ package br.com.dbarreto.datastructure.graph.impl;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import br.com.dbarreto.datastructure.graph.MutableGraph;
+import br.com.dbarreto.datastructure.graph.EdgePolicy;
 import br.com.dbarreto.datastructure.node.GraphNode;
 import br.com.dbarreto.datastructure.node.impl.SimpleGraphNode;
 
-public class MutableNodeBasedGraph<T> implements MutableGraph<T> {
-    private final Map<T, GraphNode<T>> vertices;
+public class NodeBasedGraph<V> extends AbstractGraph<V> {
+    private final Map<V, GraphNode<V>> vertices;
     private Integer edgeCount;
 
-    public MutableNodeBasedGraph() {
+    public NodeBasedGraph() {
+        this(DIRECTED_GRAPH);
+    }
+
+    public NodeBasedGraph(EdgePolicy edgePolicy) {
+        super(edgePolicy);
         this.vertices = new HashMap<>();
         this.edgeCount = 0;
     }
 
     @Override
-    public boolean containsVertex(T vertex) {
+    public boolean containsVertex(V vertex) {
         return this.vertices.containsKey(vertex);
     }
 
     @Override
-    public boolean hasEdge(T from, T to) {
+    public boolean hasEdge(V from, V to) {
         return this.vertices.containsKey(from) && this.vertices.containsKey(to)
                 && this.vertices.get(from).neighbors().contains(this.vertices.get(to));
     }
 
     @Override
-    public Collection<T> vertices() {
+    public Collection<V> vertices() {
         return this.vertices.keySet();
     }
 
     @Override
-    public Collection<T> neighborsOf(T vertex) {
+    public Collection<V> neighborsOf(V vertex) {
         if (!this.vertices.containsKey(vertex)) {
             return Set.of();
         }
@@ -47,17 +52,17 @@ public class MutableNodeBasedGraph<T> implements MutableGraph<T> {
     }
 
     @Override
-    public int edgeCount() {
+    public int edgeCountInternal() {
         return this.edgeCount;
     }
 
     @Override
-    public void addVertex(T v) {
+    public void addVertex(V v) {
         this.vertices.putIfAbsent(v, new SimpleGraphNode<>(v));
     }
 
     @Override
-    public void addEdge(T from, T to) {
+    public void addEdgeInternal(V from, V to) {
         addVertex(from);
         addVertex(to);
 
@@ -68,7 +73,7 @@ public class MutableNodeBasedGraph<T> implements MutableGraph<T> {
     }
 
     @Override
-    public void removeEdge(T from, T to) {
+    public void removeEdgeInternal(V from, V to) {
         if (this.vertices.containsKey(from) && hasEdge(from, to)) {
             this.vertices.get(from).removeNeighbor(this.vertices.get(to));
             this.edgeCount--;
@@ -76,14 +81,14 @@ public class MutableNodeBasedGraph<T> implements MutableGraph<T> {
     }
 
     @Override
-    public void removeVertex(T v) {
+    public void removeVertex(V v) {
         if (this.vertices.containsKey(v)) {
             // Count edges to remove
             var vertexToRemove = this.vertices.get(v);
             int edgesToRemove = vertexToRemove.neighbors().size();
             
             // Remove this vertex from all other vertices' neighbor lists
-            for (GraphNode<T> vertex : this.vertices.values()) {
+            for (GraphNode<V> vertex : this.vertices.values()) {
                 if (vertex.neighbors().contains(vertexToRemove)) {
                     vertex.removeNeighbor(vertexToRemove);
                     edgesToRemove++;

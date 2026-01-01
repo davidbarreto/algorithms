@@ -14,11 +14,12 @@ class GraphTest {
 
     @ParameterizedTest
     @MethodSource("graphArguments")
-    void testGraph(Graph<String> graph) {
+    void testDirectedGraph(Graph<String> graph) {
         assertTrue(graph.containsVertex("A"));
         assertTrue(graph.hasEdge("A", "B"));
         assertTrue(graph.hasEdge("B", "C"));
         assertFalse(graph.hasEdge("A", "C"));
+        assertFalse(graph.hasEdge("B", "A"));
 
         assertEquals(7, graph.vertexCount());
         assertEquals(9, graph.edgeCount());
@@ -30,7 +31,7 @@ class GraphTest {
 
     @ParameterizedTest
     @MethodSource("graphArguments")
-    void testMutableGraph(MutableGraph<String> graph) {
+    void testDirectedMutableGraph(MutableGraph<String> graph) {
         // Test remove edge
         graph.removeEdge("A", "B");
         assertFalse(graph.hasEdge("A", "B"));
@@ -44,12 +45,56 @@ class GraphTest {
         assertEquals(5, graph.edgeCount());
     }
 
+    @ParameterizedTest
+    @MethodSource("undirectedGraphArguments")
+    void testUndirectedGraph(Graph<String> graph) {
+        assertTrue(graph.containsVertex("A"));
+        assertTrue(graph.hasEdge("A", "B"));
+        assertTrue(graph.hasEdge("B", "A"));
+        assertTrue(graph.hasEdge("B", "C"));
+        assertTrue(graph.hasEdge("C", "B"));
+
+        assertEquals(7, graph.vertexCount());
+        assertEquals(9, graph.edgeCount());
+
+        assertThat(graph.neighborsOf("A")).containsExactlyInAnyOrder("B", "D", "E");
+        assertThat(graph.neighborsOf("B")).containsExactlyInAnyOrder("A", "E", "C", "G");
+        assertThat(graph.neighborsOf("F")).containsExactlyInAnyOrder("E");
+    }
+
+    @ParameterizedTest
+    @MethodSource("undirectedGraphArguments")
+    void testUndirectedMutableGraph(MutableGraph<String> graph) {
+        // Test remove edge
+        graph.removeEdge("A", "B");
+        assertFalse(graph.hasEdge("A", "B"));
+        assertFalse(graph.hasEdge("B", "A"));
+        assertEquals(8, graph.edgeCount());
+
+        // Test remove vertex
+        graph.removeVertex("B");
+        assertFalse(graph.containsVertex("B"));
+        assertFalse(graph.hasEdge("B", "C"));
+        assertFalse(graph.hasEdge("C", "B"));
+        assertEquals(6, graph.vertexCount());
+        assertEquals(5, graph.edgeCount());
+    }
+
     static Stream<Arguments> graphArguments() {
         return Stream.of(
                 Arguments.of(GraphScenarios.createAdjacencyListGraph()),
                 Arguments.of(GraphScenarios.createAdjacencyMatrixGraph()),
                 Arguments.of(GraphScenarios.createIncidenceMatrixGraph()),
                 Arguments.of(GraphScenarios.createNodeBasedGraph())
+        );
+    }
+
+    static Stream<Arguments> undirectedGraphArguments() {
+        return Stream.of(
+                Arguments.of(GraphScenarios.createUndirectedAdjacencyListGraph()),
+                Arguments.of(GraphScenarios.createUndirectedAdjacencyMatrixGraph()),
+                Arguments.of(GraphScenarios.createUndirectedIncidenceMatrixGraph()),
+                Arguments.of(GraphScenarios.createUndirectedNodeBasedGraph())
         );
     }
 }

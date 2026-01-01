@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import br.com.dbarreto.datastructure.graph.MutableGraph;
+import br.com.dbarreto.datastructure.graph.EdgePolicy;
 
-public class MutableIncidenceMatrixGraph<V> implements MutableGraph<V> {
+public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
 
     private final short[][] incidenceMatrix;
     private final Map<V, Integer> vertexIndexMapping;
@@ -17,7 +17,12 @@ public class MutableIncidenceMatrixGraph<V> implements MutableGraph<V> {
     private Integer edgeCount;
     private Integer nextEdgeIndex;
 
-    public MutableIncidenceMatrixGraph(int numVertexes, int numEdges) {
+    public IncidenceMatrixGraph(int numVertexes, int numEdges) {
+        this(numVertexes, numEdges, DIRECTED_GRAPH);
+    }
+
+    public IncidenceMatrixGraph(int numVertexes, int numEdges, EdgePolicy edgePolicy) {
+        super(edgePolicy);
         this.incidenceMatrix = new short[numVertexes][numEdges];
         this.vertexIndexMapping = new HashMap<>();
         this.indexVertexMapping = new HashMap<>();
@@ -83,7 +88,7 @@ public class MutableIncidenceMatrixGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public int edgeCount() {
+    public int edgeCountInternal() {
         return this.edgeCount;
     }
 
@@ -97,7 +102,7 @@ public class MutableIncidenceMatrixGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public void addEdge(V from, V to) {
+    public void addEdgeInternal(V from, V to) {
 
         addVertex(from);
         addVertex(to);
@@ -117,7 +122,7 @@ public class MutableIncidenceMatrixGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public void removeEdge(V from, V to) {
+    public void removeEdgeInternal(V from, V to) {
         if (containsVertex(from) && containsVertex(to)) {
             
             var i = this.vertexIndexMapping.get(from);

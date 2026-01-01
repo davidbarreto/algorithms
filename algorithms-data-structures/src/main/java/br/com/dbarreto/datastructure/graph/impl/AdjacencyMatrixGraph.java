@@ -1,6 +1,6 @@
 package br.com.dbarreto.datastructure.graph.impl;
 
-import br.com.dbarreto.datastructure.graph.MutableGraph;
+import br.com.dbarreto.datastructure.graph.EdgePolicy;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -9,14 +9,19 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MutableAdjacencyMatrixGraph<V> implements MutableGraph<V> {
+public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
 
     private final boolean[][] adjacencyMatrix;
     private final Map<V, Integer> vertexIndexMapping;
     private Integer vertexCount;
     private Integer edgeCount;
 
-    public MutableAdjacencyMatrixGraph(int numVertexes) {
+    public AdjacencyMatrixGraph(int numVertexes) {
+        this(numVertexes, DIRECTED_GRAPH);
+    }
+
+    public AdjacencyMatrixGraph(int numVertexes, EdgePolicy edgePolicy) {
+        super(edgePolicy);
         this.adjacencyMatrix = new boolean[numVertexes][numVertexes];
         this.vertexIndexMapping = new HashMap<>();
         this.vertexCount = 0;
@@ -34,7 +39,7 @@ public class MutableAdjacencyMatrixGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public void addEdge(V from, V to) {
+    public void addEdgeInternal(V from, V to) {
         addVertex(from);
         addVertex(to);
 
@@ -88,12 +93,12 @@ public class MutableAdjacencyMatrixGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public int edgeCount() {
+    public int edgeCountInternal() {
         return this.edgeCount;
     }
 
     @Override
-    public void removeEdge(V from, V to) {
+    public void removeEdgeInternal(V from, V to) {
         var indexFrom = this.vertexIndexMapping.get(from);
         var indexTo = this.vertexIndexMapping.get(to);
 

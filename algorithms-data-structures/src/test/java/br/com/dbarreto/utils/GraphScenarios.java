@@ -1,27 +1,40 @@
 package br.com.dbarreto.utils;
 
 import br.com.dbarreto.datastructure.graph.MutableGraph;
-import br.com.dbarreto.datastructure.graph.impl.MutableAdjacencyListGraph;
-import br.com.dbarreto.datastructure.graph.impl.MutableAdjacencyMatrixGraph;
-import br.com.dbarreto.datastructure.graph.impl.MutableIncidenceMatrixGraph;
-import br.com.dbarreto.datastructure.graph.impl.MutableNodeBasedGraph;
+import br.com.dbarreto.datastructure.graph.impl.*;
 
 public class GraphScenarios {
 
     public static MutableGraph<String> createAdjacencyListGraph() {
-        return populateGraph(new MutableAdjacencyListGraph<>());
+        return populateGraph(new AdjacencyListGraph<>());
+    }
+
+    public static MutableGraph<String> createUndirectedAdjacencyListGraph() {
+        return populateGraph(new AdjacencyListGraph<>(AbstractGraph.UNDIRECTED_GRAPH));
     }
 
     public static MutableGraph<String> createAdjacencyMatrixGraph() {
-        return populateGraph(new MutableAdjacencyMatrixGraph<>(10));
+        return populateGraph(new AdjacencyMatrixGraph<>(10));
+    }
+
+    public static MutableGraph<String> createUndirectedAdjacencyMatrixGraph() {
+        return populateGraph(new AdjacencyMatrixGraph<>(10, AbstractGraph.UNDIRECTED_GRAPH));
     }
 
     public static MutableGraph<String> createIncidenceMatrixGraph() {
-        return populateGraph(new MutableIncidenceMatrixGraph<>(10, 20));
+        return populateGraph(new IncidenceMatrixGraph<>(10, 20));
+    }
+
+    public static MutableGraph<String> createUndirectedIncidenceMatrixGraph() {
+        return populateGraph(new IncidenceMatrixGraph<>(10, 20, AbstractGraph.UNDIRECTED_GRAPH));
     }
 
     public static MutableGraph<String> createNodeBasedGraph() {
-        return populateGraph(new MutableNodeBasedGraph<>());
+        return populateGraph(new NodeBasedGraph<>());
+    }
+
+    public static MutableGraph<String> createUndirectedNodeBasedGraph() {
+        return populateGraph(new NodeBasedGraph<>(AbstractGraph.UNDIRECTED_GRAPH));
     }
 
     private static MutableGraph<String> populateGraph(MutableGraph<String> mutableGraph) {

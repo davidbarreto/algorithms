@@ -25,7 +25,7 @@ import static br.com.dbarreto.datastructure.node.ColoredBinarySearchTreeNode.Col
  * These tests use jqwik to generate random inputs and verify that
  * tree properties hold under various scenarios.
  */
-class TreePropertyTests {
+class TreePropertyTest {
 
     @Property
     void binarySearchTreePropertyHolds(@ForAll("integerLists") List<Integer> values) {

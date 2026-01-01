@@ -7,14 +7,19 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import br.com.dbarreto.datastructure.graph.MutableGraph;
+import br.com.dbarreto.datastructure.graph.EdgePolicy;
 
-public class MutableAdjacencyListGraph<V> implements MutableGraph<V> {
+public class AdjacencyListGraph<V> extends AbstractGraph<V> {
 
     private final Map<V, Set<V>> adjacencyList;
     private Integer edgeCount;
 
-    public MutableAdjacencyListGraph() {
+    public AdjacencyListGraph() {
+        this(DIRECTED_GRAPH);
+    }
+
+    public AdjacencyListGraph(EdgePolicy edgePolicy) {
+        super(edgePolicy);
         this.adjacencyList = new HashMap<>();
         this.edgeCount = 0;
     }
@@ -25,7 +30,7 @@ public class MutableAdjacencyListGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public void addEdge(V from, V to) {
+    public void addEdgeInternal(V from, V to) {
         addVertex(from);
         addVertex(to);
 
@@ -57,7 +62,7 @@ public class MutableAdjacencyListGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public void removeEdge(V from, V to) {
+    public void removeEdgeInternal(V from, V to) {
         if (this.adjacencyList.containsKey(from) && this.adjacencyList.get(from).remove(to)) {
             this.edgeCount--;
         }
@@ -85,7 +90,7 @@ public class MutableAdjacencyListGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public int edgeCount() {
+    public int edgeCountInternal() {
         return this.edgeCount;
     }
 }
