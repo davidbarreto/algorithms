@@ -3,7 +3,9 @@ package br.com.dbarreto.datastructure.graph;
 import java.util.Collection;
 
 import br.com.dbarreto.algorithm.graph.GraphTraversals;
+import br.com.dbarreto.datastructure.graph.impl.DirectedEdgePolicy;
 import br.com.dbarreto.datastructure.graph.impl.GraphType;
+import br.com.dbarreto.datastructure.graph.impl.UndirectedEdgePolicy;
 
 /**
  * Represents a Graph data structure consisting of vertices (nodes) and edges connecting them.
@@ -16,6 +18,9 @@ import br.com.dbarreto.datastructure.graph.impl.GraphType;
  * @param <V> the type of the vertices
  */
 public interface Graph<V> {
+    EdgePolicy DIRECTED_GRAPH = new DirectedEdgePolicy();
+    EdgePolicy UNDIRECTED_GRAPH = new UndirectedEdgePolicy();
+
     /**
      * Checks if the graph contains the specified vertex.
      *

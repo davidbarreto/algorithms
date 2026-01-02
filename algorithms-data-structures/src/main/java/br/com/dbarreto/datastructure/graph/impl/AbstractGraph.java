@@ -12,8 +12,6 @@ import br.com.dbarreto.datastructure.graph.MutableGraph;
  */
 public abstract class AbstractGraph<V> implements MutableGraph<V> {
 
-    public static final EdgePolicy DIRECTED_GRAPH = new DirectedEdgePolicy();
-    public static final EdgePolicy UNDIRECTED_GRAPH = new UndirectedEdgePolicy();
     private final EdgePolicy edgePolicy;
 
     protected AbstractGraph(EdgePolicy edgePolicy) {

@@ -179,20 +179,20 @@ public class GraphPropertiesTest {
     @Provide
     Arbitrary<GraphFactory<Integer>> directedGraphImplementations() {
         return Arbitraries.of(
-                new GraphFactory<>(AdjacencyListGraph.class.getSimpleName(), () -> new AdjacencyListGraph<>(AbstractGraph.DIRECTED_GRAPH)),
-                new GraphFactory<>(AdjacencyMatrixGraph.class.getSimpleName(), () -> new AdjacencyMatrixGraph<>(100, AbstractGraph.DIRECTED_GRAPH)),
-                new GraphFactory<>(IncidenceMatrixGraph.class.getSimpleName(), () -> new IncidenceMatrixGraph<>(100, 200, AbstractGraph.DIRECTED_GRAPH)),
-                new GraphFactory<>(NodeBasedGraph.class.getSimpleName(), () -> new NodeBasedGraph<>(AbstractGraph.DIRECTED_GRAPH))
+                new GraphFactory<>(AdjacencyListGraph.class.getSimpleName(), () -> new AdjacencyListGraph<>(Graph.DIRECTED_GRAPH)),
+                new GraphFactory<>(AdjacencyMatrixGraph.class.getSimpleName(), () -> new AdjacencyMatrixGraph<>(100, Graph.DIRECTED_GRAPH)),
+                new GraphFactory<>(IncidenceMatrixGraph.class.getSimpleName(), () -> new IncidenceMatrixGraph<>(100, 200, Graph.DIRECTED_GRAPH)),
+                new GraphFactory<>(NodeBasedGraph.class.getSimpleName(), () -> new NodeBasedGraph<>(Graph.DIRECTED_GRAPH))
         );
     }
 
     @Provide
     Arbitrary<GraphFactory<Integer>> undirectedGraphImplementations() {
         return Arbitraries.of(
-                new GraphFactory<>(AdjacencyListGraph.class.getSimpleName(), () -> new AdjacencyListGraph<>(AbstractGraph.UNDIRECTED_GRAPH)),
-                new GraphFactory<>(AdjacencyMatrixGraph.class.getSimpleName(), () -> new AdjacencyMatrixGraph<>(100, AbstractGraph.UNDIRECTED_GRAPH)),
-                new GraphFactory<>(IncidenceMatrixGraph.class.getSimpleName(), () -> new IncidenceMatrixGraph<>(100, 200, AbstractGraph.UNDIRECTED_GRAPH)),
-                new GraphFactory<>(NodeBasedGraph.class.getSimpleName(), () -> new NodeBasedGraph<>(AbstractGraph.UNDIRECTED_GRAPH))
+                new GraphFactory<>(AdjacencyListGraph.class.getSimpleName(), () -> new AdjacencyListGraph<>(Graph.UNDIRECTED_GRAPH)),
+                new GraphFactory<>(AdjacencyMatrixGraph.class.getSimpleName(), () -> new AdjacencyMatrixGraph<>(100, Graph.UNDIRECTED_GRAPH)),
+                new GraphFactory<>(IncidenceMatrixGraph.class.getSimpleName(), () -> new IncidenceMatrixGraph<>(100, 200, Graph.UNDIRECTED_GRAPH)),
+                new GraphFactory<>(NodeBasedGraph.class.getSimpleName(), () -> new NodeBasedGraph<>(Graph.UNDIRECTED_GRAPH))
         );
     }
 

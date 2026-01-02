@@ -1,5 +1,6 @@
 package br.com.dbarreto.utils;
 
+import br.com.dbarreto.datastructure.graph.Graph;
 import br.com.dbarreto.datastructure.graph.MutableGraph;
 import br.com.dbarreto.datastructure.graph.impl.*;
 
@@ -10,7 +11,7 @@ public class GraphScenarios {
     }
 
     public static MutableGraph<String> createUndirectedAdjacencyListGraph() {
-        return populateGraph(new AdjacencyListGraph<>(AbstractGraph.UNDIRECTED_GRAPH));
+        return populateGraph(new AdjacencyListGraph<>(Graph.UNDIRECTED_GRAPH));
     }
 
     public static MutableGraph<String> createAdjacencyMatrixGraph() {
@@ -18,7 +19,7 @@ public class GraphScenarios {
     }
 
     public static MutableGraph<String> createUndirectedAdjacencyMatrixGraph() {
-        return populateGraph(new AdjacencyMatrixGraph<>(10, AbstractGraph.UNDIRECTED_GRAPH));
+        return populateGraph(new AdjacencyMatrixGraph<>(10, Graph.UNDIRECTED_GRAPH));
     }
 
     public static MutableGraph<String> createIncidenceMatrixGraph() {
@@ -26,7 +27,7 @@ public class GraphScenarios {
     }
 
     public static MutableGraph<String> createUndirectedIncidenceMatrixGraph() {
-        return populateGraph(new IncidenceMatrixGraph<>(10, 20, AbstractGraph.UNDIRECTED_GRAPH));
+        return populateGraph(new IncidenceMatrixGraph<>(10, 20, Graph.UNDIRECTED_GRAPH));
     }
 
     public static MutableGraph<String> createNodeBasedGraph() {
@@ -34,7 +35,7 @@ public class GraphScenarios {
     }
 
     public static MutableGraph<String> createUndirectedNodeBasedGraph() {
-        return populateGraph(new NodeBasedGraph<>(AbstractGraph.UNDIRECTED_GRAPH));
+        return populateGraph(new NodeBasedGraph<>(Graph.UNDIRECTED_GRAPH));
     }
 
     private static MutableGraph<String> populateGraph(MutableGraph<String> mutableGraph) {
