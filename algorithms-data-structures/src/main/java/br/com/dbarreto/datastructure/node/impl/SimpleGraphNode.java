@@ -2,33 +2,30 @@ package br.com.dbarreto.datastructure.node.impl;
 
 import br.com.dbarreto.datastructure.node.GraphNode;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class SimpleGraphNode<T> implements GraphNode<T> {
 
     private T value;
-    private Set<GraphNode<T>> neighbors;
+    private Map<GraphNode<T>, Double> neighbors;
 
     public SimpleGraphNode() {
         this(null);
     }
 
     public SimpleGraphNode(T value) {
-        this.neighbors = new HashSet<>();
+        this.neighbors = new HashMap<>();
         this.value = value;
     }
 
     @Override
-    public Collection<GraphNode<T>> neighbors() {
+    public Map<GraphNode<T>, Double> neighbors() {
         return this.neighbors;
     }
 
     @Override
-    public void addNeighbor(GraphNode<T> neighbor) {
-        this.neighbors.add(neighbor);
+    public void addNeighbor(GraphNode<T> neighbor, double weight) {
+        this.neighbors.put(neighbor, weight);
     }
 
     @Override

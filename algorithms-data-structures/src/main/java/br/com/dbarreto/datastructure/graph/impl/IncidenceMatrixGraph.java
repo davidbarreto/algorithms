@@ -35,6 +35,7 @@ import br.com.dbarreto.datastructure.graph.EdgePolicy;
 public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
 
     private final short[][] incidenceMatrix;
+    private final double[] edgeWeights;
     private final Map<V, Integer> vertexIndexMapping;
     private final Map<Integer, V> indexVertexMapping;
     private Integer vertexCount;
@@ -62,6 +63,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
     public IncidenceMatrixGraph(int numVertexes, int numEdges, EdgePolicy edgePolicy) {
         super(edgePolicy);
         this.incidenceMatrix = new short[numVertexes][numEdges];
+        this.edgeWeights = new double[numEdges];
         this.vertexIndexMapping = new HashMap<>();
         this.indexVertexMapping = new HashMap<>();
         this.vertexCount = 0;
@@ -147,7 +149,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
      * otherwise, uses the next available index.
      */
     @Override
-    public void addEdgeInternal(V from, V to) {
+    public void addEdgeInternal(V from, V to, double weight) {
 
         addVertex(from);
         addVertex(to);
@@ -172,7 +174,22 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
 
         this.incidenceMatrix[i][edge] = 1;
         this.incidenceMatrix[j][edge] = -1;
+        this.edgeWeights[edge] = weight;
         this.edgeCount++;
+    }
+
+    @Override
+    public double weight(V from, V to) {
+        if (hasEdge(from, to)) {
+            var i = this.vertexIndexMapping.get(from);
+            var j = this.vertexIndexMapping.get(to);
+            for (int e = 0; e < this.nextEdgeIndex; e++) {
+                if (this.incidenceMatrix[i][e] == 1 && this.incidenceMatrix[j][e] == -1) {
+                    return this.edgeWeights[e];
+                }
+            }
+        }
+        return Double.NaN;
     }
 
     /**
@@ -191,6 +208,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
                 if (this.incidenceMatrix[i][e] == 1 && this.incidenceMatrix[j][e] == -1) {
                     this.incidenceMatrix[i][e] = 0;
                     this.incidenceMatrix[j][e] = 0;
+                    this.edgeWeights[e] = 0.0;
                     this.edgeCount--;
                     this.freeEdgeIndices.add(e);
                     break;
@@ -231,6 +249,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
                     this.incidenceMatrix[i][e] = 0;
                 }
                 this.freeEdgeIndices.add(e);
+                this.edgeWeights[e] = 0.0;
             }
         }
         this.edgeCount -= edgesToRemove;
@@ -245,6 +264,11 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
             // Move row lastIndex to indexToRemove
             System.arraycopy(this.incidenceMatrix[lastIndex], 0, this.incidenceMatrix[indexToRemove], 0, this.incidenceMatrix[0].length);
             Arrays.fill(this.incidenceMatrix[lastIndex], (short) 0);
+
+            // Swap weights
+            double lastWeight = this.edgeWeights[lastIndex];
+            this.edgeWeights[lastIndex] = this.edgeWeights[indexToRemove];
+            this.edgeWeights[indexToRemove] = lastWeight;
             
             this.vertexIndexMapping.put(lastVertex, indexToRemove);
             this.indexVertexMapping.put(indexToRemove, lastVertex);

@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * Implementation of a graph using an adjacency matrix.
  * <p>
- * This implementation uses a 2D boolean array to represent edges.
+ * This implementation uses a 2D double array to represent edges and their weights.
  * It is efficient for dense graphs and checking edge existence (O(1)),
  * but requires O(V^2) space.
  * </p>
@@ -22,7 +22,7 @@ import java.util.Set;
  */
 public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
 
-    private final boolean[][] adjacencyMatrix;
+    private final double[][] adjacencyMatrix;
     private final Map<V, Integer> vertexIndexMapping;
     private final Map<Integer, V> indexVertexMapping;
     private Integer vertexCount;
@@ -45,7 +45,7 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
      */
     public AdjacencyMatrixGraph(int numVertexes, EdgePolicy edgePolicy) {
         super(edgePolicy);
-        this.adjacencyMatrix = new boolean[numVertexes][numVertexes];
+        this.adjacencyMatrix = new double[numVertexes][numVertexes];
         this.vertexIndexMapping = new HashMap<>();
         this.indexVertexMapping = new HashMap<>();
         this.vertexCount = 0;
@@ -65,18 +65,29 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
-    public void addEdgeInternal(V from, V to) {
+    public void addEdgeInternal(V from, V to, double weight) {
         addVertex(from);
         addVertex(to);
 
         var indexFrom = this.vertexIndexMapping.get(from);
         var indexTo = this.vertexIndexMapping.get(to);
 
-        if (!this.adjacencyMatrix[indexFrom][indexTo]) {
-            this.adjacencyMatrix[indexFrom][indexTo] = true;
+        if (this.adjacencyMatrix[indexFrom][indexTo] == 0.0) {
+            this.adjacencyMatrix[indexFrom][indexTo] = weight;
             edgeCount++;
         }
+    }
 
+    @Override
+    public double weight(V from, V to) {
+        var indexFrom = this.vertexIndexMapping.get(from);
+        var indexTo = this.vertexIndexMapping.get(to);
+
+        if (indexFrom != null && indexTo != null) {
+            return this.adjacencyMatrix[indexFrom][indexTo];
+        }
+
+        return Double.NaN;
     }
 
     @Override
@@ -84,7 +95,7 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
         var indexFrom = this.vertexIndexMapping.get(from);
         var indexTo = this.vertexIndexMapping.get(to);
 
-        return indexFrom != null && indexTo != null && this.adjacencyMatrix[indexFrom][indexTo];
+        return indexFrom != null && indexTo != null && this.adjacencyMatrix[indexFrom][indexTo] != 0.0;
     }
 
     @Override
@@ -100,7 +111,7 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
 
         Set<V> result = new HashSet<>();
         for (var e : this.vertexIndexMapping.entrySet()) {
-            if (this.adjacencyMatrix[i][e.getValue()]) {
+            if (this.adjacencyMatrix[i][e.getValue()] != 0.0) {
                 result.add(e.getKey());
             }
         }
@@ -128,8 +139,8 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
         var indexFrom = this.vertexIndexMapping.get(from);
         var indexTo = this.vertexIndexMapping.get(to);
 
-        if (indexFrom != null && indexTo != null && this.adjacencyMatrix[indexFrom][indexTo]) {
-            this.adjacencyMatrix[indexFrom][indexTo] = false;
+        if (indexFrom != null && indexTo != null && this.adjacencyMatrix[indexFrom][indexTo] != 0.0) {
+            this.adjacencyMatrix[indexFrom][indexTo] = 0.0;
             this.edgeCount--;
         }
     }
@@ -158,16 +169,16 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
     private void removeEdgesOf(int indexToRemove) {
         // Count and remove outgoing edges
         for (int i = 0; i < this.vertexCount; i++) {
-            if (this.adjacencyMatrix[indexToRemove][i]) {
-                this.adjacencyMatrix[indexToRemove][i] = false;
+            if (this.adjacencyMatrix[indexToRemove][i] != 0.0) {
+                this.adjacencyMatrix[indexToRemove][i] = 0.0;
                 this.edgeCount--;
             }
         }
 
         // Count and remove incoming edges
         for (int i = 0; i < this.vertexCount; i++) {
-            if (this.adjacencyMatrix[i][indexToRemove]) {
-                this.adjacencyMatrix[i][indexToRemove] = false;
+            if (this.adjacencyMatrix[i][indexToRemove] != 0.0) {
+                this.adjacencyMatrix[i][indexToRemove] = 0.0;
                 this.edgeCount--;
             }
         }
@@ -178,16 +189,17 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
         int lastIndex = this.vertexCount - 1;
         if (indexToRemove < lastIndex) {
             V lastVertex = this.indexVertexMapping.get(lastIndex);
-            boolean diagonal = this.adjacencyMatrix[lastIndex][lastIndex];
+            double diagonal = this.adjacencyMatrix[lastIndex][lastIndex];
 
             // Move row
-            System.arraycopy(this.adjacencyMatrix[lastIndex], 0, this.adjacencyMatrix[indexToRemove], 0, this.vertexCount);
-            Arrays.fill(this.adjacencyMatrix[lastIndex], 0, this.vertexCount, false);
+            System.arraycopy(this.adjacencyMatrix[lastIndex], 0,
+                    this.adjacencyMatrix[indexToRemove], 0, this.vertexCount);
+            Arrays.fill(this.adjacencyMatrix[lastIndex], 0, this.vertexCount, 0.0);
 
             // Move col
             for (int i = 0; i < this.vertexCount; i++) {
                 this.adjacencyMatrix[i][indexToRemove] = this.adjacencyMatrix[i][lastIndex];
-                this.adjacencyMatrix[i][lastIndex] = false;
+                this.adjacencyMatrix[i][lastIndex] = 0.0;
             }
             this.adjacencyMatrix[indexToRemove][indexToRemove] = diagonal;
 

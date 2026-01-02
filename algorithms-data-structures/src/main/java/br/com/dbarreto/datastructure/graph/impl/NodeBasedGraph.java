@@ -46,7 +46,7 @@ public class NodeBasedGraph<V> extends AbstractGraph<V> {
     @Override
     public boolean hasEdge(V from, V to) {
         return this.vertices.containsKey(from) && this.vertices.containsKey(to)
-                && this.vertices.get(from).neighbors().contains(this.vertices.get(to));
+                && this.vertices.get(from).neighbors().containsKey(this.vertices.get(to));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class NodeBasedGraph<V> extends AbstractGraph<V> {
         if (!this.vertices.containsKey(vertex)) {
             return Set.of();
         }
-        return this.vertices.get(vertex).neighbors().stream()
+        return this.vertices.get(vertex).neighbors().keySet().stream()
                 .map(GraphNode::value).collect(Collectors.toUnmodifiableSet());
     }
 
@@ -79,14 +79,22 @@ public class NodeBasedGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
-    public void addEdgeInternal(V from, V to) {
+    public void addEdgeInternal(V from, V to, double weight) {
         addVertex(from);
         addVertex(to);
 
         if (!hasEdge(from, to)) {
-            this.vertices.get(from).addNeighbor(this.vertices.get(to));
+            this.vertices.get(from).addNeighbor(this.vertices.get(to), weight);
             this.edgeCount++;
         }
+    }
+
+    @Override
+    public double weight(V from, V to) {
+        if (this.vertices.containsKey(from) && this.vertices.containsKey(to)) {
+            return this.vertices.get(from).neighbors().get(this.vertices.get(to));
+        }
+        return Double.NaN;
     }
 
     @Override
@@ -106,7 +114,7 @@ public class NodeBasedGraph<V> extends AbstractGraph<V> {
             
             // Remove this vertex from all other vertices' neighbor lists
             for (GraphNode<V> vertex : this.vertices.values()) {
-                if (vertex.neighbors().contains(vertexToRemove)) {
+                if (vertex.neighbors().containsKey(vertexToRemove)) {
                     vertex.removeNeighbor(vertexToRemove);
                     edgesToRemove++;
                 }

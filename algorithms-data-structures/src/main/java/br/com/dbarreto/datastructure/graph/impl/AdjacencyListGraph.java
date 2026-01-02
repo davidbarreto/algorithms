@@ -3,17 +3,15 @@ package br.com.dbarreto.datastructure.graph.impl;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import br.com.dbarreto.datastructure.graph.EdgePolicy;
 
 /**
  * Implementation of a graph using an adjacency list.
  * <p>
- * This implementation uses a {@link Map} where keys are vertices and values are {@link Set}s
- * of adjacent vertices. It is efficient for sparse graphs.
+ * This implementation uses a {@link Map} where keys are vertices and values are {@link Map}s
+ * of adjacent vertices and their weights. It is efficient for sparse graphs.
  * </p>
  * <p>
  * Space Complexity: O(V + E)
@@ -23,7 +21,7 @@ import br.com.dbarreto.datastructure.graph.EdgePolicy;
  */
 public class AdjacencyListGraph<V> extends AbstractGraph<V> {
 
-    private final Map<V, Set<V>> adjacencyList;
+    private final Map<V, Map<V, Double>> adjacencyList;
     private Integer edgeCount;
 
     /**
@@ -46,29 +44,35 @@ public class AdjacencyListGraph<V> extends AbstractGraph<V> {
 
     @Override
     public void addVertex(V v) {
-        this.adjacencyList.computeIfAbsent(v, k -> new HashSet<>());
+        this.adjacencyList.computeIfAbsent(v, k -> new HashMap<>());
     }
 
     @Override
-    public void addEdgeInternal(V from, V to) {
+    public void addEdgeInternal(V from, V to, double weight) {
         addVertex(from);
         addVertex(to);
 
-        if (this.adjacencyList.get(from).add(to)) {
+        if (this.adjacencyList.get(from).put(to, weight) == null) {
             this.edgeCount++;
         }
     }
 
     @Override
+    public double weight(V from, V to) {
+        if (this.adjacencyList.containsKey(from) && this.adjacencyList.get(from).containsKey(to)) {
+            return this.adjacencyList.get(from).get(to);
+        }
+        return Double.NaN;
+    }
+
+    @Override
     public boolean hasEdge(V from, V to) {
-        return this.adjacencyList.containsKey(from) && this.adjacencyList.get(from).contains(to);
+        return this.adjacencyList.containsKey(from) && this.adjacencyList.get(from).containsKey(to);
     }
 
     @Override
     public Collection<V> neighborsOf(V vertex) {
-        return Collections.unmodifiableSet(
-            this.adjacencyList.getOrDefault(vertex, Set.of())
-        );
+        return this.adjacencyList.getOrDefault(vertex, Map.of()).keySet();
     }
 
     @Override
@@ -83,7 +87,7 @@ public class AdjacencyListGraph<V> extends AbstractGraph<V> {
 
     @Override
     public void removeEdgeInternal(V from, V to) {
-        if (this.adjacencyList.containsKey(from) && this.adjacencyList.get(from).remove(to)) {
+        if (this.adjacencyList.containsKey(from) && this.adjacencyList.get(from).remove(to) != null) {
             this.edgeCount--;
         }
     }
@@ -96,8 +100,8 @@ public class AdjacencyListGraph<V> extends AbstractGraph<V> {
             this.adjacencyList.remove(v);
             
             // Remove all edges to this vertex from other vertices
-            for (Set<V> neighbors : this.adjacencyList.values()) {
-                if (neighbors.remove(v)) {
+            for (Map<V, Double> neighbors : this.adjacencyList.values()) {
+                if (neighbors.remove(v) != null) {
                     this.edgeCount--;
                 }
             }

@@ -6,6 +6,12 @@ package br.com.dbarreto.datastructure.graph;
  * @param <V> the type of the vertices
  */
 public interface MutableGraph<V> extends Graph<V> {
+
+    /**
+     * The default weight assigned to an edge if no weight is provided.
+     */
+    public static final double DEFAULT_WEIGHT = 1.0;
+
     /**
      * Adds a vertex to the graph. If the vertex already exists, this operation does nothing.
      *
@@ -14,12 +20,31 @@ public interface MutableGraph<V> extends Graph<V> {
     void addVertex(V v);
 
     /**
-     * Adds an edge between two vertices. If the vertices do not exist, they are added.
+     * Adds an edge between two vertices with the default weight.
+     * If the vertices do not exist, they are added.
      *
      * @param from the source vertex
      * @param to   the target vertex
+     * @see #DEFAULT_WEIGHT
      */
-    void addEdge(V from, V to);
+    default void addEdge(V from, V to) {
+        addEdge(from, to, DEFAULT_WEIGHT);
+    }
+
+    /**
+     * Adds an edge between two vertices with a specific weight.
+     * If the vertices do not exist, they are added.
+     * <p>
+     * The weight must be non-zero. A weight of 0 is reserved to indicate the absence of an edge
+     * in some implementations.
+     * </p>
+     *
+     * @param from   the source vertex
+     * @param to     the target vertex
+     * @param weight the weight of the edge
+     * @throws IllegalArgumentException if the weight is 0
+     */
+    void addEdge(V from, V to, double weight);
 
     /**
      * Removes the edge between two vertices.

@@ -8,6 +8,10 @@ import br.com.dbarreto.datastructure.graph.impl.GraphType;
 /**
  * Represents a Graph data structure consisting of vertices (nodes) and edges connecting them.
  * This interface provides read-only access to graph properties and structure.
+ * <p>
+ * Edges in the graph can have weights. If no weight is specified during creation, a default weight is used.
+ * Weights must be non-zero.
+ * </p>
  *
  * @param <V> the type of the vertices
  */
@@ -28,6 +32,15 @@ public interface Graph<V> {
      * @return true if the edge exists, false otherwise
      */
     boolean hasEdge(V from, V to);
+
+    /**
+     * Returns the weight of the edge from the source vertex to the target vertex.
+     *
+     * @param from the source vertex
+     * @param to   the target vertex
+     * @return the weight of the edge, or {@link Double#NaN} if the edge does not exist
+     */
+    double weight(V from, V to);
 
     /**
      * Returns a collection of all vertices in the graph.

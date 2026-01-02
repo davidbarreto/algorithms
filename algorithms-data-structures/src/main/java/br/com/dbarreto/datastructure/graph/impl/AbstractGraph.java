@@ -21,9 +21,12 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public void addEdge(V from, V to) {
+    public void addEdge(V from, V to, double weight) {
+        if (weight == 0.0) {
+            throw new IllegalArgumentException("Edge weight cannot be 0");
+        }
         for (EdgePolicy.EdgeAction<V> edge : this.edgePolicy.edgePairs(from, to)) {
-            addEdgeInternal(edge.from(), edge.to());
+            addEdgeInternal(edge.from(), edge.to(), weight);
         }
     }
 
@@ -44,7 +47,7 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
         return this.edgePolicy.name();
     }
 
-    protected abstract void addEdgeInternal(V from, V to);
+    protected abstract void addEdgeInternal(V from, V to, double weight);
     protected abstract void removeEdgeInternal(V from, V to);
     protected abstract int edgeCountInternal();
 }

@@ -131,6 +131,15 @@ class GraphTest {
         assertThat(graph.neighborsOf("Isolated")).isEmpty();
     }
 
+    /**
+     * Verifies that adding an edge with weight 0 throws an exception.
+     */
+    @ParameterizedTest
+    @MethodSource("graphArguments")
+    void testZeroWeightEdge(MutableGraph<String> graph) {
+        assertThrows(IllegalArgumentException.class, () -> graph.addEdge("A", "B", 0.0));
+    }
+
     static Stream<Arguments> graphArguments() {
         return Stream.of(
                 Arguments.of(GraphScenarios.createAdjacencyListGraph()),
