@@ -1,9 +1,12 @@
 package br.com.dbarreto.datastructure.graph.impl;
 
+import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 import br.com.dbarreto.datastructure.graph.EdgePolicy;
@@ -13,6 +16,15 @@ import br.com.dbarreto.datastructure.graph.EdgePolicy;
  * <p>
  * This implementation uses a 2D short array where rows represent vertices and columns represent edges.
  * Values indicate the relationship: 1 (source), -1 (target), 0 (no connection).
+ * </p>
+ * <p>
+ * This implementation supports dynamic edge reuse. When an edge is removed, its column index is
+ * added to a pool of free indices to be reused by subsequent edge additions, preventing
+ * the matrix from exhausting its column capacity prematurely.
+ * </p>
+ * <p>
+ * Vertex removal is handled by swapping the removed vertex with the last vertex in the matrix
+ * to maintain contiguous row indices.
  * </p>
  * <p>
  * Space Complexity: O(V * E)
@@ -28,6 +40,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
     private Integer vertexCount;
     private Integer edgeCount;
     private Integer nextEdgeIndex;
+    private final Queue<Integer> freeEdgeIndices;
 
     /**
      * Creates a directed incidence matrix graph with specified capacities.
@@ -54,6 +67,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
         this.vertexCount = 0;
         this.edgeCount = 0;
         this.nextEdgeIndex = 0;
+        this.freeEdgeIndices = new ArrayDeque<>();
     }
 
     @Override
@@ -126,6 +140,12 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
         });
     }
 
+    /**
+     * Adds an edge internally.
+     * <p>
+     * Tries to reuse a freed edge index from {@code freeEdgeIndices} if available;
+     * otherwise, uses the next available index.
+     */
     @Override
     public void addEdgeInternal(V from, V to) {
 
@@ -139,17 +159,27 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
             return;
         }
 
-        if (this.nextEdgeIndex >= this.incidenceMatrix[0].length) {
+        if (this.freeEdgeIndices.isEmpty() && this.nextEdgeIndex >= this.incidenceMatrix[0].length) {
             throw new IllegalStateException("Maximum number of edges exceeded");
         }
 
-        var edge = this.nextEdgeIndex++;
+        int edge;
+        if (this.freeEdgeIndices.isEmpty()) {
+            edge = this.nextEdgeIndex++;
+        } else {
+            edge = this.freeEdgeIndices.poll();
+        }
 
         this.incidenceMatrix[i][edge] = 1;
         this.incidenceMatrix[j][edge] = -1;
         this.edgeCount++;
     }
 
+    /**
+     * Removes an edge internally.
+     * <p>
+     * The column index associated with the removed edge is added to {@code freeEdgeIndices} for reuse.
+     */
     @Override
     public void removeEdgeInternal(V from, V to) {
         if (containsVertex(from) && containsVertex(to)) {
@@ -162,32 +192,63 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
                     this.incidenceMatrix[i][e] = 0;
                     this.incidenceMatrix[j][e] = 0;
                     this.edgeCount--;
+                    this.freeEdgeIndices.add(e);
                     break;
                 }
             }
         }
     }
 
+    /**
+     * Removes a vertex and all associated edges.
+     * <p>
+     * To maintain contiguous indices in the matrix rows, the vertex to be removed is swapped
+     * with the last vertex in the graph. All edges associated with the removed vertex are cleared and their indices freed.
+     */
     @Override
     public void removeVertex(V v) {
-        var index = this.vertexIndexMapping.get(v);
-        if (index != null) {
-            // Count edges involving this vertex
-            int edgesToRemove = 0;
-            for (int e = 0; e < this.incidenceMatrix[index].length; e++) {
-                if (this.incidenceMatrix[index][e] != 0) {
-                    edgesToRemove++;
-                    // Clear the entire edge column since we're removing a vertex
-                    for (int i = 0; i < this.incidenceMatrix.length; i++) {
-                        this.incidenceMatrix[i][e] = 0;
-                    }
-                }
-            }
+        var indexToRemove = this.vertexIndexMapping.get(v);
+        if (indexToRemove != null) {
+            removeEdgesOf(indexToRemove);
             
-            this.edgeCount -= edgesToRemove;
             this.vertexIndexMapping.remove(v);
-            this.indexVertexMapping.remove(index);
+            this.indexVertexMapping.remove(indexToRemove);
+
+            swapWithLastVertex(indexToRemove);
+
             this.vertexCount--;
+        }
+    }
+
+    private void removeEdgesOf(int indexToRemove) {
+        // Count edges involving this vertex
+        int edgesToRemove = 0;
+        for (int e = 0; e < this.incidenceMatrix[indexToRemove].length; e++) {
+            if (this.incidenceMatrix[indexToRemove][e] != 0) {
+                edgesToRemove++;
+                // Clear the entire edge column since we're removing a vertex
+                for (int i = 0; i < this.incidenceMatrix.length; i++) {
+                    this.incidenceMatrix[i][e] = 0;
+                }
+                this.freeEdgeIndices.add(e);
+            }
+        }
+        this.edgeCount -= edgesToRemove;
+    }
+
+    private void swapWithLastVertex(int indexToRemove) {
+        // Swap with last vertex to keep indices contiguous
+        int lastIndex = this.vertexCount - 1;
+        if (indexToRemove < lastIndex) {
+            V lastVertex = this.indexVertexMapping.get(lastIndex);
+            
+            // Move row lastIndex to indexToRemove
+            System.arraycopy(this.incidenceMatrix[lastIndex], 0, this.incidenceMatrix[indexToRemove], 0, this.incidenceMatrix[0].length);
+            Arrays.fill(this.incidenceMatrix[lastIndex], (short) 0);
+            
+            this.vertexIndexMapping.put(lastVertex, indexToRemove);
+            this.indexVertexMapping.put(indexToRemove, lastVertex);
+            this.indexVertexMapping.remove(lastIndex);
         }
     }
 }

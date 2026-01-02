@@ -2,6 +2,7 @@ package br.com.dbarreto.datastructure.graph.impl;
 
 import br.com.dbarreto.datastructure.graph.EdgePolicy;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
 
     private final boolean[][] adjacencyMatrix;
     private final Map<V, Integer> vertexIndexMapping;
+    private final Map<Integer, V> indexVertexMapping;
     private Integer vertexCount;
     private Integer edgeCount;
 
@@ -45,6 +47,7 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
         super(edgePolicy);
         this.adjacencyMatrix = new boolean[numVertexes][numVertexes];
         this.vertexIndexMapping = new HashMap<>();
+        this.indexVertexMapping = new HashMap<>();
         this.vertexCount = 0;
         this.edgeCount = 0;
     }
@@ -55,7 +58,9 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
             if (this.vertexCount >= this.adjacencyMatrix.length) {
                 throw new IllegalArgumentException("Graph capacity exceeded: " + this.adjacencyMatrix.length);
             }
-            this.vertexIndexMapping.put(vertex, this.vertexCount++);
+            int index = this.vertexCount++;
+            this.vertexIndexMapping.put(vertex, index);
+            this.indexVertexMapping.put(index, vertex);
         }
     }
 
@@ -129,28 +134,66 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
         }
     }
 
+    /**
+     * Removes a vertex and all associated edges.
+     * <p>
+     * To maintain contiguous indices in the matrix, the vertex to be removed is swapped
+     * with the last vertex in the graph. This avoids "holes" in the adjacency matrix indices.
+     */
     @Override
     public void removeVertex(V v) {
-        var index = this.vertexIndexMapping.get(v);
-        if (index != null) {
-            // Count and remove outgoing edges
-            for (int i = 0; i < this.adjacencyMatrix.length; i++) {
-                if (this.adjacencyMatrix[index][i]) {
-                    this.adjacencyMatrix[index][i] = false;
-                    this.edgeCount--;
-                }
-            }
-            
-            // Count and remove incoming edges
-            for (int i = 0; i < this.adjacencyMatrix.length; i++) {
-                if (this.adjacencyMatrix[i][index]) {
-                    this.adjacencyMatrix[i][index] = false;
-                    this.edgeCount--;
-                }
-            }
-            
+        var indexToRemove = this.vertexIndexMapping.get(v);
+        if (indexToRemove != null) {
+            removeEdgesOf(indexToRemove);
+
             this.vertexIndexMapping.remove(v);
+            this.indexVertexMapping.remove(indexToRemove);
+
+            swapWithLastVertex(indexToRemove);
+
             this.vertexCount--;
+        }
+    }
+
+    private void removeEdgesOf(int indexToRemove) {
+        // Count and remove outgoing edges
+        for (int i = 0; i < this.vertexCount; i++) {
+            if (this.adjacencyMatrix[indexToRemove][i]) {
+                this.adjacencyMatrix[indexToRemove][i] = false;
+                this.edgeCount--;
+            }
+        }
+
+        // Count and remove incoming edges
+        for (int i = 0; i < this.vertexCount; i++) {
+            if (this.adjacencyMatrix[i][indexToRemove]) {
+                this.adjacencyMatrix[i][indexToRemove] = false;
+                this.edgeCount--;
+            }
+        }
+    }
+
+    private void swapWithLastVertex(int indexToRemove) {
+        // Swap with the last vertex to keep indices contiguous
+        int lastIndex = this.vertexCount - 1;
+        if (indexToRemove < lastIndex) {
+            V lastVertex = this.indexVertexMapping.get(lastIndex);
+            boolean diagonal = this.adjacencyMatrix[lastIndex][lastIndex];
+
+            // Move row
+            System.arraycopy(this.adjacencyMatrix[lastIndex], 0, this.adjacencyMatrix[indexToRemove], 0, this.vertexCount);
+            Arrays.fill(this.adjacencyMatrix[lastIndex], 0, this.vertexCount, false);
+
+            // Move col
+            for (int i = 0; i < this.vertexCount; i++) {
+                this.adjacencyMatrix[i][indexToRemove] = this.adjacencyMatrix[i][lastIndex];
+                this.adjacencyMatrix[i][lastIndex] = false;
+            }
+            this.adjacencyMatrix[indexToRemove][indexToRemove] = diagonal;
+
+            this.vertexIndexMapping.put(lastVertex, indexToRemove);
+            this.indexVertexMapping.put(indexToRemove, lastVertex);
+            this.indexVertexMapping.remove(lastIndex);
         }
     }
 }
