@@ -10,8 +10,17 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for various {@link Graph} implementations.
+ * Verifies basic functionality like adding/removing vertices and edges,
+ * checking connectivity, and handling edge cases.
+ */
 class GraphTest {
 
+    /**
+     * Verifies that directed graphs correctly handle edge directionality,
+     * vertex/edge counts, and neighbor retrieval.
+     */
     @ParameterizedTest
     @MethodSource("graphArguments")
     void testDirectedGraph(Graph<String> graph) {
@@ -29,6 +38,10 @@ class GraphTest {
         assertThat(graph.neighborsOf("F")).isEmpty();
     }
 
+    /**
+     * Verifies that mutable operations (remove edge, remove vertex) work correctly
+     * on directed graphs, updating counts and connectivity.
+     */
     @ParameterizedTest
     @MethodSource("graphArguments")
     void testDirectedMutableGraph(MutableGraph<String> graph) {
@@ -45,6 +58,10 @@ class GraphTest {
         assertEquals(5, graph.edgeCount());
     }
 
+    /**
+     * Verifies that undirected graphs correctly handle symmetric edges,
+     * where a connection A-B implies B-A.
+     */
     @ParameterizedTest
     @MethodSource("undirectedGraphArguments")
     void testUndirectedGraph(Graph<String> graph) {
@@ -62,6 +79,10 @@ class GraphTest {
         assertThat(graph.neighborsOf("F")).containsExactlyInAnyOrder("E");
     }
 
+    /**
+     * Verifies that mutable operations work correctly on undirected graphs,
+     * ensuring that removing an edge or vertex removes the connection in both directions.
+     */
     @ParameterizedTest
     @MethodSource("undirectedGraphArguments")
     void testUndirectedMutableGraph(MutableGraph<String> graph) {
@@ -78,6 +99,36 @@ class GraphTest {
         assertFalse(graph.hasEdge("C", "B"));
         assertEquals(6, graph.vertexCount());
         assertEquals(5, graph.edgeCount());
+    }
+
+    /**
+     * Verifies that operations on non-existent elements do not cause errors or corrupt the graph state.
+     */
+    @ParameterizedTest
+    @MethodSource("graphArguments")
+    void testGraphRobustness(MutableGraph<String> graph) {
+        int initialVertexCount = graph.vertexCount();
+        int initialEdgeCount = graph.edgeCount();
+
+        // Removing non-existent elements should not throw or change state
+        graph.removeVertex("NonExistent");
+        graph.removeEdge("A", "NonExistent");
+        graph.removeEdge("NonExistent", "A");
+
+        assertEquals(initialVertexCount, graph.vertexCount());
+        assertEquals(initialEdgeCount, graph.edgeCount());
+    }
+
+    /**
+     * Verifies that isolated vertices can be added and have no neighbors.
+     */
+    @ParameterizedTest
+    @MethodSource("graphArguments")
+    void testIsolatedVertex(MutableGraph<String> graph) {
+        graph.addVertex("Isolated");
+
+        assertTrue(graph.containsVertex("Isolated"));
+        assertThat(graph.neighborsOf("Isolated")).isEmpty();
     }
 
     static Stream<Arguments> graphArguments() {

@@ -9,15 +9,35 @@ import java.util.Set;
 
 import br.com.dbarreto.datastructure.graph.EdgePolicy;
 
+/**
+ * Implementation of a graph using an adjacency list.
+ * <p>
+ * This implementation uses a {@link Map} where keys are vertices and values are {@link Set}s
+ * of adjacent vertices. It is efficient for sparse graphs.
+ * </p>
+ * <p>
+ * Space Complexity: O(V + E)
+ * </p>
+ *
+ * @param <V> the type of the vertices
+ */
 public class AdjacencyListGraph<V> extends AbstractGraph<V> {
 
     private final Map<V, Set<V>> adjacencyList;
     private Integer edgeCount;
 
+    /**
+     * Creates a directed adjacency list graph.
+     */
     public AdjacencyListGraph() {
         this(DIRECTED_GRAPH);
     }
 
+    /**
+     * Creates an adjacency list graph with the specified edge policy.
+     *
+     * @param edgePolicy the policy determining if the graph is directed or undirected
+     */
     public AdjacencyListGraph(EdgePolicy edgePolicy) {
         super(edgePolicy);
         this.adjacencyList = new HashMap<>();

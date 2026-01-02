@@ -8,6 +8,18 @@ import java.util.Set;
 
 import br.com.dbarreto.datastructure.graph.EdgePolicy;
 
+/**
+ * Implementation of a graph using an incidence matrix.
+ * <p>
+ * This implementation uses a 2D short array where rows represent vertices and columns represent edges.
+ * Values indicate the relationship: 1 (source), -1 (target), 0 (no connection).
+ * </p>
+ * <p>
+ * Space Complexity: O(V * E)
+ * </p>
+ *
+ * @param <V> the type of the vertices
+ */
 public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
 
     private final short[][] incidenceMatrix;
@@ -17,10 +29,23 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
     private Integer edgeCount;
     private Integer nextEdgeIndex;
 
+    /**
+     * Creates a directed incidence matrix graph with specified capacities.
+     *
+     * @param numVertexes the maximum number of vertices
+     * @param numEdges    the maximum number of edges
+     */
     public IncidenceMatrixGraph(int numVertexes, int numEdges) {
         this(numVertexes, numEdges, DIRECTED_GRAPH);
     }
 
+    /**
+     * Creates an incidence matrix graph with specified capacities and edge policy.
+     *
+     * @param numVertexes the maximum number of vertices
+     * @param numEdges    the maximum number of edges
+     * @param edgePolicy  the policy determining if the graph is directed or undirected
+     */
     public IncidenceMatrixGraph(int numVertexes, int numEdges, EdgePolicy edgePolicy) {
         super(edgePolicy);
         this.incidenceMatrix = new short[numVertexes][numEdges];

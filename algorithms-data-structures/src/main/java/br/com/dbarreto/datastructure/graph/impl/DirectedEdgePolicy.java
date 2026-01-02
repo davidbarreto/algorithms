@@ -5,6 +5,10 @@ import br.com.dbarreto.datastructure.graph.EdgePolicy;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Policy for directed graphs.
+ * Edges are one-way: from source to target.
+ */
 public final class DirectedEdgePolicy implements EdgePolicy {
 
     @Override

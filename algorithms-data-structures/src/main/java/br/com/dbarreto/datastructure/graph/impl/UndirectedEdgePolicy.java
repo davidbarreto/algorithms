@@ -5,6 +5,11 @@ import br.com.dbarreto.datastructure.graph.EdgePolicy;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Policy for undirected graphs.
+ * Edges are bidirectional: an edge from A to B implies an edge from B to A.
+ * Internally, this is often represented by two directed edges.
+ */
 public final class UndirectedEdgePolicy implements EdgePolicy {
 
     @Override

@@ -3,6 +3,13 @@ package br.com.dbarreto.datastructure.graph.impl;
 import br.com.dbarreto.datastructure.graph.EdgePolicy;
 import br.com.dbarreto.datastructure.graph.MutableGraph;
 
+/**
+ * Skeletal implementation of the {@link MutableGraph} interface to minimize the effort
+ * required to implement this interface.
+ * Handles edge policies (directed vs undirected) and delegates storage operations to subclasses.
+ *
+ * @param <V> the type of the vertices
+ */
 public abstract class AbstractGraph<V> implements MutableGraph<V> {
 
     public static final EdgePolicy DIRECTED_GRAPH = new DirectedEdgePolicy();

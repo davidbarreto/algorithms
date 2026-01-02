@@ -7,14 +7,31 @@ import br.com.dbarreto.datastructure.graph.EdgePolicy;
 import br.com.dbarreto.datastructure.node.GraphNode;
 import br.com.dbarreto.datastructure.node.impl.SimpleGraphNode;
 
+/**
+ * Implementation of a graph using an object-oriented node structure.
+ * <p>
+ * Each vertex is wrapped in a {@link GraphNode} which maintains a list of its neighbors.
+ * This is similar to an adjacency list but uses explicit node objects.
+ * </p>
+ *
+ * @param <V> the type of the vertices
+ */
 public class NodeBasedGraph<V> extends AbstractGraph<V> {
     private final Map<V, GraphNode<V>> vertices;
     private Integer edgeCount;
 
+    /**
+     * Creates a directed node-based graph.
+     */
     public NodeBasedGraph() {
         this(DIRECTED_GRAPH);
     }
 
+    /**
+     * Creates a node-based graph with the specified edge policy.
+     *
+     * @param edgePolicy the policy determining if the graph is directed or undirected
+     */
     public NodeBasedGraph(EdgePolicy edgePolicy) {
         super(edgePolicy);
         this.vertices = new HashMap<>();

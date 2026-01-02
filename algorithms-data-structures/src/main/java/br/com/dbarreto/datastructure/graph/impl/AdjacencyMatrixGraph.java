@@ -9,6 +9,16 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Implementation of a graph using an adjacency matrix.
+ * <p>
+ * This implementation uses a 2D boolean array to represent edges.
+ * It is efficient for dense graphs and checking edge existence (O(1)),
+ * but requires O(V^2) space.
+ * </p>
+ *
+ * @param <V> the type of the vertices
+ */
 public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
 
     private final boolean[][] adjacencyMatrix;
@@ -16,10 +26,21 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
     private Integer vertexCount;
     private Integer edgeCount;
 
+    /**
+     * Creates a directed adjacency matrix graph with the specified vertex capacity.
+     *
+     * @param numVertexes the maximum number of vertices this graph can hold
+     */
     public AdjacencyMatrixGraph(int numVertexes) {
         this(numVertexes, DIRECTED_GRAPH);
     }
 
+    /**
+     * Creates an adjacency matrix graph with the specified capacity and edge policy.
+     *
+     * @param numVertexes the maximum number of vertices
+     * @param edgePolicy  the policy determining if the graph is directed or undirected
+     */
     public AdjacencyMatrixGraph(int numVertexes, EdgePolicy edgePolicy) {
         super(edgePolicy);
         this.adjacencyMatrix = new boolean[numVertexes][numVertexes];
