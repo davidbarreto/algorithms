@@ -15,21 +15,26 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
 
     @Override
     public void addEdge(V from, V to) {
-        for (EdgePolicy.EdgeAction<V> edge : edgePolicy.edgePairs(from, to)) {
+        for (EdgePolicy.EdgeAction<V> edge : this.edgePolicy.edgePairs(from, to)) {
             addEdgeInternal(edge.from(), edge.to());
         }
     }
 
     @Override
     public void removeEdge(V from, V to) {
-        for (EdgePolicy.EdgeAction<V> edge : edgePolicy.edgePairs(from, to)) {
+        for (EdgePolicy.EdgeAction<V> edge : this.edgePolicy.edgePairs(from, to)) {
             removeEdgeInternal(edge.from(), edge.to());
         }
     }
 
     @Override
     public int edgeCount() {
-        return edgePolicy.normalizeEdgeCount(edgeCountInternal());
+        return this.edgePolicy.normalizeEdgeCount(edgeCountInternal());
+    }
+
+    @Override
+    public GraphType getType() {
+        return this.edgePolicy.name();
     }
 
     protected abstract void addEdgeInternal(V from, V to);

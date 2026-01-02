@@ -19,4 +19,9 @@ public final class UndirectedEdgePolicy implements EdgePolicy {
     public int normalizeEdgeCount(int internalEdgeCount) {
         return internalEdgeCount / 2;
     }
+
+    @Override
+    public GraphType name() {
+        return GraphType.UNDIRECTED;
+    }
 }

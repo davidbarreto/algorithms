@@ -3,6 +3,7 @@ package br.com.dbarreto.datastructure.graph;
 import java.util.Collection;
 
 import br.com.dbarreto.algorithm.graph.GraphTraversals;
+import br.com.dbarreto.datastructure.graph.impl.GraphType;
 
 public interface Graph<V> {
     boolean containsVertex(V vertex);
@@ -12,6 +13,7 @@ public interface Graph<V> {
     int vertexCount();
     int edgeCount();
 
+    GraphType getType();
     default boolean hasPath(V start, V target) {
         if (!containsVertex(target)) {
             return false;

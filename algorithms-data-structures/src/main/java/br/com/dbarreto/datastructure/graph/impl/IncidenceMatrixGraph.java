@@ -110,6 +110,10 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
         var i = this.vertexIndexMapping.get(from);
         var j = this.vertexIndexMapping.get(to);
 
+        if (hasEdge(from, to)) {
+            return;
+        }
+
         if (this.nextEdgeIndex >= this.incidenceMatrix[0].length) {
             throw new IllegalStateException("Maximum number of edges exceeded");
         }

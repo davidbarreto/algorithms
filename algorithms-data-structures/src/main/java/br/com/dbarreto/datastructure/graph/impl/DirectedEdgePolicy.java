@@ -16,4 +16,9 @@ public final class DirectedEdgePolicy implements EdgePolicy {
     public int normalizeEdgeCount(int internalEdgeCount) {
         return internalEdgeCount;
     }
+
+    @Override
+    public GraphType name() {
+        return GraphType.DIRECTED;
+    }
 }
