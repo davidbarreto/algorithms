@@ -19,7 +19,7 @@ public class Dijkstra {
         }
         distance.put(from, 0.0);
 
-        for(V v : vertices) {
+        for (int i = 0; i < vertices.size(); i++) {
             V minimumDistanceVertex = minimumDistance(distance, visited);
             visited.add(minimumDistanceVertex);
             for (V neighbor : graph.neighborsOf(minimumDistanceVertex)) {
@@ -32,7 +32,6 @@ public class Dijkstra {
                 }
             }
         }
-
         return distance;
     }
 
