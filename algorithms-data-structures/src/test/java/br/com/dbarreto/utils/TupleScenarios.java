@@ -3,13 +3,9 @@ package br.com.dbarreto.utils;
 import br.com.dbarreto.datastructure.tuple.Tuple;
 import br.com.dbarreto.datastructure.tuple.impl.RelativeTuple;
 
-public class TupleScnearios {
+public class TupleScenarios {
 
-    private TupleScnearios() {}
-
-    public static Tuple<Integer> createTupleWithNull() {
-        return new RelativeTuple<>(null);
-    }
+    private TupleScenarios() {}
 
     public static Tuple<Integer> createEmptyTuple() {
         return new RelativeTuple<>();
