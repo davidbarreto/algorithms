@@ -65,7 +65,7 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
-    public void addEdgeInternal(V from, V to, double weight) {
+    public boolean addEdgeInternal(V from, V to, double weight) {
         addVertex(from);
         addVertex(to);
 
@@ -75,7 +75,9 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
         if (this.adjacencyMatrix[indexFrom][indexTo] == 0.0) {
             this.adjacencyMatrix[indexFrom][indexTo] = weight;
             edgeCount++;
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -84,7 +86,8 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
         var indexTo = this.vertexIndexMapping.get(to);
 
         if (indexFrom != null && indexTo != null) {
-            return this.adjacencyMatrix[indexFrom][indexTo];
+            return this.adjacencyMatrix[indexFrom][indexTo] == 0.0 ?
+                    Double.NaN : this.adjacencyMatrix[indexFrom][indexTo];
         }
 
         return Double.NaN;

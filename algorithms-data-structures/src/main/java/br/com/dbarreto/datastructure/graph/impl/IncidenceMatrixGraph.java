@@ -149,7 +149,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
      * otherwise, uses the next available index.
      */
     @Override
-    public void addEdgeInternal(V from, V to, double weight) {
+    public boolean addEdgeInternal(V from, V to, double weight) {
 
         addVertex(from);
         addVertex(to);
@@ -158,7 +158,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
         var j = this.vertexIndexMapping.get(to);
 
         if (hasEdge(from, to)) {
-            return;
+            return false;
         }
 
         if (this.freeEdgeIndices.isEmpty() && this.nextEdgeIndex >= this.incidenceMatrix[0].length) {
@@ -176,6 +176,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
         this.incidenceMatrix[j][edge] = -1;
         this.edgeWeights[edge] = weight;
         this.edgeCount++;
+        return true;
     }
 
     @Override

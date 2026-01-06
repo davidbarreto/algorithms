@@ -54,6 +54,8 @@ public interface Graph<V> {
      */
     Collection<V> vertices();
 
+    Collection<Edge<V>> edges();
+
     /**
      * Returns the collection of vertices that are directly connected to the specified vertex
      * by an outgoing edge.
@@ -100,4 +102,6 @@ public interface Graph<V> {
 
         return GraphTraversals.breadthFirstSearch(this, start, target);
     }
+
+    record Edge<V>(V from, V to, double weight) {}
 }

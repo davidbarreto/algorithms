@@ -140,6 +140,97 @@ class GraphTest {
         assertThrows(IllegalArgumentException.class, () -> graph.addEdge("A", "B", 0.0));
     }
 
+    /**
+     * Verifies that edges can be added with specific weights and that weight() returns the correct value.
+     */
+    @ParameterizedTest
+    @MethodSource("emptyGraphArguments")
+    void testWeightedGraph(MutableGraph<String> graph) {
+        assertTrue(graph.addEdge("A", "B", 5.0));
+        assertTrue(graph.addEdge("B", "C", 2.5));
+
+        assertTrue(graph.hasEdge("A", "B"));
+        assertEquals(5.0, graph.weight("A", "B"));
+        assertEquals(2.5, graph.weight("B", "C"));
+    }
+
+    /**
+     * Verifies that addEdge(u, v) uses the default weight.
+     */
+    @ParameterizedTest
+    @MethodSource("emptyGraphArguments")
+    void testDefaultWeight(MutableGraph<String> graph) {
+        assertTrue(graph.addEdge("A", "B"));
+
+        assertTrue(graph.hasEdge("A", "B"));
+        assertEquals(MutableGraph.DEFAULT_WEIGHT, graph.weight("A", "B"));
+    }
+
+    /**
+     * Verifies that adding an edge that already exists updates its weight.
+     */
+    @ParameterizedTest
+    @MethodSource("emptyGraphArguments")
+    void testUpdateWeight(MutableGraph<String> graph) {
+        assertTrue(graph.addEdge("A", "B", 3.0));
+        assertEquals(3.0, graph.weight("A", "B"));
+
+        // Try adding again, should return false and NOT update weight
+        assertFalse(graph.addEdge("A", "B", 10.0));
+        assertEquals(3.0, graph.weight("A", "B"));
+
+        graph.removeEdge("A", "B");
+        assertTrue(graph.addEdge("A", "B", 10.0));
+        assertEquals(10.0, graph.weight("A", "B"));
+        
+        // Edge count should remain 1
+        assertEquals(1, graph.edgeCount());
+    }
+
+    /**
+     * Verifies that adding an edge twice with different weights does not update the weight
+     * and returns false for the second call.
+     */
+    @ParameterizedTest
+    @MethodSource("emptyGraphArguments")
+    void testAddEdgeTwiceWithDifferentWeights(MutableGraph<String> graph) {
+        // First addition
+        assertTrue(graph.addEdge("A", "B", 5.0));
+        assertEquals(5.0, graph.weight("A", "B"));
+
+        // Second addition with different weight
+        assertFalse(graph.addEdge("A", "B", 10.0));
+        
+        // Weight should remain 5.0
+        assertEquals(5.0, graph.weight("A", "B"));
+    }
+
+    /**
+     * Verifies that weight() returns NaN for non-existent edges.
+     */
+    @ParameterizedTest
+    @MethodSource("emptyGraphArguments")
+    void testWeightOfNonExistentEdge(MutableGraph<String> graph) {
+        graph.addVertex("A");
+        graph.addVertex("B");
+
+        assertEquals(Double.NaN, graph.weight("A", "B"));
+        assertEquals(Double.NaN, graph.weight("A", "C")); // C doesn't exist
+    }
+
+    /**
+     * Verifies that removing an edge clears its weight.
+     */
+    @ParameterizedTest
+    @MethodSource("emptyGraphArguments")
+    void testRemoveEdgeWithWeight(MutableGraph<String> graph) {
+        graph.addEdge("A", "B", 5.0);
+        graph.removeEdge("A", "B");
+
+        assertFalse(graph.hasEdge("A", "B"));
+        assertEquals(Double.NaN, graph.weight("A", "B"));
+    }
+
     static Stream<Arguments> graphArguments() {
         return Stream.of(
                 Arguments.of(GraphScenarios.createAdjacencyListGraph()),
@@ -155,6 +246,15 @@ class GraphTest {
                 Arguments.of(GraphScenarios.createUndirectedAdjacencyMatrixGraph()),
                 Arguments.of(GraphScenarios.createUndirectedIncidenceMatrixGraph()),
                 Arguments.of(GraphScenarios.createUndirectedNodeBasedGraph())
+        );
+    }
+
+    static Stream<Arguments> emptyGraphArguments() {
+        return Stream.of(
+                Arguments.of(new br.com.dbarreto.datastructure.graph.impl.AdjacencyListGraph<String>()),
+                Arguments.of(new br.com.dbarreto.datastructure.graph.impl.AdjacencyMatrixGraph<String>(10)),
+                Arguments.of(new br.com.dbarreto.datastructure.graph.impl.IncidenceMatrixGraph<String>(10, 20)),
+                Arguments.of(new br.com.dbarreto.datastructure.graph.impl.NodeBasedGraph<String>())
         );
     }
 }

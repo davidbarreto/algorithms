@@ -48,13 +48,15 @@ public class AdjacencyListGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
-    public void addEdgeInternal(V from, V to, double weight) {
+    public boolean addEdgeInternal(V from, V to, double weight) {
         addVertex(from);
         addVertex(to);
 
-        if (this.adjacencyList.get(from).put(to, weight) == null) {
+        if (this.adjacencyList.get(from).putIfAbsent(to, weight) == null) {
             this.edgeCount++;
+            return true;
         }
+        return false;
     }
 
     @Override

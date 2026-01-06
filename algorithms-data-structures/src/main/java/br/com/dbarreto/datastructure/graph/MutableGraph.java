@@ -25,10 +25,11 @@ public interface MutableGraph<V> extends Graph<V> {
      *
      * @param from the source vertex
      * @param to   the target vertex
+     * @return true if the edge was added, false if it already existed
      * @see #DEFAULT_WEIGHT
      */
-    default void addEdge(V from, V to) {
-        addEdge(from, to, DEFAULT_WEIGHT);
+    default boolean addEdge(V from, V to) {
+        return addEdge(from, to, DEFAULT_WEIGHT);
     }
 
     /**
@@ -38,13 +39,18 @@ public interface MutableGraph<V> extends Graph<V> {
      * The weight must be non-zero. A weight of 0 is reserved to indicate the absence of an edge
      * in some implementations.
      * </p>
+     * <p>
+     * If the edge already exists, this operation does nothing and returns false.
+     * To update the weight of an existing edge, the edge must first be removed and then added again with the new weight.
+     * </p>
      *
      * @param from   the source vertex
      * @param to     the target vertex
      * @param weight the weight of the edge
+     * @return true if the edge was added, false if it already existed
      * @throws IllegalArgumentException if the weight is 0
      */
-    void addEdge(V from, V to, double weight);
+    boolean addEdge(V from, V to, double weight);
 
     /**
      * Removes the edge between two vertices.

@@ -79,19 +79,23 @@ public class NodeBasedGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
-    public void addEdgeInternal(V from, V to, double weight) {
+    public boolean addEdgeInternal(V from, V to, double weight) {
         addVertex(from);
         addVertex(to);
 
         if (!hasEdge(from, to)) {
             this.vertices.get(from).addNeighbor(this.vertices.get(to), weight);
             this.edgeCount++;
+            return true;
         }
+        return false;
     }
 
     @Override
     public double weight(V from, V to) {
-        if (this.vertices.containsKey(from) && this.vertices.containsKey(to)) {
+        if (this.vertices.containsKey(from) && this.vertices.containsKey(to)
+            && this.vertices.get(from).neighbors().containsKey(this.vertices.get(to)))
+        {
             return this.vertices.get(from).neighbors().get(this.vertices.get(to));
         }
         return Double.NaN;
