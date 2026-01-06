@@ -24,7 +24,7 @@ class DijkstraTest {
         graph.addEdge("D", "C", 3);
         graph.addEdge("D", "E", 10);
 
-        assertThat(Dijkstra.shortestPath(graph, "S")).isEqualTo(
+        assertThat(GraphShortestPath.dijkstra(graph, "S")).isEqualTo(
                 Map.of("S", 0.0, "A", 6.0, "B", 15.0,
                         "C", 11.0, "D", 8.0, "E", 7.0));
     }
