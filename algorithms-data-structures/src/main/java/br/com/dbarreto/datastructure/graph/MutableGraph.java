@@ -10,7 +10,7 @@ public interface MutableGraph<V> extends Graph<V> {
     /**
      * The default weight assigned to an edge if no weight is provided.
      */
-    public static final double DEFAULT_WEIGHT = 1.0;
+    double DEFAULT_WEIGHT = 1.0;
 
     /**
      * Adds a vertex to the graph. If the vertex already exists, this operation does nothing.
