@@ -1,9 +1,6 @@
 package br.com.dbarreto.datastructure.graph.impl;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import br.com.dbarreto.datastructure.graph.GraphType;
 
@@ -60,11 +57,11 @@ public class AdjacencyListGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
-    public double weight(V from, V to) {
+    public OptionalDouble weight(V from, V to) {
         if (this.adjacencyList.containsKey(from) && this.adjacencyList.get(from).containsKey(to)) {
-            return this.adjacencyList.get(from).get(to);
+            return OptionalDouble.of(this.adjacencyList.get(from).get(to));
         }
-        return Double.NaN;
+        return OptionalDouble.empty();
     }
 
     @Override

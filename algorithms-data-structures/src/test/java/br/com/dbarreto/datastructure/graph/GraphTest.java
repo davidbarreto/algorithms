@@ -150,8 +150,8 @@ class GraphTest {
         assertTrue(graph.addEdge("B", "C", 2.5));
 
         assertTrue(graph.hasEdge("A", "B"));
-        assertEquals(5.0, graph.weight("A", "B"));
-        assertEquals(2.5, graph.weight("B", "C"));
+        assertThat(graph.weight("A", "B")).hasValue(5.0);
+        assertThat(graph.weight("B", "C")).hasValue(2.5);
     }
 
     /**
@@ -163,7 +163,7 @@ class GraphTest {
         assertTrue(graph.addEdge("A", "B"));
 
         assertTrue(graph.hasEdge("A", "B"));
-        assertEquals(MutableGraph.DEFAULT_WEIGHT, graph.weight("A", "B"));
+        assertThat(graph.weight("A", "B")).hasValue(MutableGraph.DEFAULT_WEIGHT);
     }
 
     /**
@@ -173,15 +173,15 @@ class GraphTest {
     @MethodSource("emptyGraphArguments")
     void testUpdateWeight(MutableGraph<String> graph) {
         assertTrue(graph.addEdge("A", "B", 3.0));
-        assertEquals(3.0, graph.weight("A", "B"));
+        assertThat(graph.weight("A", "B")).hasValue(3.0);
 
         // Try adding again, should return false and NOT update weight
         assertFalse(graph.addEdge("A", "B", 10.0));
-        assertEquals(3.0, graph.weight("A", "B"));
+        assertThat(graph.weight("A", "B")).hasValue(3.0);
 
         graph.removeEdge("A", "B");
         assertTrue(graph.addEdge("A", "B", 10.0));
-        assertEquals(10.0, graph.weight("A", "B"));
+        assertThat(graph.weight("A", "B")).hasValue(10.0);
         
         // Edge count should remain 1
         assertEquals(1, graph.edgeCount());
@@ -196,13 +196,15 @@ class GraphTest {
     void testAddEdgeTwiceWithDifferentWeights(MutableGraph<String> graph) {
         // First addition
         assertTrue(graph.addEdge("A", "B", 5.0));
-        assertEquals(5.0, graph.weight("A", "B"));
+        assertThat(graph.weight("A", "B")).isNotEmpty();
+        assertThat(graph.weight("A", "B")).hasValue(5.0);
 
         // Second addition with different weight
         assertFalse(graph.addEdge("A", "B", 10.0));
         
         // Weight should remain 5.0
-        assertEquals(5.0, graph.weight("A", "B"));
+        assertThat(graph.weight("A", "B")).isNotEmpty();
+        assertThat(graph.weight("A", "B")).hasValue(5.0);
     }
 
     /**
@@ -214,8 +216,10 @@ class GraphTest {
         graph.addVertex("A");
         graph.addVertex("B");
 
-        assertEquals(Double.NaN, graph.weight("A", "B"));
-        assertEquals(Double.NaN, graph.weight("A", "C")); // C doesn't exist
+        assertFalse(graph.hasEdge("A", "B"));
+        assertFalse(graph.hasEdge("A", "C"));
+        assertThat(graph.weight("A", "B")).isEmpty();
+        assertThat(graph.weight("A", "C")).isEmpty(); // C doesn't exist
     }
 
     /**
@@ -228,7 +232,7 @@ class GraphTest {
         graph.removeEdge("A", "B");
 
         assertFalse(graph.hasEdge("A", "B"));
-        assertEquals(Double.NaN, graph.weight("A", "B"));
+        assertThat(graph.weight("A", "B")).isEmpty();
     }
 
     static Stream<Arguments> graphArguments() {

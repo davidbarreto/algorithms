@@ -1,13 +1,6 @@
 package br.com.dbarreto.datastructure.graph.impl;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 import br.com.dbarreto.datastructure.graph.GraphType;
 
@@ -181,17 +174,17 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
-    public double weight(V from, V to) {
+    public OptionalDouble weight(V from, V to) {
         if (hasEdge(from, to)) {
             var i = this.vertexIndexMapping.get(from);
             var j = this.vertexIndexMapping.get(to);
             for (int e = 0; e < this.nextEdgeIndex; e++) {
                 if (this.incidenceMatrix[i][e] == 1 && this.incidenceMatrix[j][e] == -1) {
-                    return this.edgeWeights[e];
+                    return OptionalDouble.of(this.edgeWeights[e]);
                 }
             }
         }
-        return Double.NaN;
+        return OptionalDouble.empty();
     }
 
     /**

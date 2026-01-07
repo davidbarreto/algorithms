@@ -2,13 +2,7 @@ package br.com.dbarreto.datastructure.graph.impl;
 
 import br.com.dbarreto.datastructure.graph.GraphType;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Implementation of a graph using an adjacency matrix.
@@ -81,16 +75,16 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
-    public double weight(V from, V to) {
+    public OptionalDouble weight(V from, V to) {
         var indexFrom = this.vertexIndexMapping.get(from);
         var indexTo = this.vertexIndexMapping.get(to);
 
         if (indexFrom != null && indexTo != null) {
             return this.adjacencyMatrix[indexFrom][indexTo] == 0.0 ?
-                    Double.NaN : this.adjacencyMatrix[indexFrom][indexTo];
+                    OptionalDouble.empty() : OptionalDouble.of(this.adjacencyMatrix[indexFrom][indexTo]);
         }
 
-        return Double.NaN;
+        return OptionalDouble.empty();
     }
 
     @Override

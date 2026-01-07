@@ -1,6 +1,7 @@
 package br.com.dbarreto.datastructure.graph;
 
 import java.util.Collection;
+import java.util.OptionalDouble;
 
 import br.com.dbarreto.algorithm.graph.GraphTraversals;
 
@@ -40,12 +41,11 @@ public interface Graph<V> {
      * @param to   the target vertex
      * @return the weight of the edge, or {@link Double#NaN} if the edge does not exist
      */
-    double weight(V from, V to);
+    OptionalDouble weight(V from, V to);
 
     /**
      * Returns a collection of all vertices in the graph.
-     *
-     * @return a collection of vertices
+     * @return an unmodifiable view of the vertices of this graph
      */
     Collection<V> vertices();
 
@@ -53,7 +53,7 @@ public interface Graph<V> {
      * Returns a collection of all logical edges in the graph.
      * If graph is {@link GraphType#UNDIRECTED}, it will add only one of the directions (A -> B) OR (B -> A).
      * <p>
-     * If the graph is {@link GraphType#DIRECTED}, the result is the same as {@link this#physicalEdges()}
+     * If the graph is {@link GraphType#DIRECTED}, the result is the same as {@link Graph#physicalEdges()}
      * @return a collection of edges
      */
     Collection<Edge<V>> logicalEdges();
@@ -62,17 +62,17 @@ public interface Graph<V> {
      * Returns a collection of all physical edges in the graph.
      * If graph is {@link GraphType#UNDIRECTED}, it will add both of the directions (A -> B) AND (B -> A).
      * <p>
-     * If the graph is {@link GraphType#DIRECTED}, the result is the same as {@link this#logicalEdges()}
+     * If the graph is {@link GraphType#DIRECTED}, the result is the same as {@link Graph#logicalEdges()}
      * @return a collection of edges
      */
     Collection<Edge<V>> physicalEdges();
 
     /**
      * Returns the collection of vertices that are directly connected to the specified vertex
-     * by an outgoing edge.
+     * by an outgoing edge. It's an immutable view of the vertices.
      *
      * @param vertex the source vertex
-     * @return a collection of neighbor vertices
+     * @return an unmodifiable view of this vertex's neighbors
      */
     Collection<V> neighborsOf(V vertex);
 
@@ -86,6 +86,7 @@ public interface Graph<V> {
     /**
      * Returns the number of edges in the graph.
      * For undirected graphs, this count is normalized (bidirectional edges count as one).
+     * It should match {@link Graph#logicalEdges()} size
      *
      * @return the edge count
      */

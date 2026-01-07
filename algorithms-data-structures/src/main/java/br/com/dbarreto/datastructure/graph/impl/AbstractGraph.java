@@ -66,7 +66,8 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
                 if (logical && this.graphType.policy().isLogicalEdge(from, to)) {
                     continue;
                 }
-                edges.add(new Edge<>(from, to, weight(from, to)));
+
+                weight(from, to).ifPresent(w -> edges.add(new Edge<>(from, to, w)));
             }
         }
         return edges;

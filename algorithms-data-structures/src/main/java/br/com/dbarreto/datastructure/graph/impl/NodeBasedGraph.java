@@ -92,13 +92,13 @@ public class NodeBasedGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
-    public double weight(V from, V to) {
+    public OptionalDouble weight(V from, V to) {
         if (this.vertices.containsKey(from) && this.vertices.containsKey(to)
             && this.vertices.get(from).neighbors().containsKey(this.vertices.get(to)))
         {
-            return this.vertices.get(from).neighbors().get(this.vertices.get(to));
+            return OptionalDouble.of(this.vertices.get(from).neighbors().get(this.vertices.get(to)));
         }
-        return Double.NaN;
+        return OptionalDouble.empty();
     }
 
     @Override

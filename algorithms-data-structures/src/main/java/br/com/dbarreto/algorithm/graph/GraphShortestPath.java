@@ -26,8 +26,12 @@ public class GraphShortestPath {
         while (!queue.isEmpty()) {
             V minimumDistanceVertex = queue.poll().first();
             for (V neighbor : graph.neighborsOf(minimumDistanceVertex)) {
-                double newDistance = distance.get(minimumDistanceVertex)
-                        + graph.weight(minimumDistanceVertex, neighbor);
+
+                double weight = graph.weight(minimumDistanceVertex, neighbor)
+                        .orElseThrow(() -> new IllegalStateException("There is no edge between "
+                                + minimumDistanceVertex + " and " + neighbor + "."));
+
+                double newDistance = distance.get(minimumDistanceVertex) + weight;
                 if (newDistance < distance.get(neighbor)) {
                     distance.put(neighbor, newDistance);
                     queue.add(new SimplePair<>(neighbor, newDistance));
