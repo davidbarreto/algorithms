@@ -22,11 +22,16 @@ import static br.com.dbarreto.datastructure.node.ColoredBinarySearchTreeNode.Col
 
 /**
  * Property-based tests for tree data structures.
+ * <p>
  * These tests use jqwik to generate random inputs and verify that
  * tree properties hold under various scenarios.
+ * </p>
  */
 class TreePropertiesTest {
 
+    /**
+     * Verifies that the Binary Search Tree property holds for a {@link SimpleBinarySearchTree}.
+     */
     @Property
     void binarySearchTreePropertyHolds(@ForAll("integerLists") List<Integer> values) {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
@@ -35,6 +40,9 @@ class TreePropertiesTest {
         isValidBST(tree.root());
     }
 
+    /**
+     * Verifies that an {@link AvlTree} maintains its properties (balanced, BST, logarithmic height).
+     */
     @Property
     void avlTreeMaintainProperties(@ForAll("smallIntegerLists") @Size(max = 20) List<Integer> values) {
         AvlTree<Integer> tree = new AvlTree<>();
@@ -49,6 +57,9 @@ class TreePropertiesTest {
         isHeightLogarithmic(tree);
     }
 
+    /**
+     * Verifies that a {@link RedBlackTree} maintains its properties (BST, Red-Black rules, logarithmic height).
+     */
     @Property
     void redBlackTreeMaintainsProperties(@ForAll("smallIntegerLists") @Size(max = 20) List<Integer> values) {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
@@ -61,6 +72,9 @@ class TreePropertiesTest {
         isHeightLogarithmic(tree);
     }
 
+    /**
+     * Verifies that the size of the tree equals the number of inserted elements.
+     */
     @Property
     void treeSizeEqualsNumberOfElements(@ForAll("integerLists") List<Integer> values) {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
@@ -70,6 +84,9 @@ class TreePropertiesTest {
         assertThat(tree.size()).isEqualTo(values.size());
     }
 
+    /**
+     * Verifies that all inserted elements can be found in the tree.
+     */
     @Property
     void insertedElementsAreFindable(@ForAll("integerLists") List<Integer> values) {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
@@ -80,6 +97,9 @@ class TreePropertiesTest {
         }
     }
 
+    /**
+     * Verifies that the height of a self-balancing tree remains logarithmic.
+     */
     @Property
     void balancedTreeHeightIsLogarithmic(@ForAll("largeIntegerLists") List<Integer> values,
                                          @ForAll("selfBalancedTrees") BinarySearchTree<Integer> tree)

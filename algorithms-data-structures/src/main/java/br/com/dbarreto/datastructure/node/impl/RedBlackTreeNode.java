@@ -2,6 +2,15 @@ package br.com.dbarreto.datastructure.node.impl;
 
 import br.com.dbarreto.datastructure.node.MutableColoredBinarySearchTreeNode;
 
+/**
+ * Implementation of a node for a Red-Black Tree.
+ * <p>
+ * Maintains color, parent, left, and right references.
+ * Newly created nodes are colored RED by default.
+ * </p>
+ *
+ * @param <T> the type of the value held by the node, which must be Comparable
+ */
 public class RedBlackTreeNode<T extends Comparable<T>> implements MutableColoredBinarySearchTreeNode<T, RedBlackTreeNode<T>> {
 
     private RedBlackTreeNode<T> left;
@@ -10,6 +19,12 @@ public class RedBlackTreeNode<T extends Comparable<T>> implements MutableColored
     private T value;
     private Color color;
 
+    /**
+     * Creates a new Red-Black Tree node with the specified value.
+     * The initial color is RED.
+     *
+     * @param value the value to be held by the node
+     */
     public RedBlackTreeNode(T value) {
         this.value = value;
         color = Color.RED;
@@ -47,10 +62,16 @@ public class RedBlackTreeNode<T extends Comparable<T>> implements MutableColored
         this.color = color;
     }
 
+    /**
+     * Sets the node's color to BLACK.
+     */
     public void turnBlack() {
         setColor(Color.BLACK);
     }
 
+    /**
+     * Sets the node's color to RED.
+     */
     public void turnRed() {
         setColor(Color.RED);
     }

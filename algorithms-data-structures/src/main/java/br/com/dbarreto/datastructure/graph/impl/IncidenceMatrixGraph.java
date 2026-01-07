@@ -141,6 +141,13 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
      * <p>
      * Tries to reuse a freed edge index from {@code freeEdgeIndices} if available;
      * otherwise, uses the next available index.
+     * </p>
+     *
+     * @param from   the source vertex
+     * @param to     the target vertex
+     * @param weight the weight of the edge
+     * @return {@code true} if the edge was added
+     * @throws IllegalStateException if the maximum number of edges is exceeded
      */
     @Override
     public boolean addEdgeInternal(V from, V to, double weight) {
@@ -191,6 +198,10 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
      * Removes an edge internally.
      * <p>
      * The column index associated with the removed edge is added to {@code freeEdgeIndices} for reuse.
+     * </p>
+     *
+     * @param from the source vertex
+     * @param to   the target vertex
      */
     @Override
     public void removeEdgeInternal(V from, V to) {
@@ -217,6 +228,9 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
      * <p>
      * To maintain contiguous indices in the matrix rows, the vertex to be removed is swapped
      * with the last vertex in the graph. All edges associated with the removed vertex are cleared and their indices freed.
+     * </p>
+     *
+     * @param v the vertex to remove
      */
     @Override
     public void removeVertex(V v) {

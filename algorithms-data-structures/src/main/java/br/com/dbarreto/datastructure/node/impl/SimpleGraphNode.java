@@ -4,15 +4,32 @@ import br.com.dbarreto.datastructure.node.GraphNode;
 
 import java.util.*;
 
+/**
+ * A simple implementation of {@link GraphNode}.
+ * <p>
+ * Uses a {@link HashMap} to store neighbors and their edge weights.
+ * Equality and hash code are based on the node's value.
+ * </p>
+ *
+ * @param <T> the type of the value held by the node
+ */
 public class SimpleGraphNode<T> implements GraphNode<T> {
 
     private T value;
     private Map<GraphNode<T>, Double> neighbors;
 
+    /**
+     * Creates a new graph node with a null value.
+     */
     public SimpleGraphNode() {
         this(null);
     }
 
+    /**
+     * Creates a new graph node with the specified value.
+     *
+     * @param value the value to be held by the node
+     */
     public SimpleGraphNode(T value) {
         this.neighbors = new HashMap<>();
         this.value = value;

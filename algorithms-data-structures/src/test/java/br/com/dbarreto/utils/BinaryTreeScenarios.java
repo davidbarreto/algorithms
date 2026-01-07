@@ -9,12 +9,29 @@ import br.com.dbarreto.datastructure.tree.BinaryTree;
 import br.com.dbarreto.datastructure.tree.builder.SimpleBinaryTreeBuilder;
 import br.com.dbarreto.datastructure.tree.impl.SimpleBinaryTree;
 
+/**
+ * Utility class for creating various binary tree scenarios for testing purposes.
+ * <p>
+ * Provides factory methods to generate different types of binary trees, including
+ * empty, perfect, unbalanced, and large trees.
+ * </p>
+ */
 public class BinaryTreeScenarios {
 
+    /**
+     * Creates an empty binary tree.
+     *
+     * @return an empty {@link SimpleBinaryTree}
+     */
     public static BinaryTree<Integer> createEmptyBinaryTree() {
         return new SimpleBinaryTree<>();
     }
 
+    /**
+     * Creates a perfect binary tree of height 2.
+     *
+     * @return a {@link BinaryTree} that is perfect
+     */
     public static BinaryTree<Integer> createPerfectBinaryTree() {
         return new SimpleBinaryTreeBuilder<>(1)
                 .root()
@@ -30,6 +47,11 @@ public class BinaryTreeScenarios {
                 .build();
     }
 
+    /**
+     * Creates a binary tree with some missing children (not a complete tree).
+     *
+     * @return a {@link BinaryTree} with missing nodes
+     */
     public static BinaryTree<Integer> createMissingChildrenBinaryTree() {
         return new SimpleBinaryTreeBuilder<>(1)
                 .root()
@@ -46,6 +68,11 @@ public class BinaryTreeScenarios {
                 .build();
     }
 
+    /**
+     * Creates a binary tree that is unbalanced to the left.
+     *
+     * @return a left-unbalanced {@link BinaryTree}
+     */
     public static BinaryTree<Integer> createLeftUnbalancedBinaryTree() {
         return new SimpleBinaryTreeBuilder<>(1)
                 .root()
@@ -66,6 +93,11 @@ public class BinaryTreeScenarios {
                 .build();
     }
 
+    /**
+     * Creates a binary tree that is unbalanced to the right.
+     *
+     * @return a right-unbalanced {@link BinaryTree}
+     */
     public static BinaryTree<Integer> createRightUnbalancedBinaryTree() {
         return new SimpleBinaryTreeBuilder<>(1)
                 .root()
@@ -89,6 +121,11 @@ public class BinaryTreeScenarios {
                 .build();
     }
 
+    /**
+     * Creates a large, randomly generated binary tree.
+     *
+     * @return a large {@link BinaryTree} with random values
+     */
     public static BinaryTree<Integer> createBigBinaryTree() {
 
         record Pair(SimpleBinaryTreeNode<Integer> node, Integer level) {}
@@ -121,6 +158,11 @@ public class BinaryTreeScenarios {
         return new SimpleBinaryTree<>(root);
     }
 
+    /**
+     * Creates a simple binary tree with a root and two children.
+     *
+     * @return a simple {@link BinaryTree}
+     */
     public static BinaryTree<Integer> createSimpleBinaryTree() {
         return new SimpleBinaryTreeBuilder<>(200)
                 .root()
@@ -130,6 +172,11 @@ public class BinaryTreeScenarios {
                 .build();
     }
 
+    /**
+     * Creates a binary tree that happens to satisfy the BST property.
+     *
+     * @return a {@link BinaryTree} that is also a valid BST
+     */
     public static BinaryTree<Integer> createBstBinaryTree() {
         return new SimpleBinaryTreeBuilder<>(20)
                 .root()
@@ -147,6 +194,11 @@ public class BinaryTreeScenarios {
                 .build();
     }
 
+    /**
+     * Creates a perfect binary search tree.
+     *
+     * @return a perfect {@link BinaryTree} that is also a valid BST
+     */
     public static BinaryTree<Integer> createPerfectBstTree() {
         return new SimpleBinaryTreeBuilder<>(4)
                 .root()

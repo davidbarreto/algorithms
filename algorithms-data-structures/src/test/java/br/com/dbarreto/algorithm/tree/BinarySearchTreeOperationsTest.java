@@ -12,26 +12,41 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test class for {@link BinarySearchTreeOperations}.
+ */
 class BinarySearchTreeOperationsTest {
 
+    /**
+     * Tests the {@link BinarySearchTree#min()} method.
+     */
     @ParameterizedTest
     @MethodSource("minArguments")
     void testMin(BinarySearchTree<Integer> tree, int expected) {
         assertEquals(expected, tree.min());
     }
 
+    /**
+     * Tests the {@link BinarySearchTree#max()} method.
+     */
     @ParameterizedTest
     @MethodSource("maxArguments")
     void testMax(BinarySearchTree<Integer> tree, int expected) {
         assertEquals(expected, tree.max());
     }
 
+    /**
+     * Tests the {@link BinarySearchTree#contains(Comparable)} method.
+     */
     @ParameterizedTest
     @MethodSource("containsArguments")
     void testContains(BinarySearchTree<Integer> tree, Integer searchedElement, boolean expected) {
         assertEquals(expected, tree.contains(searchedElement));
     }
 
+    /**
+     * Tests the {@link BinarySearchTreeOperations#isBinarySearchTree(BinaryTree)} method.
+     */
     @ParameterizedTest
     @MethodSource("isBinarySearchTreeArguments")
     void testIsBinarySearchTree(BinaryTree<Integer> tree, boolean expected) {

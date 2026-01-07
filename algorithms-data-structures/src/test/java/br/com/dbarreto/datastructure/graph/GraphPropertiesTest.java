@@ -12,8 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Property-based tests for {@link Graph} implementations using Jqwik.
+ * <p>
  * Verifies invariants that should hold true for any graph instance or sequence of operations,
  * such as symmetry in undirected graphs and consistency of counts.
+ * </p>
  */
 public class GraphPropertiesTest {
 

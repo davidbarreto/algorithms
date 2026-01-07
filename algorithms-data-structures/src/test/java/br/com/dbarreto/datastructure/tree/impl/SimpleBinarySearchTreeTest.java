@@ -16,14 +16,23 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for {@link SimpleBinarySearchTree}.
+ */
 class SimpleBinarySearchTreeTest {
 
+    /**
+     * Tests the {@code insert} method.
+     */
     @ParameterizedTest
     @MethodSource("insertArguments")
     void insert(SimpleBinarySearchTree<Integer> tree, List<Integer> expected) {
         assertTree(tree, expected);
     }
 
+    /**
+     * Tests the {@code delete} method.
+     */
     @ParameterizedTest
     @MethodSource("deleteArguments")
     void delete(Integer valueToDelete, List<Integer> expected) {
@@ -32,24 +41,36 @@ class SimpleBinarySearchTreeTest {
         assertTree(tree, expected);
     }
 
+    /**
+     * Tests the {@code min} method.
+     */
     @ParameterizedTest
     @MethodSource("minArguments")
     void min(BinarySearchTree<Integer> tree, Integer expected) {
         assertEquals(expected, tree.min());
     }
 
+    /**
+     * Tests the {@code max} method.
+     */
     @ParameterizedTest
     @MethodSource("maxArguments")
     void max(BinarySearchTree<Integer> tree, Integer expected) {
         assertEquals(expected, tree.max());
     }
 
+    /**
+     * Tests the {@code root} method.
+     */
     @ParameterizedTest
     @MethodSource("rootArguments")
     void root(SimpleBinarySearchTree<Integer> tree, Integer expected) {
         assertEquals(expected, tree.root() != null ? tree.root().value() : null);
     }
 
+    /**
+     * Tests the {@code contains} method.
+     */
     @ParameterizedTest
     @MethodSource("containsArguments")
     void contains(Integer searchedVal, boolean expected) {
@@ -57,6 +78,9 @@ class SimpleBinarySearchTreeTest {
         assertEquals(expected, tree.contains(searchedVal));
     }
 
+    /**
+     * Tests both insertion and search functionality.
+     */
     @Test
     void testInsertAndSearch() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
@@ -68,6 +92,9 @@ class SimpleBinarySearchTreeTest {
         assertFalse(tree.contains(10));
     }
 
+    /**
+     * Tests the {@code min} and {@code max} methods.
+     */
     @Test
     void testMinMax() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
@@ -78,6 +105,9 @@ class SimpleBinarySearchTreeTest {
         assertEquals(7, tree.max());
     }
 
+    /**
+     * Tests inserting a large number of elements.
+     */
     @Test
     void testLargeInsert() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();

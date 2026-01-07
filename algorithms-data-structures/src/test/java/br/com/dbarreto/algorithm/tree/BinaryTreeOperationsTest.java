@@ -17,20 +17,32 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for {@link BinaryTreeOperations}.
+ */
 class BinaryTreeOperationsTest {
 
+    /**
+     * Tests the {@link BinaryTreeOperations#size(BinaryTree)} method.
+     */
     @ParameterizedTest
     @MethodSource("sizeArguments")
     void testSize(BinaryTree<Integer> tree, Integer expected) {
         assertEquals(expected, BinaryTreeOperations.size(tree));
     }
 
+    /**
+     * Tests the {@link BinaryTreeOperations#height(BinaryTree)} method.
+     */
     @ParameterizedTest
     @MethodSource("heightArguments")
     void testHeight(BinaryTree<Integer> tree, Integer expected) {
         assertEquals(expected, BinaryTreeOperations.height(tree));
     }
 
+    /**
+     * Tests the {@link BinaryTreeOperations#contains(BinaryTree, Object)} method.
+     */
     @ParameterizedTest
     @MethodSource("containsArguments")
     void testContains(Integer searchedValue, boolean expected) {
@@ -38,18 +50,27 @@ class BinaryTreeOperationsTest {
         assertEquals(expected, BinaryTreeOperations.contains(tree, searchedValue));
     }
 
+    /**
+     * Tests the {@link BinaryTreeOperations#isBalanced(BinaryTree)} method.
+     */
     @ParameterizedTest
     @MethodSource("isBalancedArguments")
     void testIsBalanced(BinaryTree<Integer> tree, boolean expected) {
         assertEquals(expected, BinaryTreeOperations.isBalanced(tree));
     }
 
+    /**
+     * Tests the {@link BinaryTreeOperations#equals(BinaryTree, BinaryTree)} method.
+     */
     @ParameterizedTest
     @MethodSource("equalsArguments")
     void testEquals(BinaryTree<Integer> tree1, BinaryTree<Integer> tree2, boolean expected) {
         assertEquals(expected, BinaryTreeOperations.equals(tree1, tree2));
     }
 
+    /**
+     * Tests the {@link BinaryTreeOperations#deepCopy(br.com.dbarreto.datastructure.node.BinaryTreeNode, Function)} method.
+     */
     @ParameterizedTest
     @MethodSource("deepCopyArguments")
     <T, N extends MutableBinaryTreeNode<T, N>> void testDeepCopy(BinaryTree<T> source, Function<T, N> constructor) {
@@ -57,6 +78,9 @@ class BinaryTreeOperationsTest {
         assertTrue(BinaryTreeOperations.equals(source.root(), copiedRoot));
     }
 
+    /**
+     * Tests the {@link BinaryTreeOperations#deepCopy(BinaryTree, Function, Function)} method.
+     */
     @ParameterizedTest
     @MethodSource("deepCopyTreeArguments")
     <T, M extends BinaryTree<T>, N extends MutableBinaryTreeNode<T, N>> void testDeepCopyTree(BinaryTree<T> source, Function<N, M> treeConstructor, Function<T, N> nodeConstructor) {

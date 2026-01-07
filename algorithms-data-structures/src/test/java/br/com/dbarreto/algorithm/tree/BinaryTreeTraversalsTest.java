@@ -17,8 +17,14 @@ import br.com.dbarreto.utils.BinaryTreeScenarios;
 import br.com.dbarreto.datastructure.tree.BinaryTree;
 import br.com.dbarreto.datastructure.tree.impl.SimpleBinaryTree;
 
+/**
+ * Test class for {@link BinaryTreeTraversals}.
+ */
 class BinaryTreeTraversalsTest {
 
+    /**
+     * Tests the {@link BinaryTreeTraversals#traverseInOrder(BinaryTree, java.util.function.Consumer)} method.
+     */
     @ParameterizedTest
     @MethodSource("inOrderArguments")
     void traverseInOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
@@ -27,6 +33,9 @@ class BinaryTreeTraversalsTest {
         assertEquals(expected, actual);
     }
 
+    /**
+     * Tests the {@link BinaryTreeTraversals#traversePreOrder(BinaryTree, java.util.function.Consumer)} method.
+     */
     @ParameterizedTest
     @MethodSource("preOrderArguments")
     void traversePreOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
@@ -35,6 +44,9 @@ class BinaryTreeTraversalsTest {
         assertEquals(expected, actual);
     }
 
+    /**
+     * Tests the {@link BinaryTreeTraversals#traversePostOrder(BinaryTree, java.util.function.Consumer)} method.
+     */
     @ParameterizedTest
     @MethodSource("postOrderArguments")
     void traversePostOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
@@ -43,6 +55,9 @@ class BinaryTreeTraversalsTest {
         assertEquals(expected, actual);
     }
 
+    /**
+     * Tests the {@link BinaryTreeTraversals#traverseLevelOrder(BinaryTree, java.util.function.Consumer)} method.
+     */
     @ParameterizedTest
     @MethodSource("levelOrderArguments")
     void traverseLevelOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
@@ -51,6 +66,9 @@ class BinaryTreeTraversalsTest {
         assertEquals(expected, actual);
     }
 
+    /**
+     * Tests that traversal methods do not fail on an empty tree.
+     */
     @Test
     void testTraversalOnEmptyTree() {
         SimpleBinaryTree<Integer> tree = new SimpleBinaryTree<>();

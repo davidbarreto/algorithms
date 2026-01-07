@@ -4,8 +4,14 @@ import br.com.dbarreto.datastructure.node.impl.RedBlackTreeNode;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for {@link RedBlackTree}.
+ */
 class RedBlackTreeTest {
 
+    /**
+     * Tests that inserting elements maintains the Red-Black Tree properties.
+     */
     @Test
     void testInsertMaintainsRedBlackProperties() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
@@ -18,6 +24,9 @@ class RedBlackTreeTest {
         assertTrue(isValidRedBlackTree(tree));
     }
 
+    /**
+     * Tests the insertion and search functionality.
+     */
     @Test
     void testInsertAndSearch() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
@@ -35,6 +44,9 @@ class RedBlackTreeTest {
         assertFalse(tree.contains(10));
     }
 
+    /**
+     * Tests the {@code min} and {@code max} methods.
+     */
     @Test
     void testMinMax() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
@@ -48,6 +60,9 @@ class RedBlackTreeTest {
         assertEquals(9, tree.max());
     }
 
+    /**
+     * Tests inserting a large number of elements.
+     */
     @Test
     void testLargeInsert() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
@@ -59,6 +74,9 @@ class RedBlackTreeTest {
         assertTrue(isValidRedBlackTree(tree));
     }
 
+    /**
+     * Tests the handling of duplicate elements.
+     */
     @Test
     void testDuplicates() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
@@ -69,6 +87,9 @@ class RedBlackTreeTest {
         assertTrue(isValidRedBlackTree(tree));
     }
 
+    /**
+     * Tests the properties of an empty Red-Black Tree.
+     */
     @Test
     void testEmptyTree() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
@@ -78,6 +99,9 @@ class RedBlackTreeTest {
         assertNull(tree.max());
     }
 
+    /**
+     * Tests that the root of the tree is always black.
+     */
     @Test
     void testRootIsBlack() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();

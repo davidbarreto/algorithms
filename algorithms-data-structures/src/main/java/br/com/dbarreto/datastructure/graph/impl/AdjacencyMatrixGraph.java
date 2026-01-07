@@ -100,6 +100,7 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
         return Collections.unmodifiableSet(this.vertexIndexMapping.keySet());
     }
 
+    @Override
     public Collection<V> neighborsOf(V vertex) {
         var i = this.vertexIndexMapping.get(vertex);
         if (i == null) {
@@ -147,6 +148,9 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
      * <p>
      * To maintain contiguous indices in the matrix, the vertex to be removed is swapped
      * with the last vertex in the graph. This avoids "holes" in the adjacency matrix indices.
+     * </p>
+     *
+     * @param v the vertex to remove
      */
     @Override
     public void removeVertex(V v) {

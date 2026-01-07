@@ -2,6 +2,14 @@ package br.com.dbarreto.datastructure.node.impl;
 
 import br.com.dbarreto.datastructure.node.MutableHeightBinarySearchTreeNode;
 
+/**
+ * A simple implementation of {@link MutableHeightBinarySearchTreeNode}.
+ * <p>
+ * Maintains the height of the node, initialized to 1.
+ * </p>
+ *
+ * @param <T> the type of the value held by the node, which must be Comparable
+ */
 public class SimpleMutableHeightBinarySearchTreeNode<T extends Comparable<T>> implements MutableHeightBinarySearchTreeNode<T, SimpleMutableHeightBinarySearchTreeNode<T>> {
     
     private T value;
@@ -9,6 +17,12 @@ public class SimpleMutableHeightBinarySearchTreeNode<T extends Comparable<T>> im
     private SimpleMutableHeightBinarySearchTreeNode<T> right;
     private int height;
 
+    /**
+     * Creates a new mutable height binary search tree node with the specified value.
+     * The initial height is 1.
+     *
+     * @param value the value to be held by the node
+     */
     public SimpleMutableHeightBinarySearchTreeNode(T value) {
         this.value = value;
         this.height = 1;

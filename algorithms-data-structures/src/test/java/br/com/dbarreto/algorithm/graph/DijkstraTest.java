@@ -9,8 +9,14 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Test class for the Dijkstra algorithm implementation in {@link GraphShortestPath}.
+ */
 class DijkstraTest {
 
+    /**
+     * Tests the Dijkstra algorithm on a sample undirected graph.
+     */
     @Test
     void shortestPath() {
 

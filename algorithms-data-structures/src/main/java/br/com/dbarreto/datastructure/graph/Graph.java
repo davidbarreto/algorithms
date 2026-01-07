@@ -21,7 +21,7 @@ public interface Graph<V> {
      * Checks if the graph contains the specified vertex.
      *
      * @param vertex the vertex to check
-     * @return true if the vertex exists in the graph, false otherwise
+     * @return {@code true} if the vertex exists in the graph, {@code false} otherwise
      */
     boolean containsVertex(V vertex);
 
@@ -30,7 +30,7 @@ public interface Graph<V> {
      *
      * @param from the source vertex
      * @param to   the target vertex
-     * @return true if the edge exists, false otherwise
+     * @return {@code true} if the edge exists, {@code false} otherwise
      */
     boolean hasEdge(V from, V to);
 
@@ -39,30 +39,39 @@ public interface Graph<V> {
      *
      * @param from the source vertex
      * @param to   the target vertex
-     * @return the weight of the edge, or {@link Double#NaN} if the edge does not exist
+     * @return an {@link OptionalDouble} containing the weight of the edge, or empty if the edge does not exist
      */
     OptionalDouble weight(V from, V to);
 
     /**
      * Returns a collection of all vertices in the graph.
+     *
      * @return an unmodifiable view of the vertices of this graph
      */
     Collection<V> vertices();
 
     /**
      * Returns a collection of all logical edges in the graph.
+     * <p>
      * If graph is {@link GraphType#UNDIRECTED}, it will add only one of the directions (A -> B) OR (B -> A).
+     * </p>
      * <p>
      * If the graph is {@link GraphType#DIRECTED}, the result is the same as {@link Graph#physicalEdges()}
+     * </p>
+     *
      * @return a collection of edges
      */
     Collection<Edge<V>> logicalEdges();
 
     /**
      * Returns a collection of all physical edges in the graph.
+     * <p>
      * If graph is {@link GraphType#UNDIRECTED}, it will add both of the directions (A -> B) AND (B -> A).
+     * </p>
      * <p>
      * If the graph is {@link GraphType#DIRECTED}, the result is the same as {@link Graph#logicalEdges()}
+     * </p>
+     *
      * @return a collection of edges
      */
     Collection<Edge<V>> physicalEdges();
@@ -85,8 +94,10 @@ public interface Graph<V> {
 
     /**
      * Returns the number of edges in the graph.
+     * <p>
      * For undirected graphs, this count is normalized (bidirectional edges count as one).
      * It should match {@link Graph#logicalEdges()} size
+     * </p>
      *
      * @return the edge count
      */
@@ -105,7 +116,7 @@ public interface Graph<V> {
      *
      * @param start  the starting vertex
      * @param target the target vertex
-     * @return true if a path exists, false otherwise
+     * @return {@code true} if a path exists, {@code false} otherwise
      */
     default boolean hasPath(V start, V target) {
         if (!containsVertex(target)) {
@@ -115,5 +126,13 @@ public interface Graph<V> {
         return GraphTraversals.breadthFirstSearch(this, start, target);
     }
 
+    /**
+     * Represents an edge in the graph.
+     *
+     * @param from   the source vertex
+     * @param to     the target vertex
+     * @param weight the weight of the edge
+     * @param <V>    the type of the vertices
+     */
     record Edge<V>(V from, V to, double weight) {}
 }

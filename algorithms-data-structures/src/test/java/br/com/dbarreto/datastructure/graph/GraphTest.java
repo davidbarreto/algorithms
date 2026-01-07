@@ -12,8 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for various {@link Graph} implementations.
+ * <p>
  * Verifies basic functionality like adding/removing vertices and edges,
  * checking connectivity, and handling edge cases.
+ * </p>
  */
 class GraphTest {
 
@@ -167,7 +169,7 @@ class GraphTest {
     }
 
     /**
-     * Verifies that adding an edge that already exists updates its weight.
+     * Verifies that adding an edge that already exists does not update its weight.
      */
     @ParameterizedTest
     @MethodSource("emptyGraphArguments")
@@ -208,7 +210,7 @@ class GraphTest {
     }
 
     /**
-     * Verifies that weight() returns NaN for non-existent edges.
+     * Verifies that weight() returns an empty optional for non-existent edges.
      */
     @ParameterizedTest
     @MethodSource("emptyGraphArguments")

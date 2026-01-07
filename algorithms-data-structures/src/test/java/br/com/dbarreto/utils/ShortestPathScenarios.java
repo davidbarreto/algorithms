@@ -8,11 +8,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+/**
+ * Utility class for creating various shortest path scenarios for testing purposes.
+ * <p>
+ * Provides a collection of graph scenarios, including the graph itself, the origin vertex,
+ * and the expected shortest path distances. It also provides a list of shortest path
+ * algorithm implementations to be tested.
+ * </p>
+ */
 public class ShortestPathScenarios {
 
     private ShortestPathScenarios() {
     }
 
+    /**
+     * Returns a list of all predefined shortest path scenarios.
+     *
+     * @return a list of {@link ShortestPathScenario}
+     */
     public static List<ShortestPathScenario<String>> scenarios() {
         return List.of(
                 createSimpleUndirectedScenario(),
@@ -24,6 +37,12 @@ public class ShortestPathScenarios {
         );
     }
 
+    /**
+     * Returns a list of shortest path algorithm implementations to be tested.
+     *
+     * @param <V> the vertex type
+     * @return a list of {@link BiFunction}s, each representing a shortest path algorithm
+     */
     public static <V> List<BiFunction<Graph<V>, V, Map<V, Double>>> shortestPathImplementations() {
         return List.of(
                 GraphShortestPath::dijkstra,
@@ -31,7 +50,11 @@ public class ShortestPathScenarios {
         );
     }
 
-    // Small Undirected
+    /**
+     * Creates a simple undirected graph scenario.
+     *
+     * @return a {@link ShortestPathScenario}
+     */
     public static ShortestPathScenario<String> createSimpleUndirectedScenario() {
         return new ShortestPathScenario<>(
                 new GraphScenarios.GraphScenario<>(
@@ -55,7 +78,11 @@ public class ShortestPathScenarios {
         );
     }
 
-    // Small Directed
+    /**
+     * Creates a small directed graph scenario.
+     *
+     * @return a {@link ShortestPathScenario}
+     */
     public static ShortestPathScenario<String> createSmallDirectedScenario() {
         return new ShortestPathScenario<>(
                 new GraphScenarios.GraphScenario<>(
@@ -81,7 +108,11 @@ public class ShortestPathScenarios {
         );
     }
 
-    // Medium Directed
+    /**
+     * Creates a medium-sized directed graph scenario.
+     *
+     * @return a {@link ShortestPathScenario}
+     */
     public static ShortestPathScenario<String> createMediumDirectedScenario() {
         return new ShortestPathScenario<>(
                 new GraphScenarios.GraphScenario<>(
@@ -113,7 +144,11 @@ public class ShortestPathScenarios {
         );
     }
 
-    // Medium Undirected
+    /**
+     * Creates a medium-sized undirected graph scenario.
+     *
+     * @return a {@link ShortestPathScenario}
+     */
     public static ShortestPathScenario<String> createMediumUndirectedScenario() {
         return new ShortestPathScenario<>(
                 new GraphScenarios.GraphScenario<>(
@@ -143,7 +178,11 @@ public class ShortestPathScenarios {
         );
     }
 
-    // Large Directed
+    /**
+     * Creates a large directed graph scenario.
+     *
+     * @return a {@link ShortestPathScenario}
+     */
     public static ShortestPathScenario<String> createLargeDirectedScenario() {
         return new ShortestPathScenario<>(
                 new GraphScenarios.GraphScenario<>(
@@ -183,7 +222,11 @@ public class ShortestPathScenarios {
         );
     }
 
-    // Large Undirected
+    /**
+     * Creates a large undirected graph scenario.
+     *
+     * @return a {@link ShortestPathScenario}
+     */
     public static ShortestPathScenario<String> createLargeUndirectedScenario() {
         return new ShortestPathScenario<>(
                 new GraphScenarios.GraphScenario<>(
@@ -225,6 +268,14 @@ public class ShortestPathScenarios {
         );
     }
 
+    /**
+     * Represents a complete scenario for testing a shortest path algorithm.
+     *
+     * @param graphScenario the graph data (edges and type)
+     * @param origin        the starting vertex for the shortest path calculation
+     * @param distances     a map of expected shortest distances from the origin to all other vertices
+     * @param <V>           the type of the vertices
+     */
     public record ShortestPathScenario<V>(
             GraphScenarios.GraphScenario<V> graphScenario, String origin, Map<V, Double> distances) {
     }

@@ -14,8 +14,14 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for {@link AvlTree}.
+ */
 class AvlTreeTest {
 
+    /**
+     * Tests the different traversal methods on a sample AVL tree.
+     */
     @Test
     void testTraversals() {
         var tree = BinarySearchTreeScenarios.createAvlTree();
@@ -33,6 +39,9 @@ class AvlTreeTest {
         assertEquals(List.of(30, 20, 10, 25, 40, 50), preOrderList);
     }
 
+    /**
+     * Tests that the tree remains balanced and correctly ordered after various rotations.
+     */
     @ParameterizedTest
     @MethodSource("rotationArguments")
     void testRotation(AvlTree<Integer> tree) {
@@ -42,6 +51,9 @@ class AvlTreeTest {
         assertEquals(2, tree.height());
     }
 
+    /**
+     * Tests that the tree remains balanced after a sequence of insertions.
+     */
     @Test
     void testBalanceAfterMultipleInserts() {
         AvlTree<Integer> tree = new AvlTree<>();
@@ -52,6 +64,9 @@ class AvlTreeTest {
         assertTrue(tree.isBalanced());
     }
 
+    /**
+     * Tests that duplicate elements are not inserted.
+     */
     @Test
     void testDuplicatesAllowed() {
         AvlTree<Integer> tree = new AvlTree<>();
@@ -63,6 +78,9 @@ class AvlTreeTest {
         assertEquals(List.of(10), inOrder);  // Duplicates discarded
     }
 
+    /**
+     * Tests the properties of an empty AVL tree.
+     */
     @Test
     void testEmptyTree() {
         AvlTree<Integer> tree = new AvlTree<>();
@@ -72,6 +90,9 @@ class AvlTreeTest {
         assertFalse(tree.contains(1));
     }
 
+    /**
+     * Tests the {@code contains} method.
+     */
     @Test
     void testContains() {
         AvlTree<Integer> tree = new AvlTree<>();
@@ -90,6 +111,9 @@ class AvlTreeTest {
         assertFalse(tree.contains(10));
     }
 
+    /**
+     * Tests the {@code min} and {@code max} methods.
+     */
     @Test
     void testMinMax() {
         AvlTree<Integer> tree = new AvlTree<>();
@@ -103,6 +127,9 @@ class AvlTreeTest {
         assertEquals(9, tree.max());
     }
 
+    /**
+     * Tests the {@code contains} method after rotations have occurred.
+     */
     @Test
     void testContainsAfterRotations() {
         AvlTree<Integer> tree = new AvlTree<>();
@@ -116,6 +143,9 @@ class AvlTreeTest {
         assertEquals(2, tree.height());
     }
 
+    /**
+     * Tests various operations on a large AVL tree.
+     */
     @Test
     void testLargeTreeOperations() {
         AvlTree<Integer> tree = new AvlTree<>();
