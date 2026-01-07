@@ -1,8 +1,13 @@
 package br.com.dbarreto.utils;
 
+import br.com.dbarreto.datastructure.graph.EdgePolicy;
 import br.com.dbarreto.datastructure.graph.Graph;
 import br.com.dbarreto.datastructure.graph.MutableGraph;
 import br.com.dbarreto.datastructure.graph.impl.*;
+
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class GraphScenarios {
 
@@ -38,6 +43,33 @@ public class GraphScenarios {
         return populateGraph(new NodeBasedGraph<>(Graph.UNDIRECTED_GRAPH));
     }
 
+    public static List<Function<GraphArguments, MutableGraph<String>>> graphImplementations() {
+        return List.of(
+                a -> new AdjacencyListGraph<>(Graph.toEdgePolicy(a.type())),
+                a -> new AdjacencyMatrixGraph<>(a.vertices(), Graph.toEdgePolicy(a.type())),
+                a -> new IncidenceMatrixGraph<>(a.vertices(), a.edges(), Graph.toEdgePolicy(a.type())),
+                a -> new NodeBasedGraph<>(Graph.toEdgePolicy(a.type()))
+        );
+    }
+
+    public static Graph<String> of(Function<GraphArguments, MutableGraph<String>> constructor,
+                                   GraphScenario<String> scenario)
+    {
+        var vertices = scenario.edges().stream().map(Graph.Edge::from).collect(Collectors.toSet());
+        vertices.addAll(scenario.edges().stream().map(Graph.Edge::to).toList());
+
+        var numVertices = vertices.size();
+        var numEdges = scenario.edges().size();
+
+        var graph = constructor.apply(new GraphArguments(scenario.type(), numVertices, numEdges));
+
+        for (Graph.Edge<String> edge : scenario.edges()) {
+            graph.addEdge(edge.from(), edge.to(), edge.weight());
+        }
+
+        return graph;
+    }
+
     private static MutableGraph<String> populateGraph(MutableGraph<String> mutableGraph) {
 
         mutableGraph.addEdge("A", "B");
@@ -52,4 +84,7 @@ public class GraphScenarios {
 
         return mutableGraph;
     }
+
+    public record GraphScenario<V>(List<Graph.Edge<V>> edges, GraphType type) {}
+    public record GraphArguments(GraphType type, int vertices, int edges) {}
 }

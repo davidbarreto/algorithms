@@ -103,5 +103,9 @@ public interface Graph<V> {
         return GraphTraversals.breadthFirstSearch(this, start, target);
     }
 
+    static EdgePolicy toEdgePolicy(GraphType type) {
+        return type == GraphType.DIRECTED ? DIRECTED_GRAPH : UNDIRECTED_GRAPH;
+    }
+
     record Edge<V>(V from, V to, double weight) {}
 }
