@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.dbarreto.datastructure.graph.EdgePolicy;
+import br.com.dbarreto.datastructure.graph.GraphType;
 
 /**
  * Implementation of a graph using an adjacency list.
@@ -28,16 +28,16 @@ public class AdjacencyListGraph<V> extends AbstractGraph<V> {
      * Creates a directed adjacency list graph.
      */
     public AdjacencyListGraph() {
-        this(DIRECTED_GRAPH);
+        this(GraphType.DIRECTED);
     }
 
     /**
      * Creates an adjacency list graph with the specified edge policy.
      *
-     * @param edgePolicy the policy determining if the graph is directed or undirected
+     * @param graphType the policy determining if the graph is directed or undirected
      */
-    public AdjacencyListGraph(EdgePolicy edgePolicy) {
-        super(edgePolicy);
+    public AdjacencyListGraph(GraphType graphType) {
+        super(graphType);
         this.adjacencyList = new HashMap<>();
         this.edgeCount = 0;
     }

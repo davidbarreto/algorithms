@@ -26,7 +26,7 @@ public class GraphPropertiesTest {
             @ForAll("edges") Set<Edge<Integer>> edges
     ) {
         MutableGraph<Integer> graph = factory.graph();
-        assertThat(graph.getType()).isEqualTo(GraphType.UNDIRECTED);
+        assertThat(graph.type()).isEqualTo(GraphType.UNDIRECTED);
 
         for (Edge<Integer> edge : edges) {
             graph.addEdge(edge.from(), edge.to());
@@ -169,7 +169,7 @@ public class GraphPropertiesTest {
         for (Integer v : vertices) {
             for (Integer neighbor : graph.neighborsOf(v)) {
                 assertThat(graph.hasEdge(v, neighbor)).isTrue();
-                if (graph.getType() == GraphType.UNDIRECTED) {
+                if (graph.type() == GraphType.UNDIRECTED) {
                     assertThat(graph.neighborsOf(neighbor)).contains(v);
                 }
             }
@@ -179,20 +179,20 @@ public class GraphPropertiesTest {
     @Provide
     Arbitrary<GraphFactory<Integer>> directedGraphImplementations() {
         return Arbitraries.of(
-                new GraphFactory<>(AdjacencyListGraph.class.getSimpleName(), () -> new AdjacencyListGraph<>(Graph.DIRECTED_GRAPH)),
-                new GraphFactory<>(AdjacencyMatrixGraph.class.getSimpleName(), () -> new AdjacencyMatrixGraph<>(100, Graph.DIRECTED_GRAPH)),
-                new GraphFactory<>(IncidenceMatrixGraph.class.getSimpleName(), () -> new IncidenceMatrixGraph<>(100, 200, Graph.DIRECTED_GRAPH)),
-                new GraphFactory<>(NodeBasedGraph.class.getSimpleName(), () -> new NodeBasedGraph<>(Graph.DIRECTED_GRAPH))
+                new GraphFactory<>(AdjacencyListGraph.class.getSimpleName(), () -> new AdjacencyListGraph<>(GraphType.DIRECTED)),
+                new GraphFactory<>(AdjacencyMatrixGraph.class.getSimpleName(), () -> new AdjacencyMatrixGraph<>(100, GraphType.DIRECTED)),
+                new GraphFactory<>(IncidenceMatrixGraph.class.getSimpleName(), () -> new IncidenceMatrixGraph<>(100, 200, GraphType.DIRECTED)),
+                new GraphFactory<>(NodeBasedGraph.class.getSimpleName(), () -> new NodeBasedGraph<>(GraphType.DIRECTED))
         );
     }
 
     @Provide
     Arbitrary<GraphFactory<Integer>> undirectedGraphImplementations() {
         return Arbitraries.of(
-                new GraphFactory<>(AdjacencyListGraph.class.getSimpleName(), () -> new AdjacencyListGraph<>(Graph.UNDIRECTED_GRAPH)),
-                new GraphFactory<>(AdjacencyMatrixGraph.class.getSimpleName(), () -> new AdjacencyMatrixGraph<>(100, Graph.UNDIRECTED_GRAPH)),
-                new GraphFactory<>(IncidenceMatrixGraph.class.getSimpleName(), () -> new IncidenceMatrixGraph<>(100, 200, Graph.UNDIRECTED_GRAPH)),
-                new GraphFactory<>(NodeBasedGraph.class.getSimpleName(), () -> new NodeBasedGraph<>(Graph.UNDIRECTED_GRAPH))
+                new GraphFactory<>(AdjacencyListGraph.class.getSimpleName(), () -> new AdjacencyListGraph<>(GraphType.UNDIRECTED)),
+                new GraphFactory<>(AdjacencyMatrixGraph.class.getSimpleName(), () -> new AdjacencyMatrixGraph<>(100, GraphType.UNDIRECTED)),
+                new GraphFactory<>(IncidenceMatrixGraph.class.getSimpleName(), () -> new IncidenceMatrixGraph<>(100, 200, GraphType.UNDIRECTED)),
+                new GraphFactory<>(NodeBasedGraph.class.getSimpleName(), () -> new NodeBasedGraph<>(GraphType.UNDIRECTED))
         );
     }
 

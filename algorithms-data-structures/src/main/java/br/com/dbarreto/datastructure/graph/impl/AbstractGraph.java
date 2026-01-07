@@ -1,7 +1,8 @@
 package br.com.dbarreto.datastructure.graph.impl;
 
-import br.com.dbarreto.datastructure.graph.EdgePolicy;
+import br.com.dbarreto.datastructure.graph.GraphType;
 import br.com.dbarreto.datastructure.graph.MutableGraph;
+import br.com.dbarreto.datastructure.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,10 +17,10 @@ import java.util.List;
  */
 public abstract class AbstractGraph<V> implements MutableGraph<V> {
 
-    private final EdgePolicy edgePolicy;
+    private final GraphType graphType;
 
-    protected AbstractGraph(EdgePolicy edgePolicy) {
-        this.edgePolicy = edgePolicy;
+    protected AbstractGraph(GraphType graphType) {
+        this.graphType = graphType;
     }
 
     @Override
@@ -28,8 +29,8 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
             throw new IllegalArgumentException("Edge weight cannot be 0");
         }
         boolean modified = false;
-        for (EdgePolicy.EdgeAction<V> edge : this.edgePolicy.edgePairs(from, to)) {
-            if (addEdgeInternal(edge.from(), edge.to(), weight)) {
+        for (Pair<V, V> edge : this.graphType.policy().edgePairs(from, to)) {
+            if (addEdgeInternal(edge.first(), edge.second(), weight)) {
                 modified = true;
             }
         }
@@ -38,14 +39,14 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
 
     @Override
     public void removeEdge(V from, V to) {
-        for (EdgePolicy.EdgeAction<V> edge : this.edgePolicy.edgePairs(from, to)) {
-            removeEdgeInternal(edge.from(), edge.to());
+        for (Pair<V, V> edge : this.graphType.policy().edgePairs(from, to)) {
+            removeEdgeInternal(edge.first(), edge.second());
         }
     }
 
     @Override
     public int edgeCount() {
-        return this.edgePolicy.normalizeEdgeCount(edgeCountInternal());
+        return this.graphType.policy().normalizeEdgeCount(edgeCountInternal());
     }
 
     @Override
@@ -60,8 +61,8 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public GraphType getType() {
-        return this.edgePolicy.name();
+    public GraphType type() {
+        return this.graphType;
     }
 
     protected abstract boolean addEdgeInternal(V from, V to, double weight);

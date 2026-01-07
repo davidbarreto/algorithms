@@ -1,6 +1,6 @@
 package br.com.dbarreto.datastructure.graph;
 
-import br.com.dbarreto.datastructure.graph.impl.GraphType;
+import br.com.dbarreto.datastructure.tuple.Pair;
 
 import java.util.Collection;
 
@@ -17,9 +17,9 @@ public interface EdgePolicy {
      * @param from the source vertex
      * @param to   the target vertex
      * @param <V>  the type of the vertices
-     * @return a collection of {@link EdgeAction}s
+     * @return a collection of {@link Pair}s
      */
-    <V> Collection<EdgeAction<V>> edgePairs(V from, V to);
+    <V> Collection<Pair<V, V>> edgePairs(V from, V to);
 
     /**
      * Normalizes the internal edge count based on the policy.
@@ -29,20 +29,4 @@ public interface EdgePolicy {
      * @return the logical edge count
      */
     int normalizeEdgeCount(int internalEdgeCount);
-
-    /**
-     * Returns the graph type associated with this policy.
-     *
-     * @return the {@link GraphType}
-     */
-    GraphType name();
-
-    /**
-     * Represents a single directed edge operation.
-     *
-     * @param from the source vertex
-     * @param to   the target vertex
-     * @param <V>  the type of the vertices
-     */
-    record EdgeAction<V>(V from, V to) {}
 }

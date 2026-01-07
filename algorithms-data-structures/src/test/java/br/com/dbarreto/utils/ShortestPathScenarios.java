@@ -2,7 +2,7 @@ package br.com.dbarreto.utils;
 
 import br.com.dbarreto.algorithm.graph.GraphShortestPath;
 import br.com.dbarreto.datastructure.graph.Graph;
-import br.com.dbarreto.datastructure.graph.impl.GraphType;
+import br.com.dbarreto.datastructure.graph.GraphType;
 
 import java.util.List;
 import java.util.Map;

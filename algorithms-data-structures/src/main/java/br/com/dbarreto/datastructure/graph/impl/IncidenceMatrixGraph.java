@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import br.com.dbarreto.datastructure.graph.EdgePolicy;
+import br.com.dbarreto.datastructure.graph.GraphType;
 
 /**
  * Implementation of a graph using an incidence matrix.
@@ -50,7 +50,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
      * @param numEdges    the maximum number of edges
      */
     public IncidenceMatrixGraph(int numVertexes, int numEdges) {
-        this(numVertexes, numEdges, DIRECTED_GRAPH);
+        this(numVertexes, numEdges, GraphType.DIRECTED);
     }
 
     /**
@@ -58,11 +58,11 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
      *
      * @param numVertexes the maximum number of vertices
      * @param numEdges    the maximum number of edges
-     * @param edgePolicy  the policy determining if the graph is directed or undirected
+     * @param graphType  the policy determining if the graph is directed or undirected
      */
-    public IncidenceMatrixGraph(int numVertexes, int numEdges, EdgePolicy edgePolicy) {
-        super(edgePolicy);
-        var maxEdges = edgePolicy.name() == GraphType.UNDIRECTED ? numEdges * 2 : numEdges;
+    public IncidenceMatrixGraph(int numVertexes, int numEdges, GraphType graphType) {
+        super(graphType);
+        var maxEdges = graphType == GraphType.UNDIRECTED ? numEdges * 2 : numEdges;
         this.incidenceMatrix = new short[numVertexes][maxEdges];
         this.edgeWeights = new double[maxEdges];
         this.vertexIndexMapping = new HashMap<>();

@@ -1,6 +1,6 @@
 package br.com.dbarreto.datastructure.graph.impl;
 
-import br.com.dbarreto.datastructure.graph.EdgePolicy;
+import br.com.dbarreto.datastructure.graph.GraphType;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,17 +34,17 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
      * @param numVertexes the maximum number of vertices this graph can hold
      */
     public AdjacencyMatrixGraph(int numVertexes) {
-        this(numVertexes, DIRECTED_GRAPH);
+        this(numVertexes, GraphType.DIRECTED);
     }
 
     /**
      * Creates an adjacency matrix graph with the specified capacity and edge policy.
      *
      * @param numVertexes the maximum number of vertices
-     * @param edgePolicy  the policy determining if the graph is directed or undirected
+     * @param graphType  the policy determining if the graph is directed or undirected
      */
-    public AdjacencyMatrixGraph(int numVertexes, EdgePolicy edgePolicy) {
-        super(edgePolicy);
+    public AdjacencyMatrixGraph(int numVertexes, GraphType graphType) {
+        super(graphType);
         this.adjacencyMatrix = new double[numVertexes][numVertexes];
         this.vertexIndexMapping = new HashMap<>();
         this.indexVertexMapping = new HashMap<>();

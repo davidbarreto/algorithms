@@ -3,7 +3,7 @@ package br.com.dbarreto.datastructure.graph.impl;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import br.com.dbarreto.datastructure.graph.EdgePolicy;
+import br.com.dbarreto.datastructure.graph.GraphType;
 import br.com.dbarreto.datastructure.node.GraphNode;
 import br.com.dbarreto.datastructure.node.impl.SimpleGraphNode;
 
@@ -24,16 +24,16 @@ public class NodeBasedGraph<V> extends AbstractGraph<V> {
      * Creates a directed node-based graph.
      */
     public NodeBasedGraph() {
-        this(DIRECTED_GRAPH);
+        this(GraphType.DIRECTED);
     }
 
     /**
      * Creates a node-based graph with the specified edge policy.
      *
-     * @param edgePolicy the policy determining if the graph is directed or undirected
+     * @param graphType the policy determining if the graph is directed or undirected
      */
-    public NodeBasedGraph(EdgePolicy edgePolicy) {
-        super(edgePolicy);
+    public NodeBasedGraph(GraphType graphType) {
+        super(graphType);
         this.vertices = new HashMap<>();
         this.edgeCount = 0;
     }

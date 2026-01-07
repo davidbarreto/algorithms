@@ -1,6 +1,6 @@
 package br.com.dbarreto.algorithm.graph;
 
-import br.com.dbarreto.datastructure.graph.Graph;
+import br.com.dbarreto.datastructure.graph.GraphType;
 import br.com.dbarreto.datastructure.graph.MutableGraph;
 import br.com.dbarreto.datastructure.graph.impl.AdjacencyListGraph;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ class DijkstraTest {
     @Test
     void shortestPath() {
 
-        MutableGraph<String> graph = new AdjacencyListGraph<>(Graph.UNDIRECTED_GRAPH);
+        MutableGraph<String> graph = new AdjacencyListGraph<>(GraphType.UNDIRECTED);
         graph.addEdge("S", "A", 6);
         graph.addEdge("S", "D", 8);
         graph.addEdge("S", "E", 7);

@@ -1,7 +1,7 @@
 package br.com.dbarreto.utils;
 
-import br.com.dbarreto.datastructure.graph.EdgePolicy;
 import br.com.dbarreto.datastructure.graph.Graph;
+import br.com.dbarreto.datastructure.graph.GraphType;
 import br.com.dbarreto.datastructure.graph.MutableGraph;
 import br.com.dbarreto.datastructure.graph.impl.*;
 
@@ -16,7 +16,7 @@ public class GraphScenarios {
     }
 
     public static MutableGraph<String> createUndirectedAdjacencyListGraph() {
-        return populateGraph(new AdjacencyListGraph<>(Graph.UNDIRECTED_GRAPH));
+        return populateGraph(new AdjacencyListGraph<>(GraphType.UNDIRECTED));
     }
 
     public static MutableGraph<String> createAdjacencyMatrixGraph() {
@@ -24,7 +24,7 @@ public class GraphScenarios {
     }
 
     public static MutableGraph<String> createUndirectedAdjacencyMatrixGraph() {
-        return populateGraph(new AdjacencyMatrixGraph<>(10, Graph.UNDIRECTED_GRAPH));
+        return populateGraph(new AdjacencyMatrixGraph<>(10, GraphType.UNDIRECTED));
     }
 
     public static MutableGraph<String> createIncidenceMatrixGraph() {
@@ -32,7 +32,7 @@ public class GraphScenarios {
     }
 
     public static MutableGraph<String> createUndirectedIncidenceMatrixGraph() {
-        return populateGraph(new IncidenceMatrixGraph<>(10, 20, Graph.UNDIRECTED_GRAPH));
+        return populateGraph(new IncidenceMatrixGraph<>(10, 20, GraphType.UNDIRECTED));
     }
 
     public static MutableGraph<String> createNodeBasedGraph() {
@@ -40,15 +40,15 @@ public class GraphScenarios {
     }
 
     public static MutableGraph<String> createUndirectedNodeBasedGraph() {
-        return populateGraph(new NodeBasedGraph<>(Graph.UNDIRECTED_GRAPH));
+        return populateGraph(new NodeBasedGraph<>(GraphType.UNDIRECTED));
     }
 
     public static List<Function<GraphArguments, MutableGraph<String>>> graphImplementations() {
         return List.of(
-                a -> new AdjacencyListGraph<>(Graph.toEdgePolicy(a.type())),
-                a -> new AdjacencyMatrixGraph<>(a.vertices(), Graph.toEdgePolicy(a.type())),
-                a -> new IncidenceMatrixGraph<>(a.vertices(), a.edges(), Graph.toEdgePolicy(a.type())),
-                a -> new NodeBasedGraph<>(Graph.toEdgePolicy(a.type()))
+                a -> new AdjacencyListGraph<>(a.type()),
+                a -> new AdjacencyMatrixGraph<>(a.vertices(), a.type()),
+                a -> new IncidenceMatrixGraph<>(a.vertices(), a.edges(), a.type()),
+                a -> new NodeBasedGraph<>(a.type())
         );
     }
 
