@@ -29,4 +29,15 @@ public interface EdgePolicy {
      * @return the logical edge count
      */
     int normalizeEdgeCount(int internalEdgeCount);
+
+    /**
+     * Determines weather an internal edge (from -> to)
+     * represents a logical edge exposed by the graph
+     * @param from The origin vertex
+     * @param to The destination vertex
+     * @return true if (from -> to) is considered as a logical edge, false otherwise. For undirected graphs, not all
+     * internal edges are logical, so the implementors should choose (A -> B) or (B -> A) as logical, and omit the other
+     * @param <V> The vertex type
+     */
+    <V> boolean isLogicalEdge(V from, V to);
 }

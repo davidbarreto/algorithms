@@ -22,4 +22,9 @@ public final class DirectedEdgePolicy implements EdgePolicy {
     public int normalizeEdgeCount(int internalEdgeCount) {
         return internalEdgeCount;
     }
+
+    @Override
+    public <V> boolean isLogicalEdge(V from, V to) {
+        return true;
+    }
 }

@@ -50,10 +50,22 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
     }
 
     @Override
-    public Collection<Edge<V>> edges() {
+    public Collection<Edge<V>> logicalEdges() {
+        return edges(true);
+    }
+
+    @Override
+    public Collection<Edge<V>> physicalEdges() {
+        return edges(false);
+    }
+
+    private Collection<Edge<V>> edges(boolean logical) {
         List<Edge<V>> edges = new ArrayList<>();
         for (V from : vertices()) {
             for (V to : neighborsOf(from)) {
+                if (logical && this.graphType.policy().isLogicalEdge(from, to)) {
+                    continue;
+                }
                 edges.add(new Edge<>(from, to, weight(from, to)));
             }
         }

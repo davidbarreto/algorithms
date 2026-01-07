@@ -48,7 +48,7 @@ public class GraphShortestPath {
         }
         distance.put(from, 0.0);
 
-        var edges = graph.edges();
+        var edges = graph.physicalEdges();
         for (int i = 1; i < vertices.size(); i++) {
             for (var edge : edges) {
                 if (distance.get(edge.from()) + edge.weight() < distance.get(edge.to())) {

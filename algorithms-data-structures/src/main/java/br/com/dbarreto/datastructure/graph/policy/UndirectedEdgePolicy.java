@@ -26,4 +26,17 @@ public final class UndirectedEdgePolicy implements EdgePolicy {
     public int normalizeEdgeCount(int internalEdgeCount) {
         return internalEdgeCount / 2;
     }
+
+    /**
+     * This implementation chooses as logical edge, the one
+     * where 'from' vertex has a smaller identify hash code.
+     * @param from The origin vertex
+     * @param to The destination vertex
+     * @return true, if the 'from' vertex has smaller identity hash code then 'to' vertex
+     * @param <V> The type of the vertices
+     */
+    @Override
+    public <V> boolean isLogicalEdge(V from, V to) {
+        return System.identityHashCode(from) < System.identityHashCode(to);
+    }
 }

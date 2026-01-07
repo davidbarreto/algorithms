@@ -49,7 +49,23 @@ public interface Graph<V> {
      */
     Collection<V> vertices();
 
-    Collection<Edge<V>> edges();
+    /**
+     * Returns a collection of all logical edges in the graph.
+     * If graph is {@link GraphType#UNDIRECTED}, it will add only one of the directions (A -> B) OR (B -> A).
+     * <p>
+     * If the graph is {@link GraphType#DIRECTED}, the result is the same as {@link this#physicalEdges()}
+     * @return a collection of edges
+     */
+    Collection<Edge<V>> logicalEdges();
+
+    /**
+     * Returns a collection of all physical edges in the graph.
+     * If graph is {@link GraphType#UNDIRECTED}, it will add both of the directions (A -> B) AND (B -> A).
+     * <p>
+     * If the graph is {@link GraphType#DIRECTED}, the result is the same as {@link this#logicalEdges()}
+     * @return a collection of edges
+     */
+    Collection<Edge<V>> physicalEdges();
 
     /**
      * Returns the collection of vertices that are directly connected to the specified vertex

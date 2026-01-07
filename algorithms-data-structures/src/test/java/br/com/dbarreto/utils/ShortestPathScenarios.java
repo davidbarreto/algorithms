@@ -17,10 +17,10 @@ public class ShortestPathScenarios {
         return List.of(
                 createSimpleUndirectedScenario(),
                 createSmallDirectedScenario(),
-                createMediumDirectedScenario(),
                 createMediumUndirectedScenario(),
-                createLargeDirectedScenario(),
-                createLargeUndirectedScenario()
+                createMediumDirectedScenario(),
+                createLargeUndirectedScenario(),
+                createLargeDirectedScenario()
         );
     }
 
