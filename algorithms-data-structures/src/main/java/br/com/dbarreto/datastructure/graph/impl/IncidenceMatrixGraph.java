@@ -5,25 +5,28 @@ import java.util.*;
 import br.com.dbarreto.datastructure.graph.GraphType;
 
 /**
- * Implementation of a graph using an incidence matrix.
+ * An implementation of a graph using an incidence matrix, which is a 2D array where rows
+ * represent vertices and columns represent edges.
  * <p>
- * This implementation uses a 2D short array where rows represent vertices and columns represent edges.
- * Values indicate the relationship: 1 (source), -1 (target), 0 (no connection).
- * </p>
- * <p>
- * This implementation supports dynamic edge reuse. When an edge is removed, its column index is
- * added to a pool of free indices to be reused by subsequent edge additions, preventing
- * the matrix from exhausting its column capacity prematurely.
- * </p>
- * <p>
- * Vertex removal is handled by swapping the removed vertex with the last vertex in the matrix
- * to maintain contiguous row indices.
- * </p>
- * <p>
- * Space Complexity: O(V * E)
- * </p>
+ * In this matrix:
+ * <ul>
+ *     <li>A value of {@code 1} at {@code matrix[v][e]} indicates that vertex {@code v} is the source of edge {@code e}.</li>
+ *     <li>A value of {@code -1} indicates that vertex {@code v} is the target of edge {@code e}.</li>
+ *     <li>A value of {@code 0} indicates no connection between the vertex and the edge.</li>
+ * </ul>
+ * This implementation includes several key features:
+ * <ul>
+ *     <li><b>Dynamic Edge Reuse:</b> When an edge is removed, its column index is added to a pool of
+ *     free indices. This allows the index to be reused for new edges, preventing the matrix from
+ *     running out of columns and improving memory efficiency.</li>
+ *     <li><b>Efficient Vertex Removal:</b> When a vertex is removed, it is swapped with the last
+ *     vertex in the matrix. This ensures that the row indices remain contiguous, which simplifies
+ *     indexing and avoids gaps in the matrix.</li>
+ * </ul>
+ * <b>Space Complexity:</b> O(V * E), where V is the maximum number of vertices and E is the
+ * maximum number of edges.
  *
- * @param <V> the type of the vertices
+ * @param <V> the type of the vertices in the graph
  */
 public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
 
@@ -37,25 +40,25 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
     private final Queue<Integer> freeEdgeIndices;
 
     /**
-     * Creates a directed incidence matrix graph with specified capacities.
+     * Creates a new directed {@code IncidenceMatrixGraph} with a specified capacity for vertices and edges.
      *
-     * @param numVertexes the maximum number of vertices
-     * @param numEdges    the maximum number of edges
+     * @param numVertexes the maximum number of vertices the graph can hold
+     * @param numEdges    the maximum number of edges the graph can hold
      */
     public IncidenceMatrixGraph(int numVertexes, int numEdges) {
         this(numVertexes, numEdges, GraphType.DIRECTED);
     }
 
     /**
-     * Creates an incidence matrix graph with specified capacities and edge policy.
+     * Creates a new {@code IncidenceMatrixGraph} with a specified capacity and graph type (directed or undirected).
      *
-     * @param numVertexes the maximum number of vertices
-     * @param numEdges    the maximum number of edges
-     * @param graphType  the policy determining if the graph is directed or undirected
+     * @param numVertexes     the maximum number of vertices the graph can hold
+     * @param numLogicalEdges the maximum number of logical edges the graph can hold
+     * @param graphType       the type of the graph, which determines the edge policy (e.g., {@link GraphType#DIRECTED})
      */
-    public IncidenceMatrixGraph(int numVertexes, int numEdges, GraphType graphType) {
+    public IncidenceMatrixGraph(int numVertexes, int numLogicalEdges, GraphType graphType) {
         super(graphType);
-        var maxEdges = graphType == GraphType.UNDIRECTED ? numEdges * 2 : numEdges;
+        var maxEdges = graphType.policy().physicalEdgeCount(numLogicalEdges);
         this.incidenceMatrix = new short[numVertexes][maxEdges];
         this.edgeWeights = new double[maxEdges];
         this.vertexIndexMapping = new HashMap<>();
@@ -137,17 +140,16 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
     }
 
     /**
-     * Adds an edge internally.
+     * Adds a single directed edge to the graph's underlying storage.
      * <p>
-     * Tries to reuse a freed edge index from {@code freeEdgeIndices} if available;
-     * otherwise, uses the next available index.
-     * </p>
+     * This method reuses a freed edge index from the {@code freeEdgeIndices} queue if available.
+     * Otherwise, it uses the next available column index for the new edge.
      *
-     * @param from   the source vertex
-     * @param to     the target vertex
+     * @param from   the source vertex of the edge
+     * @param to     the target vertex of the edge
      * @param weight the weight of the edge
-     * @return {@code true} if the edge was added
-     * @throws IllegalStateException if the maximum number of edges is exceeded
+     * @return {@code true} if the edge was successfully added, {@code false} otherwise
+     * @throws IllegalStateException if the maximum number of edges has been reached
      */
     @Override
     public boolean addEdgeInternal(V from, V to, double weight) {
@@ -195,13 +197,13 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
     }
 
     /**
-     * Removes an edge internally.
+     * Removes a single directed edge from the graph's underlying storage.
      * <p>
-     * The column index associated with the removed edge is added to {@code freeEdgeIndices} for reuse.
-     * </p>
+     * The column index corresponding to the removed edge is added to the {@code freeEdgeIndices}
+     * queue, making it available for reuse by future edge additions.
      *
-     * @param from the source vertex
-     * @param to   the target vertex
+     * @param from the source vertex of the edge to be removed
+     * @param to   the target vertex of the edge to be removed
      */
     @Override
     public void removeEdgeInternal(V from, V to) {
@@ -224,13 +226,13 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
     }
 
     /**
-     * Removes a vertex and all associated edges.
+     * Removes a vertex and all of its incident edges from the graph.
      * <p>
-     * To maintain contiguous indices in the matrix rows, the vertex to be removed is swapped
-     * with the last vertex in the graph. All edges associated with the removed vertex are cleared and their indices freed.
-     * </p>
+     * To maintain a contiguous set of row indices in the incidence matrix, the row corresponding
+     * to the vertex being removed is swapped with the last vertex's row. All edges connected to
+     * the removed vertex are also cleared, and their column indices are freed for reuse.
      *
-     * @param v the vertex to remove
+     * @param v the vertex to be removed
      */
     @Override
     public void removeVertex(V v) {

@@ -9,13 +9,15 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Skeletal implementation of the {@link MutableGraph} interface to minimize the effort
- * required to implement this interface.
+ * An abstract base class for {@link MutableGraph} implementations, providing common functionality
+ * for handling different edge policies (directed vs. undirected) and delegating storage-specific
+ * operations to subclasses.
  * <p>
- * Handles edge policies (directed vs undirected) and delegates storage operations to subclasses.
- * </p>
+ * This class simplifies the creation of new graph implementations by managing the logic
+ * for adding, removing, and counting edges based on the specified {@link GraphType}. Subclasses
+ * are responsible for implementing the actual storage and retrieval of vertices and edges.
  *
- * @param <V> the type of the vertices
+ * @param <V> the type of the vertices in the graph
  */
 public abstract class AbstractGraph<V> implements MutableGraph<V> {
 
@@ -24,24 +26,25 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
     /**
      * Constructs an {@code AbstractGraph} with the specified graph type.
      *
-     * @param graphType the type of the graph (Directed or Undirected)
+     * @param graphType the type of the graph (e.g., {@link GraphType#DIRECTED} or {@link GraphType#UNDIRECTED})
      */
     protected AbstractGraph(GraphType graphType) {
         this.graphType = graphType;
     }
 
     /**
-     * Adds an edge between two vertices with a specific weight.
+     * Adds an edge between two vertices with a specified weight.
      * <p>
-     * Delegates to the {@link br.com.dbarreto.datastructure.graph.EdgePolicy} to determine
-     * the actual edges to add (e.g., adding a reverse edge for undirected graphs).
-     * </p>
+     * The behavior of this method is determined by the {@link br.com.dbarreto.datastructure.graph.EdgePolicy}
+     * associated with the graph's type. For an undirected graph, this may result in adding
+     * two internal edges (one in each direction), whereas for a directed graph, only a single
+     * edge is added.
      *
-     * @param from   the source vertex
-     * @param to     the target vertex
-     * @param weight the weight of the edge
-     * @return {@code true} if the graph was modified as a result of this operation
-     * @throws IllegalArgumentException if the weight is 0
+     * @param from   the source vertex of the edge
+     * @param to     the target vertex of the edge
+     * @param weight the weight of the edge (must be non-zero)
+     * @return {@code true} if the graph was modified as a result of this operation, {@code false} otherwise
+     * @throws IllegalArgumentException if the specified weight is 0
      */
     @Override
     public boolean addEdge(V from, V to, double weight) {
@@ -58,14 +61,13 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
     }
 
     /**
-     * Removes the edge between two vertices.
+     * Removes the edge between two specified vertices.
      * <p>
-     * Delegates to the {@link br.com.dbarreto.datastructure.graph.EdgePolicy} to determine
-     * the actual edges to remove.
-     * </p>
+     * The behavior of this method is determined by the {@link br.com.dbarreto.datastructure.graph.EdgePolicy}
+     * of the graph. For an undirected graph, this may involve removing edges in both directions.
      *
-     * @param from the source vertex
-     * @param to   the target vertex
+     * @param from the source vertex of the edge to be removed
+     * @param to   the target vertex of the edge to be removed
      */
     @Override
     public void removeEdge(V from, V to) {
@@ -75,22 +77,25 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
     }
 
     /**
-     * Returns the number of edges in the graph.
+     * Returns the number of logical edges in the graph.
      * <p>
-     * The count is normalized based on the graph type (e.g., undirected edges count as one).
-     * </p>
+     * The edge count is adjusted based on the graph's {@link br.com.dbarreto.datastructure.graph.EdgePolicy}.
+     * For example, in an undirected graph, a pair of reciprocal edges is counted as a single logical edge.
      *
-     * @return the edge count
+     * @return the total number of logical edges
      */
     @Override
     public int edgeCount() {
-        return this.graphType.policy().normalizeEdgeCount(edgeCountInternal());
+        return this.graphType.policy().logicalEdgeCount(edgeCountInternal());
     }
 
     /**
-     * Returns a collection of all logical edges in the graph.
+     * Returns a collection of all logical edges in the graph. A logical edge represents the
+     * conceptual connection between vertices as defined by the graph's type. For example, in an
+     * undirected graph, the edge (u, v) is the same as (v, u), and only one of them will be
+     * returned.
      *
-     * @return a collection of edges
+     * @return a {@link Collection} of the logical edges
      */
     @Override
     public Collection<Edge<V>> logicalEdges() {
@@ -98,9 +103,12 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
     }
 
     /**
-     * Returns a collection of all physical edges in the graph.
+     * Returns a collection of all physical edges stored in the graph. A physical edge represents
+     * a direct, one-way connection from a source vertex to a target vertex. In an undirected
+     * graph, a single logical edge is typically represented by two physical edges (one in each
+     * direction).
      *
-     * @return a collection of edges
+     * @return a {@link Collection} of the physical edges
      */
     @Override
     public Collection<Edge<V>> physicalEdges() {
@@ -122,9 +130,9 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
     }
 
     /**
-     * Returns the type of the graph.
+     * Returns the type of the graph, indicating whether it is directed or undirected.
      *
-     * @return the {@link GraphType}
+     * @return the {@link GraphType} of the graph
      */
     @Override
     public GraphType type() {
@@ -132,27 +140,30 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
     }
 
     /**
-     * Internal method to add a single directed edge.
+     * Adds a single directed edge to the graph's underlying storage. Subclasses must implement
+     * this method to define how edges are stored.
      *
-     * @param from   the source vertex
-     * @param to     the target vertex
+     * @param from   the source vertex of the edge
+     * @param to     the target vertex of the edge
      * @param weight the weight of the edge
-     * @return {@code true} if the edge was added
+     * @return {@code true} if the edge was successfully added, {@code false} otherwise
      */
     protected abstract boolean addEdgeInternal(V from, V to, double weight);
 
     /**
-     * Internal method to remove a single directed edge.
+     * Removes a single directed edge from the graph's underlying storage. Subclasses must
+     * implement this method to define how edges are removed.
      *
-     * @param from the source vertex
-     * @param to   the target vertex
+     * @param from the source vertex of the edge to be removed
+     * @param to   the target vertex of the edge to be removed
      */
     protected abstract void removeEdgeInternal(V from, V to);
 
     /**
-     * Internal method to count the total number of directed edges stored.
+     * Counts the total number of physical (directed) edges stored in the graph. Subclasses must
+     * implement this method to count the edges in their specific storage implementation.
      *
-     * @return the internal edge count
+     * @return the total number of internal edges
      */
     protected abstract int edgeCountInternal();
 }
