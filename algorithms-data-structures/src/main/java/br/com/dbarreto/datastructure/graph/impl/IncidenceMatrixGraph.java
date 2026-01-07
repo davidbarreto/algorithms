@@ -62,8 +62,9 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
      */
     public IncidenceMatrixGraph(int numVertexes, int numEdges, EdgePolicy edgePolicy) {
         super(edgePolicy);
-        this.incidenceMatrix = new short[numVertexes][numEdges];
-        this.edgeWeights = new double[numEdges];
+        var maxEdges = edgePolicy.name() == GraphType.UNDIRECTED ? numEdges * 2 : numEdges;
+        this.incidenceMatrix = new short[numVertexes][maxEdges];
+        this.edgeWeights = new double[maxEdges];
         this.vertexIndexMapping = new HashMap<>();
         this.indexVertexMapping = new HashMap<>();
         this.vertexCount = 0;
@@ -162,7 +163,7 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
         }
 
         if (this.freeEdgeIndices.isEmpty() && this.nextEdgeIndex >= this.incidenceMatrix[0].length) {
-            throw new IllegalStateException("Maximum number of edges exceeded");
+            throw new IllegalStateException("Maximum number of edges exceeded: " + this.incidenceMatrix[0].length);
         }
 
         int edge;
