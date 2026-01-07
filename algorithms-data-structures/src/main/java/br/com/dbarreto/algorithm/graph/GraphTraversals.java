@@ -61,6 +61,7 @@ public class GraphTraversals {
         Set<V> visited = new HashSet<>();
         Deque<V> container = new ArrayDeque<>();
         addConsumer.accept(container, start);
+        visited.add(start);
 
         while (!container.isEmpty()) {
             V current = removeFunction.apply(container);
