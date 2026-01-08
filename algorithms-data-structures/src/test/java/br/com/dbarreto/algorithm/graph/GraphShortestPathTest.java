@@ -42,6 +42,23 @@ class GraphShortestPathTest {
     }
 
     /**
+     * Tests the bfs-based shortest path algorithm on a given graph scenario.
+     * <p>
+     * This algorithm only works with unweighted graphs (or same weight for all edges).
+     *
+     * @param graphImplementation   A function to create the graph
+     * @param scenario              The test scenario, including the graph, origin, and expected distances
+     */
+    @ParameterizedTest
+    @MethodSource("bfsShortestPathArguments")
+    void bfsShortestPath(Function<GraphScenarios.GraphArguments, MutableGraph<String>> graphImplementation,
+                         ShortestPathScenarios.ShortestPathScenario<String> scenario)
+    {
+        var graph = GraphScenarios.of(graphImplementation, scenario.graphScenario());
+        assertThat(GraphShortestPath.bfsBased(graph, scenario.origin())).isEqualTo(scenario.distances());
+    }
+
+    /**
      * Provides a stream of arguments for the parameterized tests.
      * <p>
      * This method generates a Cartesian product of all graph implementations,
@@ -51,12 +68,21 @@ class GraphShortestPathTest {
      * @return a stream of {@link Arguments} for the tests
      */
     static Stream<Arguments> shortestPathArguments() {
-        return ShortestPathScenarios.scenarios().stream()
+        return ShortestPathScenarios.allScenarios().stream()
                 .flatMap(scenario -> GraphScenarios.graphImplementations().stream()
                         .flatMap(graphImplementation -> ShortestPathScenarios.<String>shortestPathImplementations().stream()
                                 .map(algorithm ->
                                         Arguments.of(graphImplementation, algorithm, scenario)
                                 )
+                        )
+                );
+    }
+
+    static Stream<Arguments> bfsShortestPathArguments() {
+        return ShortestPathScenarios.unweightedScenarios().stream()
+                .flatMap(scenario -> GraphScenarios.graphImplementations().stream()
+                        .map(graphImplementation ->
+                                Arguments.of(graphImplementation, scenario)
                         )
                 );
     }

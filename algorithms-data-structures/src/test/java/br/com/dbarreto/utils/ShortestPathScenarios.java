@@ -4,6 +4,7 @@ import br.com.dbarreto.algorithm.graph.GraphShortestPath;
 import br.com.dbarreto.datastructure.graph.Graph;
 import br.com.dbarreto.datastructure.graph.GraphType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -21,19 +22,37 @@ public class ShortestPathScenarios {
     private ShortestPathScenarios() {
     }
 
+    public static List<ShortestPathScenario<String>> allScenarios() {
+        List<ShortestPathScenario<String>> scenarios = new ArrayList<>();
+        scenarios.addAll(weightedScenarios());
+        scenarios.addAll(unweightedScenarios());
+        return scenarios;
+    }
+
     /**
      * Returns a list of all predefined shortest path scenarios.
      *
      * @return a list of {@link ShortestPathScenario}
      */
-    public static List<ShortestPathScenario<String>> scenarios() {
+    public static List<ShortestPathScenario<String>> weightedScenarios() {
         return List.of(
-                createSimpleUndirectedScenario(),
+                createSmallUndirectedScenario(),
                 createSmallDirectedScenario(),
                 createMediumUndirectedScenario(),
                 createMediumDirectedScenario(),
                 createLargeUndirectedScenario(),
                 createLargeDirectedScenario()
+        );
+    }
+
+    public static List<ShortestPathScenario<String>> unweightedScenarios() {
+        return List.of(
+                createSmallUndirectedWeightNormalizedScenario(),
+                createSmallDirectedWeightNormalizedScenario(),
+                createMediumUndirectedWeightNormalizedScenario(),
+                createMediumDirectedWeightNormalizedScenario(),
+                createLargeUndirectedWeightNormalizedScenario(),
+                createLargeDirectedWeightNormalizedScenario()
         );
     }
 
@@ -55,7 +74,7 @@ public class ShortestPathScenarios {
      *
      * @return a {@link ShortestPathScenario}
      */
-    public static ShortestPathScenario<String> createSimpleUndirectedScenario() {
+    public static ShortestPathScenario<String> createSmallUndirectedScenario() {
         return new ShortestPathScenario<>(
                 new GraphScenarios.GraphScenario<>(
                         List.of(
@@ -264,6 +283,190 @@ public class ShortestPathScenarios {
                         Map.entry("10", 11.0),
                         Map.entry("11", 9.0),
                         Map.entry("12", 13.0)
+                )
+        );
+    }
+
+    public static ShortestPathScenario<String> createSmallUndirectedWeightNormalizedScenario() {
+        return new ShortestPathScenario<>(
+                new GraphScenarios.GraphScenario<>(
+                        List.of(
+                                new Graph.Edge<>("A", "B", 1.0),
+                                new Graph.Edge<>("A", "C", 1.0),
+                                new Graph.Edge<>("B", "C", 1.0),
+                                new Graph.Edge<>("A", "D", 1.0),
+                                new Graph.Edge<>("D", "E", 1.0)
+                        ),
+                        GraphType.UNDIRECTED
+                ),
+                "A",
+                Map.of(
+                        "A", 0.0,
+                        "B", 1.0,
+                        "C", 1.0,
+                        "D", 1.0,
+                        "E", 2.0
+                )
+        );
+    }
+
+    public static ShortestPathScenario<String> createSmallDirectedWeightNormalizedScenario() {
+        return new ShortestPathScenario<>(
+                new GraphScenarios.GraphScenario<>(
+                        List.of(
+                                new Graph.Edge<>("A", "C", 1.0),
+                                new Graph.Edge<>("A", "D", 1.0),
+                                new Graph.Edge<>("B", "A", 1.0),
+                                new Graph.Edge<>("C", "B", 1.0),
+                                new Graph.Edge<>("D", "E", 1.0),
+                                new Graph.Edge<>("E", "A", 1.0)
+                        ),
+                        GraphType.DIRECTED
+                ),
+                "A",
+                Map.of(
+                        "A", 0.0,
+                        "B", 2.0,
+                        "C", 1.0,
+                        "D", 1.0,
+                        "E", 2.0
+                )
+        );
+    }
+
+    public static ShortestPathScenario<String> createMediumUndirectedWeightNormalizedScenario() {
+        return new ShortestPathScenario<>(
+                new GraphScenarios.GraphScenario<>(
+                        List.of(
+                                new Graph.Edge<>("A", "C", 1.0),
+                                new Graph.Edge<>("A", "D", 1.0),
+                                new Graph.Edge<>("A", "E", 1.0),
+                                new Graph.Edge<>("B", "C", 1.0),
+                                new Graph.Edge<>("B", "F", 1.0),
+                                new Graph.Edge<>("C", "E", 1.0),
+                                new Graph.Edge<>("C", "F", 1.0),
+                                new Graph.Edge<>("C", "G", 1.0),
+                                new Graph.Edge<>("C", "G", 1.0)
+                        ),
+                        GraphType.UNDIRECTED
+                ),
+                "A",
+                Map.of(
+                        "A", 0.0,
+                        "B", 2.0,
+                        "C", 1.0,
+                        "D", 1.0,
+                        "E", 1.0,
+                        "F", 2.0,
+                        "G", 2.0
+                )
+        );
+    }
+
+    public static ShortestPathScenario<String> createMediumDirectedWeightNormalizedScenario() {
+        return new ShortestPathScenario<>(
+                new GraphScenarios.GraphScenario<>(
+                        List.of(
+                                new Graph.Edge<>("A", "C", 1.0),
+                                new Graph.Edge<>("A", "D", 1.0),
+                                new Graph.Edge<>("A", "E", 1.0),
+                                new Graph.Edge<>("B", "F", 1.0),
+                                new Graph.Edge<>("C", "F", 1.0),
+                                new Graph.Edge<>("C", "B", 1.0),
+                                new Graph.Edge<>("E", "C", 1.0),
+                                new Graph.Edge<>("G", "C", 1.0)
+                        ),
+                        GraphType.DIRECTED
+                ),
+                "A",
+                Map.of(
+                        "A", 0.0,
+                        "B", 2.0,
+                        "C", 1.0,
+                        "D", 1.0,
+                        "E", 1.0,
+                        "F", 2.0,
+                        "G", Double.POSITIVE_INFINITY
+                )
+        );
+    }
+
+    public static ShortestPathScenario<String> createLargeUndirectedWeightNormalizedScenario() {
+        return new ShortestPathScenario<>(
+                new GraphScenarios.GraphScenario<>(
+                        List.of(
+                                new Graph.Edge<>("1", "2", 1.0),
+                                new Graph.Edge<>("1", "3", 1.0),
+                                new Graph.Edge<>("2", "4", 1.0),
+                                new Graph.Edge<>("2", "5", 1.0),
+                                new Graph.Edge<>("3", "5", 1.0),
+                                new Graph.Edge<>("3", "6", 1.0),
+                                new Graph.Edge<>("4", "7", 1.0),
+                                new Graph.Edge<>("5", "7", 1.0),
+                                new Graph.Edge<>("5", "8", 1.0),
+                                new Graph.Edge<>("6", "8", 1.0),
+                                new Graph.Edge<>("7", "9", 1.0),
+                                new Graph.Edge<>("8", "9", 1.0),
+                                new Graph.Edge<>("8", "10", 1.0),
+                                new Graph.Edge<>("9", "11", 1.0),
+                                new Graph.Edge<>("10", "11", 1.0),
+                                new Graph.Edge<>("11", "12", 1.0)
+                        ),
+                        GraphType.UNDIRECTED
+                ),
+                "1",
+                Map.ofEntries(
+                        Map.entry("1", 0.0),
+                        Map.entry("2", 1.0),
+                        Map.entry("3", 1.0),
+                        Map.entry("4", 2.0),
+                        Map.entry("5", 2.0),
+                        Map.entry("6", 2.0),
+                        Map.entry("7", 3.0),
+                        Map.entry("8", 3.0),
+                        Map.entry("9", 4.0),
+                        Map.entry("10", 4.0),
+                        Map.entry("11", 5.0),
+                        Map.entry("12", 6.0)
+                )
+        );
+    }
+
+    public static ShortestPathScenario<String> createLargeDirectedWeightNormalizedScenario() {
+        return new ShortestPathScenario<>(
+                new GraphScenarios.GraphScenario<>(
+                        List.of(
+                                new Graph.Edge<>("S", "A", 1.0),
+                                new Graph.Edge<>("S", "B", 1.0),
+                                new Graph.Edge<>("A", "C", 1.0),
+                                new Graph.Edge<>("A", "D", 1.0),
+                                new Graph.Edge<>("B", "D", 1.0),
+                                new Graph.Edge<>("B", "E", 1.0),
+                                new Graph.Edge<>("C", "F", 1.0),
+                                new Graph.Edge<>("D", "F", 1.0),
+                                new Graph.Edge<>("D", "G", 1.0),
+                                new Graph.Edge<>("E", "G", 1.0),
+                                new Graph.Edge<>("F", "H", 1.0),
+                                new Graph.Edge<>("G", "H", 1.0),
+                                new Graph.Edge<>("G", "I", 1.0),
+                                new Graph.Edge<>("H", "T", 1.0),
+                                new Graph.Edge<>("I", "T", 1.0)
+                        ),
+                        GraphType.DIRECTED
+                ),
+                "S",
+                Map.ofEntries(
+                        Map.entry("S", 0.0),
+                        Map.entry("A", 1.0),
+                        Map.entry("B", 1.0),
+                        Map.entry("C", 2.0),
+                        Map.entry("D", 2.0),
+                        Map.entry("E", 2.0),
+                        Map.entry("F", 3.0),
+                        Map.entry("G", 3.0),
+                        Map.entry("H", 4.0),
+                        Map.entry("I", 4.0),
+                        Map.entry("T", 5.0)
                 )
         );
     }

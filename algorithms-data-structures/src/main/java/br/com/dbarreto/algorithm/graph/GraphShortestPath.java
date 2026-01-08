@@ -69,4 +69,29 @@ public class GraphShortestPath {
 
         return distance;
     }
+
+    public static <V> Map<V, Double> bfsBased(Graph<V> graph, V from) {
+
+        var queue = new ArrayDeque<V>();
+        var distance = new HashMap<V, Double>();
+        var vertices = graph.vertices();
+        for (var v : vertices) {
+            distance.put(v, Double.POSITIVE_INFINITY);
+        }
+        distance.put(from, 0.0);
+        queue.add(from);
+
+        while (!queue.isEmpty()) {
+            V vertex = queue.poll();
+
+            for (V neighbor : graph.neighborsOf(vertex)) {
+                if (distance.get(neighbor) == Double.POSITIVE_INFINITY) {
+                    distance.put(neighbor, distance.get(vertex) + 1);
+                    queue.add(neighbor);
+                }
+            }
+        }
+
+        return distance;
+    }
 }
