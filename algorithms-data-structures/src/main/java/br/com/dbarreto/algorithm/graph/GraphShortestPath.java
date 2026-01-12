@@ -94,4 +94,34 @@ public class GraphShortestPath {
 
         return distance;
     }
+
+    public static <V> Map<V, Map<V, Double>> floydWarshall(Graph<V> graph) {
+
+        Map<V, Map<V, Double>> distance = new HashMap<>();
+
+        var vertices = graph.vertices();
+        for (var u : vertices) {
+            distance.computeIfAbsent(u, a -> new HashMap<>()).put(u, 0.0);
+            for (var v : vertices) {
+                distance.get(u).putIfAbsent(v, Double.POSITIVE_INFINITY);
+            }
+        }
+
+        var edges = graph.physicalEdges();
+        for (var e : edges) {
+            distance.get(e.from()).put(e.to(), e.weight());
+        }
+
+        for (var k : vertices) {
+            for (var i : vertices) {
+                for (var j : vertices) {
+                    if (distance.get(i).get(j) > distance.get(i).get(k) + distance.get(k).get(j)) {
+                        distance.get(i).put(j, distance.get(i).get(k) + distance.get(k).get(j));
+                    }
+                }
+            }
+        }
+
+        return distance;
+    }
 }

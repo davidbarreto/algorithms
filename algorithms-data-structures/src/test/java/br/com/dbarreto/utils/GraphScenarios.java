@@ -153,6 +153,224 @@ public class GraphScenarios {
         return mutableGraph;
     }
 
+    public static GraphScenario<String> createSmallUndirectedWeightedGraphScenario() {
+        return new GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("A", "B", 4.0),
+                        new Graph.Edge<>("A", "C", 8.0),
+                        new Graph.Edge<>("B", "C", 3.0),
+                        new Graph.Edge<>("B", "E", 6.0),
+                        new Graph.Edge<>("E", "D", 10.0)
+                ),
+                GraphType.UNDIRECTED
+        );
+    }
+
+    public static GraphScenario<String> createSmallDirectedWeghtedGraphScenario() {
+        return new GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("A", "B", 10.0),
+                        new Graph.Edge<>("A", "C", 3.0),
+                        new Graph.Edge<>("B", "D", 2.0),
+                        new Graph.Edge<>("C", "B", 4.0),
+                        new Graph.Edge<>("C", "D", 8.0),
+                        new Graph.Edge<>("C", "E", 2.0),
+                        new Graph.Edge<>("E", "D", 5.0)
+                ),
+                GraphType.DIRECTED
+        );
+    }
+
+    public static GraphScenario<String> createMediumDirectedWeightedGraphScenario() {
+        return new GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("D", "A", 4.0),
+                        new Graph.Edge<>("A", "E", 4.0),
+                        new Graph.Edge<>("A", "C", 3.0),
+                        new Graph.Edge<>("D", "E", 2.0),
+                        new Graph.Edge<>("E", "C", 4.0),
+                        new Graph.Edge<>("E", "G", 5.0),
+                        new Graph.Edge<>("C", "F", 4.0),
+                        new Graph.Edge<>("C", "B", 3.0),
+                        new Graph.Edge<>("G", "C", 5.0),
+                        new Graph.Edge<>("G", "F", 5.0),
+                        new Graph.Edge<>("F", "B", 2.0)
+                ),
+                GraphType.DIRECTED
+        );
+    }
+
+    public static GraphScenario<String> createMediumUndirectedWeightedGraphScenario() {
+        return new GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("A", "B", 2.0),
+                        new Graph.Edge<>("A", "C", 5.0),
+                        new Graph.Edge<>("B", "C", 2.0),
+                        new Graph.Edge<>("B", "D", 4.0),
+                        new Graph.Edge<>("C", "E", 3.0),
+                        new Graph.Edge<>("D", "E", 1.0),
+                        new Graph.Edge<>("D", "F", 2.0),
+                        new Graph.Edge<>("E", "F", 5.0),
+                        new Graph.Edge<>("F", "G", 1.0)
+                ),
+                GraphType.UNDIRECTED
+        );
+    }
+
+    public static GraphScenario<String> createLargeDirectedWeightedGraphScenario() {
+        return new GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("S", "A", 2.0),
+                        new Graph.Edge<>("S", "B", 5.0),
+                        new Graph.Edge<>("A", "C", 2.0),
+                        new Graph.Edge<>("A", "D", 4.0),
+                        new Graph.Edge<>("B", "D", 1.0),
+                        new Graph.Edge<>("B", "E", 2.0),
+                        new Graph.Edge<>("C", "F", 3.0),
+                        new Graph.Edge<>("D", "F", 2.0),
+                        new Graph.Edge<>("D", "G", 5.0),
+                        new Graph.Edge<>("E", "G", 2.0),
+                        new Graph.Edge<>("F", "H", 4.0),
+                        new Graph.Edge<>("G", "H", 1.0),
+                        new Graph.Edge<>("G", "I", 3.0),
+                        new Graph.Edge<>("H", "T", 3.0),
+                        new Graph.Edge<>("I", "T", 4.0)
+                ),
+                GraphType.DIRECTED
+        );
+    }
+
+    public static GraphScenario<String> createLargeUndirectedWeightedGraphScenario() {
+        return new GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("1", "2", 1.0),
+                        new Graph.Edge<>("1", "3", 4.0),
+                        new Graph.Edge<>("2", "4", 2.0),
+                        new Graph.Edge<>("2", "5", 3.0),
+                        new Graph.Edge<>("3", "5", 1.0),
+                        new Graph.Edge<>("3", "6", 5.0),
+                        new Graph.Edge<>("4", "7", 3.0),
+                        new Graph.Edge<>("5", "7", 2.0),
+                        new Graph.Edge<>("5", "8", 4.0),
+                        new Graph.Edge<>("6", "8", 1.0),
+                        new Graph.Edge<>("7", "9", 2.0),
+                        new Graph.Edge<>("8", "9", 5.0),
+                        new Graph.Edge<>("8", "10", 3.0),
+                        new Graph.Edge<>("9", "11", 1.0),
+                        new Graph.Edge<>("10", "11", 2.0),
+                        new Graph.Edge<>("11", "12", 4.0)
+                ),
+                GraphType.UNDIRECTED
+        );
+    }
+
+    public static GraphScenario<String> createSmallUndirectedWeightNormalizedGraphScenario() {
+        return new GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("A", "B", 1.0),
+                        new Graph.Edge<>("A", "C", 1.0),
+                        new Graph.Edge<>("B", "C", 1.0),
+                        new Graph.Edge<>("A", "D", 1.0),
+                        new Graph.Edge<>("D", "E", 1.0)
+                ),
+                GraphType.UNDIRECTED
+        );
+    }
+
+    public static GraphScenario<String> createSmallDirectedWeightNormalizedGraphScenario() {
+        return new GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("A", "C", 1.0),
+                        new Graph.Edge<>("A", "D", 1.0),
+                        new Graph.Edge<>("B", "A", 1.0),
+                        new Graph.Edge<>("C", "B", 1.0),
+                        new Graph.Edge<>("D", "E", 1.0),
+                        new Graph.Edge<>("E", "A", 1.0)
+                ),
+                GraphType.DIRECTED
+        );
+    }
+
+    public static GraphScenarios.GraphScenario<String> createMediumUndirectedWeightNormalizedGraphScenario() {
+        return new GraphScenarios.GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("A", "C", 1.0),
+                        new Graph.Edge<>("A", "D", 1.0),
+                        new Graph.Edge<>("A", "E", 1.0),
+                        new Graph.Edge<>("B", "C", 1.0),
+                        new Graph.Edge<>("B", "F", 1.0),
+                        new Graph.Edge<>("C", "E", 1.0),
+                        new Graph.Edge<>("C", "F", 1.0),
+                        new Graph.Edge<>("C", "G", 1.0),
+                        new Graph.Edge<>("C", "G", 1.0)
+                ),
+                GraphType.UNDIRECTED
+        );
+    }
+
+    public static GraphScenarios.GraphScenario<String> createMediumDirectedWeightNormalizedGraphScenario() {
+        return new GraphScenarios.GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("A", "C", 1.0),
+                        new Graph.Edge<>("A", "D", 1.0),
+                        new Graph.Edge<>("A", "E", 1.0),
+                        new Graph.Edge<>("B", "F", 1.0),
+                        new Graph.Edge<>("C", "F", 1.0),
+                        new Graph.Edge<>("C", "B", 1.0),
+                        new Graph.Edge<>("E", "C", 1.0),
+                        new Graph.Edge<>("G", "C", 1.0)
+                ),
+                GraphType.DIRECTED
+        );
+    }
+
+    public static GraphScenarios.GraphScenario<String> createLargeUndirectedWeightNormalizedGraphScenario() {
+        return new GraphScenarios.GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("1", "2", 1.0),
+                        new Graph.Edge<>("1", "3", 1.0),
+                        new Graph.Edge<>("2", "4", 1.0),
+                        new Graph.Edge<>("2", "5", 1.0),
+                        new Graph.Edge<>("3", "5", 1.0),
+                        new Graph.Edge<>("3", "6", 1.0),
+                        new Graph.Edge<>("4", "7", 1.0),
+                        new Graph.Edge<>("5", "7", 1.0),
+                        new Graph.Edge<>("5", "8", 1.0),
+                        new Graph.Edge<>("6", "8", 1.0),
+                        new Graph.Edge<>("7", "9", 1.0),
+                        new Graph.Edge<>("8", "9", 1.0),
+                        new Graph.Edge<>("8", "10", 1.0),
+                        new Graph.Edge<>("9", "11", 1.0),
+                        new Graph.Edge<>("10", "11", 1.0),
+                        new Graph.Edge<>("11", "12", 1.0)
+                ),
+                GraphType.UNDIRECTED
+        );
+    }
+
+    public static GraphScenarios.GraphScenario<String> createLargeDirectedWeightNormalizedGraphScenario() {
+        return new GraphScenarios.GraphScenario<>(
+                List.of(
+                        new Graph.Edge<>("S", "A", 1.0),
+                        new Graph.Edge<>("S", "B", 1.0),
+                        new Graph.Edge<>("A", "C", 1.0),
+                        new Graph.Edge<>("A", "D", 1.0),
+                        new Graph.Edge<>("B", "D", 1.0),
+                        new Graph.Edge<>("B", "E", 1.0),
+                        new Graph.Edge<>("C", "F", 1.0),
+                        new Graph.Edge<>("D", "F", 1.0),
+                        new Graph.Edge<>("D", "G", 1.0),
+                        new Graph.Edge<>("E", "G", 1.0),
+                        new Graph.Edge<>("F", "H", 1.0),
+                        new Graph.Edge<>("G", "H", 1.0),
+                        new Graph.Edge<>("G", "I", 1.0),
+                        new Graph.Edge<>("H", "T", 1.0),
+                        new Graph.Edge<>("I", "T", 1.0)
+                ),
+                GraphType.DIRECTED
+        );
+    }
+
     /**
      * Represents a graph testing scenario.
      *

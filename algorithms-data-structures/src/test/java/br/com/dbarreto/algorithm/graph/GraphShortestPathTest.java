@@ -58,6 +58,15 @@ class GraphShortestPathTest {
         assertThat(GraphShortestPath.bfsBased(graph, scenario.origin())).isEqualTo(scenario.distances());
     }
 
+    @ParameterizedTest
+    @MethodSource("allVerticesShortestPathArguments")
+    void allVerticesShortestPath(Function<GraphScenarios.GraphArguments, MutableGraph<String>> graphImplementation,
+                         ShortestPathScenarios.AllVerticesShortestPathScenario<String> scenario)
+    {
+        var graph = GraphScenarios.of(graphImplementation, scenario.graphScenario());
+        assertThat(GraphShortestPath.floydWarshall(graph)).isEqualTo(scenario.distances());
+    }
+
     /**
      * Provides a stream of arguments for the parameterized tests.
      * <p>
@@ -68,7 +77,7 @@ class GraphShortestPathTest {
      * @return a stream of {@link Arguments} for the tests
      */
     static Stream<Arguments> shortestPathArguments() {
-        return ShortestPathScenarios.allScenarios().stream()
+        return ShortestPathScenarios.allSingleOriginShortestPathScenarios().stream()
                 .flatMap(scenario -> GraphScenarios.graphImplementations().stream()
                         .flatMap(graphImplementation -> ShortestPathScenarios.<String>shortestPathImplementations().stream()
                                 .map(algorithm ->
@@ -79,7 +88,16 @@ class GraphShortestPathTest {
     }
 
     static Stream<Arguments> bfsShortestPathArguments() {
-        return ShortestPathScenarios.unweightedScenarios().stream()
+        return ShortestPathScenarios.unweightedSingleOriginShortestPathScenarios().stream()
+                .flatMap(scenario -> GraphScenarios.graphImplementations().stream()
+                        .map(graphImplementation ->
+                                Arguments.of(graphImplementation, scenario)
+                        )
+                );
+    }
+
+    static Stream<Arguments> allVerticesShortestPathArguments() {
+        return ShortestPathScenarios.allMultiOriginShortestPathScenarios().stream()
                 .flatMap(scenario -> GraphScenarios.graphImplementations().stream()
                         .map(graphImplementation ->
                                 Arguments.of(graphImplementation, scenario)
