@@ -1,10 +1,10 @@
 package br.com.dbarreto.utils;
 
-import br.com.dbarreto.datastructure.tree.BinarySearchTree;
-import br.com.dbarreto.datastructure.tree.BinaryTree;
-import br.com.dbarreto.datastructure.tree.impl.AvlTree;
-import br.com.dbarreto.datastructure.tree.impl.RedBlackTree;
-import br.com.dbarreto.datastructure.tree.impl.SimpleBinarySearchTree;
+import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
+import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
+import br.com.dbarreto.datastructure.tree.binary.impl.AvlTree;
+import br.com.dbarreto.datastructure.tree.binary.impl.RedBlackTree;
+import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinarySearchTree;
 
 /**
  * Utility class for creating various Binary Search Tree (BST) scenarios for testing purposes.

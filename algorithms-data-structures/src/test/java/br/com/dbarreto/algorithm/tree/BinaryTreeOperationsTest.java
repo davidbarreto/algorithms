@@ -1,11 +1,12 @@
 package br.com.dbarreto.algorithm.tree;
 
-import br.com.dbarreto.datastructure.node.MutableBinaryTreeNode;
-import br.com.dbarreto.datastructure.node.impl.SimpleMutableBinarySearchTreeNode;
-import br.com.dbarreto.datastructure.node.impl.SimpleMutableBinaryTreeNode;
-import br.com.dbarreto.datastructure.node.impl.SimpleMutableHeightBinarySearchTreeNode;
-import br.com.dbarreto.datastructure.tree.BinaryTree;
-import br.com.dbarreto.datastructure.tree.impl.SimpleBinaryTree;
+import br.com.dbarreto.datastructure.node.tree.binary.MutableBinaryTreeNode;
+import br.com.dbarreto.datastructure.node.tree.binary.impl.SimpleMutableBinarySearchTreeNode;
+import br.com.dbarreto.datastructure.node.tree.binary.impl.SimpleMutableBinaryTreeNode;
+import br.com.dbarreto.datastructure.node.tree.binary.impl.SimpleMutableHeightBinarySearchTreeNode;
+import br.com.dbarreto.datastructure.node.tree.binary.BinaryTreeNode;
+import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
+import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinaryTree;
 import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 import br.com.dbarreto.utils.BinaryTreeScenarios;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -69,7 +70,7 @@ class BinaryTreeOperationsTest {
     }
 
     /**
-     * Tests the {@link BinaryTreeOperations#deepCopy(br.com.dbarreto.datastructure.node.BinaryTreeNode, Function)} method.
+     * Tests the {@link BinaryTreeOperations#deepCopy(BinaryTreeNode, Function)} method.
      */
     @ParameterizedTest
     @MethodSource("deepCopyArguments")

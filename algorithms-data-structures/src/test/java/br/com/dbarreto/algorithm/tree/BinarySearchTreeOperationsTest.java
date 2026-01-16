@@ -1,7 +1,7 @@
 package br.com.dbarreto.algorithm.tree;
 
-import br.com.dbarreto.datastructure.tree.BinarySearchTree;
-import br.com.dbarreto.datastructure.tree.BinaryTree;
+import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
+import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 import br.com.dbarreto.utils.BinaryTreeScenarios;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -1,8 +1,9 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
+import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinarySearchTree;
 import br.com.dbarreto.utils.BinarySearchTreeScenarios;
-import br.com.dbarreto.datastructure.tree.BinarySearchTree;
-import br.com.dbarreto.datastructure.tree.BinaryTree;
+import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
+import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

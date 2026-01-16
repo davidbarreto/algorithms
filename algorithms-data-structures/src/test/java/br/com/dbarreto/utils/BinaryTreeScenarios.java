@@ -4,10 +4,10 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Random;
 
-import br.com.dbarreto.datastructure.node.impl.SimpleBinaryTreeNode;
-import br.com.dbarreto.datastructure.tree.BinaryTree;
-import br.com.dbarreto.datastructure.tree.builder.SimpleBinaryTreeBuilder;
-import br.com.dbarreto.datastructure.tree.impl.SimpleBinaryTree;
+import br.com.dbarreto.datastructure.node.tree.binary.impl.SimpleBinaryTreeNode;
+import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
+import br.com.dbarreto.datastructure.tree.binary.builder.SimpleBinaryTreeBuilder;
+import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinaryTree;
 
 /**
  * Utility class for creating various binary tree scenarios for testing purposes.

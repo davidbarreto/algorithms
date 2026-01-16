@@ -4,8 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import br.com.dbarreto.datastructure.graph.GraphType;
-import br.com.dbarreto.datastructure.node.GraphNode;
-import br.com.dbarreto.datastructure.node.impl.SimpleGraphNode;
+import br.com.dbarreto.datastructure.node.graph.GraphNode;
+import br.com.dbarreto.datastructure.node.graph.impl.SimpleGraphNode;
 
 /**
  * Implementation of a graph using an object-oriented node structure.

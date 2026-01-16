@@ -1,6 +1,7 @@
 package br.com.dbarreto.datastructure.tree.impl;
 
-import br.com.dbarreto.datastructure.node.impl.RedBlackTreeNode;
+import br.com.dbarreto.datastructure.node.tree.binary.impl.RedBlackTreeNode;
+import br.com.dbarreto.datastructure.tree.binary.impl.RedBlackTree;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

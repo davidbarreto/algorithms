@@ -1,9 +1,9 @@
 package br.com.dbarreto.algorithm.tree;
 
-import br.com.dbarreto.datastructure.node.BinarySearchTreeNode;
-import br.com.dbarreto.datastructure.node.BinaryTreeNode;
-import br.com.dbarreto.datastructure.tree.BinarySearchTree;
-import br.com.dbarreto.datastructure.tree.BinaryTree;
+import br.com.dbarreto.datastructure.node.tree.binary.BinarySearchTreeNode;
+import br.com.dbarreto.datastructure.node.tree.binary.BinaryTreeNode;
+import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
+import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 
 import java.util.Objects;
 

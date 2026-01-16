@@ -14,8 +14,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import br.com.dbarreto.utils.BinaryTreeScenarios;
-import br.com.dbarreto.datastructure.tree.BinaryTree;
-import br.com.dbarreto.datastructure.tree.impl.SimpleBinaryTree;
+import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
+import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinaryTree;
 
 /**
  * Test class for {@link BinaryTreeTraversals}.

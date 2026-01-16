@@ -3,9 +3,9 @@ package br.com.dbarreto.algorithm.tree;
 import java.util.Objects;
 import java.util.function.Function;
 
-import br.com.dbarreto.datastructure.node.BinaryTreeNode;
-import br.com.dbarreto.datastructure.node.MutableBinaryTreeNode;
-import br.com.dbarreto.datastructure.tree.BinaryTree;
+import br.com.dbarreto.datastructure.node.tree.binary.BinaryTreeNode;
+import br.com.dbarreto.datastructure.node.tree.binary.MutableBinaryTreeNode;
+import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 
 public class BinaryTreeOperations {
 

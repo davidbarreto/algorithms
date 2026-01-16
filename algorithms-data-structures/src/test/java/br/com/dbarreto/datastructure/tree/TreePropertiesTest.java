@@ -1,12 +1,13 @@
 package br.com.dbarreto.datastructure.tree;
 
-import br.com.dbarreto.datastructure.tree.impl.AvlTree;
-import br.com.dbarreto.datastructure.tree.impl.RedBlackTree;
-import br.com.dbarreto.datastructure.node.impl.SimpleMutableHeightBinarySearchTreeNode;
-import br.com.dbarreto.datastructure.node.impl.RedBlackTreeNode;
-import br.com.dbarreto.datastructure.node.BinarySearchTreeNode;
-import br.com.dbarreto.datastructure.node.BinaryTreeNode;
-import br.com.dbarreto.datastructure.tree.impl.SimpleBinarySearchTree;
+import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
+import br.com.dbarreto.datastructure.tree.binary.impl.AvlTree;
+import br.com.dbarreto.datastructure.tree.binary.impl.RedBlackTree;
+import br.com.dbarreto.datastructure.node.tree.binary.impl.SimpleMutableHeightBinarySearchTreeNode;
+import br.com.dbarreto.datastructure.node.tree.binary.impl.RedBlackTreeNode;
+import br.com.dbarreto.datastructure.node.tree.binary.BinarySearchTreeNode;
+import br.com.dbarreto.datastructure.node.tree.binary.BinaryTreeNode;
+import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinarySearchTree;
 import net.jqwik.api.*;
 import net.jqwik.api.constraints.Size;
 
@@ -17,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static br.com.dbarreto.datastructure.node.ColoredBinarySearchTreeNode.Color.RED;
-import static br.com.dbarreto.datastructure.node.ColoredBinarySearchTreeNode.Color.BLACK;
+import static br.com.dbarreto.datastructure.node.tree.binary.ColoredBinarySearchTreeNode.Color.RED;
+import static br.com.dbarreto.datastructure.node.tree.binary.ColoredBinarySearchTreeNode.Color.BLACK;
 
 /**
  * Property-based tests for tree data structures.
