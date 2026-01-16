@@ -115,7 +115,7 @@ public abstract class AbstractGraph<V> implements MutableGraph<V> {
         return edges(false);
     }
 
-    private Collection<Edge<V>> edges(boolean logical) {
+    protected Collection<Edge<V>> edges(boolean logical) {
         List<Edge<V>> edges = new ArrayList<>();
         for (V from : vertices()) {
             for (V to : neighborsOf(from)) {

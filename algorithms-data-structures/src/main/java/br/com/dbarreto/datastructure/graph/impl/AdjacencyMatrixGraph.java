@@ -133,6 +133,24 @@ public class AdjacencyMatrixGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
+    public Collection<Edge<V>> edges(boolean isLogical) {
+        List<Edge<V>> edges = new ArrayList<>();
+        for (int i = 0; i < this.vertexCount; i++) {
+            for (int j = 0; j < this.vertexCount; j++) {
+                if (this.adjacencyMatrix[i][j] != 0.0) {
+                    V from = this.indexVertexMapping.get(i);
+                    V to = this.indexVertexMapping.get(j);
+                    if (isLogical && !type().policy().isLogicalEdge(from, to)) {
+                        continue;
+                    }
+                    edges.add(new Edge<>(from, to, this.adjacencyMatrix[i][j]));
+                }
+            }
+        }
+        return edges;
+    }
+
+    @Override
     public void removeEdgeInternal(V from, V to) {
         var indexFrom = this.vertexIndexMapping.get(from);
         var indexTo = this.vertexIndexMapping.get(to);

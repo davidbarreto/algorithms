@@ -102,6 +102,23 @@ public class NodeBasedGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
+    public Collection<Edge<V>> edges(boolean isLogical) {
+        List<Edge<V>> edges = new ArrayList<>();
+        for (GraphNode<V> fromNode : this.vertices.values()) {
+            V from = fromNode.value();
+            for (Map.Entry<GraphNode<V>, Double> neighborEntry : fromNode.neighbors().entrySet()) {
+                V to = neighborEntry.getKey().value();
+                if (isLogical && !type().policy().isLogicalEdge(from, to)) {
+                    continue;
+                }
+                Double weight = neighborEntry.getValue();
+                edges.add(new Edge<>(from, to, weight));
+            }
+        }
+        return edges;
+    }
+
+    @Override
     public void removeEdgeInternal(V from, V to) {
         if (this.vertices.containsKey(from) && hasEdge(from, to)) {
             this.vertices.get(from).removeNeighbor(this.vertices.get(to));

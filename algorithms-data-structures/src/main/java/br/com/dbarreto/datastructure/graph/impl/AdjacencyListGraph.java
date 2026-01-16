@@ -85,6 +85,23 @@ public class AdjacencyListGraph<V> extends AbstractGraph<V> {
     }
 
     @Override
+    public Collection<Edge<V>> edges(boolean isLogical) {
+        List<Edge<V>> edges = new ArrayList<>();
+        for (Map.Entry<V, Map<V, Double>> entry : this.adjacencyList.entrySet()) {
+            V from = entry.getKey();
+            for (Map.Entry<V, Double> neighborEntry : entry.getValue().entrySet()) {
+                V to = neighborEntry.getKey();
+                if (isLogical && !type().policy().isLogicalEdge(from, to)) {
+                    continue;
+                }
+                Double weight = neighborEntry.getValue();
+                edges.add(new Edge<>(from, to, weight));
+            }
+        }
+        return edges;
+    }
+
+    @Override
     public void removeEdgeInternal(V from, V to) {
         if (this.adjacencyList.containsKey(from) && this.adjacencyList.get(from).remove(to) != null) {
             this.edgeCount--;

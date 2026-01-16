@@ -196,6 +196,49 @@ public class IncidenceMatrixGraph<V> extends AbstractGraph<V> {
         return OptionalDouble.empty();
     }
 
+    @Override
+    protected Collection<Edge<V>> edges(boolean isLogical) {
+        List<Edge<V>> edges = new ArrayList<>();
+
+        for (int e = 0; e < this.nextEdgeIndex; e++) {
+
+            if (this.edgeWeights[e] == 0.0) {
+                continue;
+            }
+
+            findEdge(isLogical, e).ifPresent(edges::add);
+        }
+        return edges;
+    }
+
+    private Optional<Edge<V>> findEdge(boolean isLogical, int e) {
+        Integer fromIndex = null;
+        Integer toIndex = null;
+
+        for (int v = 0; v < this.vertexCount; v++) {
+            short val = this.incidenceMatrix[v][e];
+            if (val == 1) {
+                fromIndex = v;
+            } else if (val == -1) {
+                toIndex = v;
+            }
+
+            if (fromIndex != null && toIndex != null) {
+                break;
+            }
+        }
+
+        if (fromIndex != null && toIndex != null) {
+            V from = this.indexVertexMapping.get(fromIndex);
+            V to = this.indexVertexMapping.get(toIndex);
+            if (!isLogical || type().policy().isLogicalEdge(from, to)) {
+                return Optional.of(new Edge<>(from, to, this.edgeWeights[e]));
+            }
+        }
+
+        return Optional.empty();
+    }
+
     /**
      * Removes a single directed edge from the graph's underlying storage.
      * <p>
