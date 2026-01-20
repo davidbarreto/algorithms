@@ -8,11 +8,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An implementation of {@link MutableTrieNode} using a {@link Map} to store children.
+ * <p>
+ * This implementation is memory-efficient for sparse nodes as it only stores existing children.
+ * However, access time might be slightly slower than an array-based implementation due to hashing overhead.
+ */
 public class MapTrieNode implements MutableTrieNode {
 
     private final Map<Character, MutableTrieNode> children;
     private boolean isWord;
 
+    /**
+     * Constructs a new {@code MapTrieNode} with no children and not marked as a word.
+     */
     public MapTrieNode() {
         this.isWord = false;
         this.children = new HashMap<>();
@@ -29,7 +38,7 @@ public class MapTrieNode implements MutableTrieNode {
     }
 
     @Override
-    public Collection<Character> prefixes() {
+    public Collection<Character> keys() {
         return Collections.unmodifiableCollection(this.children.keySet());
     }
 

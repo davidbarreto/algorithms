@@ -9,6 +9,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * An implementation of {@link MutableTrieNode} using an array to store children.
+ * <p>
+ * This implementation assumes a fixed alphabet size (ASCII 256). It provides O(1) access time
+ * for children but may consume more memory for sparse nodes compared to map-based implementations.
+ */
 public class ArrayTrieNode implements MutableTrieNode {
 
     private static final int SIZE = 256;
@@ -16,6 +22,9 @@ public class ArrayTrieNode implements MutableTrieNode {
     private final MutableTrieNode[] children;
     private boolean isWord;
 
+    /**
+     * Constructs a new {@code ArrayTrieNode} with no children and not marked as a word.
+     */
     public ArrayTrieNode() {
         this.children = new ArrayTrieNode[SIZE];
         this.isWord = false;
@@ -47,7 +56,7 @@ public class ArrayTrieNode implements MutableTrieNode {
     }
 
     @Override
-    public Collection<Character> prefixes() {
+    public Collection<Character> keys() {
         return IntStream.range(0, SIZE)
                 .filter(i -> this.children[i] != null)
                 .mapToObj(i -> (char) i)

@@ -11,7 +11,7 @@ import br.com.dbarreto.datastructure.tree.Tree;
  * specific node represents a prefix, and if a node is marked as the end of a word,
  * that path represents a complete word stored in the trie.
  */
-public interface Trie extends Tree<CharSequence> {
+public interface Trie extends Tree<CharSequence>, Iterable<String> {
 
     /**
      * Adds a word to the trie.
@@ -19,6 +19,7 @@ public interface Trie extends Tree<CharSequence> {
      * @param word the word to be added.
      * @return {@code true} if the word was newly added, or {@code false} if the word
      *         already existed in the trie.
+     * @throws IllegalArgumentException if the word is null or empty.
      */
     boolean add(CharSequence word);
 
@@ -28,6 +29,7 @@ public interface Trie extends Tree<CharSequence> {
      * @param word the word to be removed.
      * @return {@code true} if the word existed and was successfully removed, or
      *         {@code false} if the word was not found.
+     * @throws IllegalArgumentException if the word is null or empty.
      */
     boolean remove(CharSequence word);
 
@@ -92,5 +94,14 @@ public interface Trie extends Tree<CharSequence> {
      * @param prefix the prefix to search for.
      * @return an {@link Iterable} containing all matching words.
      */
-    Iterable<String> getAllWithPrefix(CharSequence prefix);
+    Iterable<String> wordsWithPrefix(CharSequence prefix);
+
+    /**
+     * Returns an {@link String} of the longest prefix of the given word that is in the trie.
+     *
+     * @param word the word to search for.
+     * @return a {@link String} representing the longest prefix of the given word that is in the trie.
+     * @throws IllegalArgumentException if the word is null or empty.
+     */
+    String longestPrefixOf(CharSequence word);
 }

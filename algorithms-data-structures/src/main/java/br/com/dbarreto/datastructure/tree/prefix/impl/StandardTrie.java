@@ -6,9 +6,16 @@ import br.com.dbarreto.datastructure.tree.prefix.Trie;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * A standard implementation of the {@link Trie} interface.
+ * <p>
+ * This implementation supports flexible node storage strategies via a {@link Supplier} for {@link MutableTrieNode}.
+ * It maintains the size and height of the trie dynamically as words are added or removed.
+ */
 public class StandardTrie implements Trie {
 
     private final MutableTrieNode root;
@@ -16,6 +23,11 @@ public class StandardTrie implements Trie {
     private int size;
     private int height;
 
+    /**
+     * Constructs a new {@code StandardTrie} using the provided node supplier.
+     *
+     * @param nodeSupplier a supplier that creates new instances of {@link MutableTrieNode}.
+     */
     public StandardTrie(Supplier<MutableTrieNode> nodeSupplier) {
         this.nodeSupplier = nodeSupplier;
         this.root = this.nodeSupplier.get();
@@ -94,7 +106,7 @@ public class StandardTrie implements Trie {
     }
 
     @Override
-    public Iterable<String> getAllWithPrefix(CharSequence prefix) {
+    public Iterable<String> wordsWithPrefix(CharSequence prefix) {
         var node = traverse(prefix);
         if (node == null) {
             return Collections.emptyList();
@@ -102,8 +114,32 @@ public class StandardTrie implements Trie {
 
         StringBuilder sb = new StringBuilder(prefix);
         List<String> result = new ArrayList<>();
-        getAllWithPrefix(node, sb, result);
+        wordsWithPrefix(node, sb, result);
         return result;
+    }
+
+    @Override
+    public String longestPrefixOf(CharSequence word) {
+
+        if (word == null || word.isEmpty()) {
+            throw new IllegalArgumentException("Word cannot be null nor empty");
+        }
+
+        StringBuilder result = new StringBuilder();
+        StringBuilder temp = new StringBuilder();
+
+        TrieNode node = this.root;
+        for (int i = 0; i < word.length() && node != null; i++) {
+            char ch = word.charAt(i);
+            node = node.get(ch);
+            temp.append(ch);
+            if (node != null && node.isWord()) {
+                result.append(temp);
+                temp.delete(0, temp.length());
+            }
+        }
+
+        return result.toString();
     }
 
     private boolean remove(CharSequence word, int index, MutableTrieNode root, boolean[] removed) {
@@ -132,19 +168,24 @@ public class StandardTrie implements Trie {
         return root.children().isEmpty() && !root.isWord();
     }
 
-    private void getAllWithPrefix(TrieNode node, StringBuilder builder, List<String> result) {
+    private void wordsWithPrefix(TrieNode node, StringBuilder builder, List<String> result) {
         if (node.isWord()) {
             result.add(builder.toString());
         }
 
-        for (Character ch : node.prefixes()) {
+        for (Character ch : node.keys()) {
             builder.append(ch);
-            getAllWithPrefix(node.get(ch), builder, result);
+            wordsWithPrefix(node.get(ch), builder, result);
             builder.deleteCharAt(builder.length() - 1);
         }
     }
 
     private TrieNode traverse(CharSequence word) {
+
+        if (word == null) {
+            return null;
+        }
+
         TrieNode node = root;
         for (int i = 0; i < word.length(); i++) {
             if (node == null) {
@@ -152,6 +193,7 @@ public class StandardTrie implements Trie {
             }
             node = node.get(word.charAt(i));
         }
+
         return node;
     }
 
@@ -166,5 +208,10 @@ public class StandardTrie implements Trie {
         }
 
         return h + 1;
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return wordsWithPrefix("").iterator();
     }
 }

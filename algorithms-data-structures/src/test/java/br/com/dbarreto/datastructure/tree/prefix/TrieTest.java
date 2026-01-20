@@ -15,14 +15,12 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+/**
+ * Unit tests for {@link Trie} implementations.
+ * <p>
+ * These tests verify the behavior of {@link StandardTrie} with different {@link MutableTrieNode} implementations.
+ */
 class TrieTest {
-
-    static Stream<Supplier<MutableTrieNode>> nodeSuppliers() {
-        return Stream.of(
-                MapTrieNode::new,
-                ArrayTrieNode::new
-        );
-    }
 
     @ParameterizedTest
     @MethodSource("nodeSuppliers")
@@ -111,21 +109,48 @@ class TrieTest {
     @ParameterizedTest
     @MethodSource("nodeSuppliers")
     @DisplayName("Should get all words with prefix")
-    void shouldGetAllWithPrefix(Supplier<MutableTrieNode> nodeSupplier) {
+    void shouldGetAllWordsWithPrefix(Supplier<MutableTrieNode> nodeSupplier) {
         Trie trie = new StandardTrie(nodeSupplier);
         trie.add("she");
         trie.add("shell");
         trie.add("shells");
         trie.add("sea");
 
-        assertThat(trie.getAllWithPrefix("she"))
+        assertThat(trie.wordsWithPrefix("she"))
                 .containsExactlyInAnyOrder("she", "shell", "shells");
 
-        assertThat(trie.getAllWithPrefix("se"))
+        assertThat(trie.wordsWithPrefix("se"))
                 .containsExactlyInAnyOrder("sea");
 
-        assertThat(trie.getAllWithPrefix("z"))
+        assertThat(trie.wordsWithPrefix("z"))
                 .isEmpty();
+
+        assertThat(trie.wordsWithPrefix(null))
+                .isEmpty();
+
+        assertThat(trie.wordsWithPrefix(""))
+                .containsExactlyInAnyOrder("sea", "she", "shell", "shells");
+    }
+
+    @ParameterizedTest
+    @MethodSource("nodeSuppliers")
+    @DisplayName("Should get all words with prefix")
+    void shouldGetCorrectLongestPrefix(Supplier<MutableTrieNode> nodeSupplier) {
+        Trie trie = new StandardTrie(nodeSupplier);
+        trie.add("she");
+        trie.add("shell");
+        trie.add("shells");
+        trie.add("sea");
+
+        assertThat(trie.longestPrefixOf("she")).isEqualTo("she");
+        assertThat(trie.longestPrefixOf("shel")).isEqualTo("she");
+        assertThat(trie.longestPrefixOf("shell")).isEqualTo("shell");
+        assertThat(trie.longestPrefixOf("shells")).isEqualTo("shells");
+        assertThat(trie.longestPrefixOf("shellscript")).isEqualTo("shells");
+        assertThat(trie.longestPrefixOf("seaside")).isEqualTo("sea");
+        assertThat(trie.longestPrefixOf("banana")).isEmpty();
+        assertThat(trie.longestPrefixOf("s")).isEmpty();
+
     }
 
     @ParameterizedTest
@@ -177,5 +202,23 @@ class TrieTest {
         assertThatThrownBy(() -> trie.remove(word))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Word cannot be null nor empty");
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @DisplayName("Should throw exception when removing null or empty word")
+    void shouldThrowExceptionWhenGettingLongestPrefixOfInvalidWord(String word) {
+        // We can use any implementation here since the validation is in the Trie class
+        Trie trie = new StandardTrie(MapTrieNode::new);
+        assertThatThrownBy(() -> trie.longestPrefixOf(word))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Word cannot be null nor empty");
+    }
+
+    static Stream<Supplier<MutableTrieNode>> nodeSuppliers() {
+        return Stream.of(
+                MapTrieNode::new,
+                ArrayTrieNode::new
+        );
     }
 }
