@@ -3,6 +3,7 @@ package br.com.dbarreto.datastructure.tree.impl;
 import br.com.dbarreto.datastructure.tree.binary.impl.AvlTree;
 import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -24,7 +25,8 @@ class AvlTreeTest {
      * Tests the different traversal methods on a sample AVL tree.
      */
     @Test
-    void testTraversals() {
+    @DisplayName("Should traverse tree correctly")
+    void shouldTraverseTree() {
         var tree = BinarySearchTreeScenarios.createAvlTree();
 
         var inOrderList = new ArrayList<Integer>();
@@ -45,7 +47,8 @@ class AvlTreeTest {
      */
     @ParameterizedTest
     @MethodSource("rotationArguments")
-    void testRotation(AvlTree<Integer> tree) {
+    @DisplayName("Should maintain balance after rotations")
+    void shouldMaintainBalanceAfterRotations(AvlTree<Integer> tree) {
         List<Integer> inOrder = new ArrayList<>();
         tree.traverseInOrder(inOrder::add);
         assertEquals(List.of(10, 20, 30), inOrder);
@@ -56,7 +59,8 @@ class AvlTreeTest {
      * Tests that the tree remains balanced after a sequence of insertions.
      */
     @Test
-    void testBalanceAfterMultipleInserts() {
+    @DisplayName("Should maintain balance after multiple inserts")
+    void shouldMaintainBalanceAfterMultipleInserts() {
         AvlTree<Integer> tree = new AvlTree<>();
         for (int i = 1; i <= 10; i++) {
             tree.insert(i);
@@ -69,7 +73,8 @@ class AvlTreeTest {
      * Tests that duplicate elements are not inserted.
      */
     @Test
-    void testDuplicatesAllowed() {
+    @DisplayName("Should not insert duplicate elements")
+    void shouldNotInsertDuplicates() {
         AvlTree<Integer> tree = new AvlTree<>();
         tree.insert(10);
         tree.insert(10);  // Duplicate
@@ -83,7 +88,8 @@ class AvlTreeTest {
      * Tests the properties of an empty AVL tree.
      */
     @Test
-    void testEmptyTree() {
+    @DisplayName("Should handle empty tree correctly")
+    void shouldHandleEmptyTree() {
         AvlTree<Integer> tree = new AvlTree<>();
         assertNull(tree.root());
         assertEquals(0, tree.height());
@@ -95,7 +101,8 @@ class AvlTreeTest {
      * Tests the {@code contains} method.
      */
     @Test
-    void testContains() {
+    @DisplayName("Should check if tree contains value")
+    void shouldCheckIfTreeContainsValue() {
         AvlTree<Integer> tree = new AvlTree<>();
         tree.insert(5);
         tree.insert(3);
@@ -116,7 +123,8 @@ class AvlTreeTest {
      * Tests the {@code min} and {@code max} methods.
      */
     @Test
-    void testMinMax() {
+    @DisplayName("Should return min and max values")
+    void shouldReturnMinAndMaxValues() {
         AvlTree<Integer> tree = new AvlTree<>();
         tree.insert(5);
         tree.insert(3);
@@ -132,7 +140,8 @@ class AvlTreeTest {
      * Tests the {@code contains} method after rotations have occurred.
      */
     @Test
-    void testContainsAfterRotations() {
+    @DisplayName("Should check if tree contains value after rotations")
+    void shouldCheckIfTreeContainsValueAfterRotations() {
         AvlTree<Integer> tree = new AvlTree<>();
         tree.insert(10);
         tree.insert(20);
@@ -148,7 +157,8 @@ class AvlTreeTest {
      * Tests various operations on a large AVL tree.
      */
     @Test
-    void testLargeTreeOperations() {
+    @DisplayName("Should handle large tree operations")
+    void shouldHandleLargeTreeOperations() {
         AvlTree<Integer> tree = new AvlTree<>();
         for (int i = 1; i <= 100; i++) {
             tree.insert(i);

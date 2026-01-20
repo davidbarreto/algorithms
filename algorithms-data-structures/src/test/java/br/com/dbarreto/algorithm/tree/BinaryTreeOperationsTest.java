@@ -9,6 +9,7 @@ import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinaryTree;
 import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 import br.com.dbarreto.utils.BinaryTreeScenarios;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -28,7 +29,8 @@ class BinaryTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("sizeArguments")
-    void testSize(BinaryTree<Integer> tree, Integer expected) {
+    @DisplayName("Should return correct size")
+    void shouldReturnCorrectSize(BinaryTree<Integer> tree, Integer expected) {
         assertEquals(expected, BinaryTreeOperations.size(tree));
     }
 
@@ -37,7 +39,8 @@ class BinaryTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("heightArguments")
-    void testHeight(BinaryTree<Integer> tree, Integer expected) {
+    @DisplayName("Should return correct height")
+    void shouldReturnCorrectHeight(BinaryTree<Integer> tree, Integer expected) {
         assertEquals(expected, BinaryTreeOperations.height(tree));
     }
 
@@ -46,7 +49,8 @@ class BinaryTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("containsArguments")
-    void testContains(Integer searchedValue, boolean expected) {
+    @DisplayName("Should check if tree contains value")
+    void shouldCheckIfTreeContainsValue(Integer searchedValue, boolean expected) {
         var tree = BinaryTreeScenarios.createPerfectBinaryTree();
         assertEquals(expected, BinaryTreeOperations.contains(tree, searchedValue));
     }
@@ -56,7 +60,8 @@ class BinaryTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("isBalancedArguments")
-    void testIsBalanced(BinaryTree<Integer> tree, boolean expected) {
+    @DisplayName("Should check if tree is balanced")
+    void shouldCheckIfTreeIsBalanced(BinaryTree<Integer> tree, boolean expected) {
         assertEquals(expected, BinaryTreeOperations.isBalanced(tree));
     }
 
@@ -65,7 +70,8 @@ class BinaryTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("equalsArguments")
-    void testEquals(BinaryTree<Integer> tree1, BinaryTree<Integer> tree2, boolean expected) {
+    @DisplayName("Should check if trees are equal")
+    void shouldCheckIfTreesAreEqual(BinaryTree<Integer> tree1, BinaryTree<Integer> tree2, boolean expected) {
         assertEquals(expected, BinaryTreeOperations.equals(tree1, tree2));
     }
 
@@ -74,7 +80,8 @@ class BinaryTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("deepCopyArguments")
-    <T, N extends MutableBinaryTreeNode<T, N>> void testDeepCopy(BinaryTree<T> source, Function<T, N> constructor) {
+    @DisplayName("Should deep copy node")
+    <T, N extends MutableBinaryTreeNode<T, N>> void shouldDeepCopyNode(BinaryTree<T> source, Function<T, N> constructor) {
         var copiedRoot = BinaryTreeOperations.deepCopy(source.root(), constructor);
         assertTrue(BinaryTreeOperations.equals(source.root(), copiedRoot));
     }
@@ -84,7 +91,8 @@ class BinaryTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("deepCopyTreeArguments")
-    <T, M extends BinaryTree<T>, N extends MutableBinaryTreeNode<T, N>> void testDeepCopyTree(BinaryTree<T> source, Function<N, M> treeConstructor, Function<T, N> nodeConstructor) {
+    @DisplayName("Should deep copy tree")
+    <T, M extends BinaryTree<T>, N extends MutableBinaryTreeNode<T, N>> void shouldDeepCopyTree(BinaryTree<T> source, Function<N, M> treeConstructor, Function<T, N> nodeConstructor) {
         var copiedTree = BinaryTreeOperations.deepCopy(source, treeConstructor, nodeConstructor);
         assertTrue(BinaryTreeOperations.equals(source, copiedTree));
         // Verify it's a different instance

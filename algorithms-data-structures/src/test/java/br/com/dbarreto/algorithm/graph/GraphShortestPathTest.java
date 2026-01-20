@@ -4,6 +4,7 @@ import br.com.dbarreto.datastructure.graph.Graph;
 import br.com.dbarreto.datastructure.graph.MutableGraph;
 import br.com.dbarreto.utils.GraphScenarios;
 import br.com.dbarreto.utils.ShortestPathScenarios;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,7 +34,8 @@ class GraphShortestPathTest {
      */
     @ParameterizedTest()
     @MethodSource("shortestPathArguments")
-    void shortestPath(Function<GraphScenarios.GraphArguments, MutableGraph<String>> graphImplementation,
+    @DisplayName("Should find shortest path correctly")
+    void shouldFindShortestPath(Function<GraphScenarios.GraphArguments, MutableGraph<String>> graphImplementation,
                       BiFunction<Graph<String>, String, Map<String, Double>> shortestPathAlgorithm,
                       ShortestPathScenarios.ShortestPathScenario<String> scenario)
     {
@@ -51,7 +53,8 @@ class GraphShortestPathTest {
      */
     @ParameterizedTest
     @MethodSource("bfsShortestPathArguments")
-    void bfsShortestPath(Function<GraphScenarios.GraphArguments, MutableGraph<String>> graphImplementation,
+    @DisplayName("Should find shortest path using BFS")
+    void shouldFindShortestPathUsingBfs(Function<GraphScenarios.GraphArguments, MutableGraph<String>> graphImplementation,
                          ShortestPathScenarios.ShortestPathScenario<String> scenario)
     {
         var graph = GraphScenarios.of(graphImplementation, scenario.graphScenario());
@@ -60,7 +63,8 @@ class GraphShortestPathTest {
 
     @ParameterizedTest
     @MethodSource("allVerticesShortestPathArguments")
-    void allVerticesShortestPath(Function<GraphScenarios.GraphArguments, MutableGraph<String>> graphImplementation,
+    @DisplayName("Should find shortest path for all vertices")
+    void shouldFindShortestPathForAllVertices(Function<GraphScenarios.GraphArguments, MutableGraph<String>> graphImplementation,
                          ShortestPathScenarios.AllVerticesShortestPathScenario<String> scenario)
     {
         var graph = GraphScenarios.of(graphImplementation, scenario.graphScenario());

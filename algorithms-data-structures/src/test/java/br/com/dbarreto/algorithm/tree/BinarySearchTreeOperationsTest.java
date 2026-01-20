@@ -4,6 +4,7 @@ import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
 import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 import br.com.dbarreto.utils.BinaryTreeScenarios;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -22,7 +23,8 @@ class BinarySearchTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("minArguments")
-    void testMin(BinarySearchTree<Integer> tree, int expected) {
+    @DisplayName("Should return minimum value")
+    void shouldReturnMinValue(BinarySearchTree<Integer> tree, int expected) {
         assertEquals(expected, tree.min());
     }
 
@@ -31,7 +33,8 @@ class BinarySearchTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("maxArguments")
-    void testMax(BinarySearchTree<Integer> tree, int expected) {
+    @DisplayName("Should return maximum value")
+    void shouldReturnMaxValue(BinarySearchTree<Integer> tree, int expected) {
         assertEquals(expected, tree.max());
     }
 
@@ -40,7 +43,8 @@ class BinarySearchTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("containsArguments")
-    void testContains(BinarySearchTree<Integer> tree, Integer searchedElement, boolean expected) {
+    @DisplayName("Should check if tree contains value")
+    void shouldCheckIfTreeContainsValue(BinarySearchTree<Integer> tree, Integer searchedElement, boolean expected) {
         assertEquals(expected, tree.contains(searchedElement));
     }
 
@@ -49,7 +53,8 @@ class BinarySearchTreeOperationsTest {
      */
     @ParameterizedTest
     @MethodSource("isBinarySearchTreeArguments")
-    void testIsBinarySearchTree(BinaryTree<Integer> tree, boolean expected) {
+    @DisplayName("Should check if tree is binary search tree")
+    void shouldCheckIfTreeIsBinarySearchTree(BinaryTree<Integer> tree, boolean expected) {
         assertEquals(expected, BinarySearchTreeOperations.isBinarySearchTree(tree));
     }
 

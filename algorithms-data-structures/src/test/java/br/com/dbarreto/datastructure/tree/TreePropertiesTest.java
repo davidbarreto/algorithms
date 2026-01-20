@@ -34,7 +34,7 @@ class TreePropertiesTest {
      * Verifies that the Binary Search Tree property holds for a {@link SimpleBinarySearchTree}.
      */
     @Property
-    void binarySearchTreePropertyHolds(@ForAll("integerLists") List<Integer> values) {
+    void shouldMaintainBinarySearchTreeProperty(@ForAll("integerLists") List<Integer> values) {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
         values.forEach(tree::insert);
 
@@ -45,7 +45,7 @@ class TreePropertiesTest {
      * Verifies that an {@link AvlTree} maintains its properties (balanced, BST, logarithmic height).
      */
     @Property
-    void avlTreeMaintainProperties(@ForAll("smallIntegerLists") @Size(max = 20) List<Integer> values) {
+    void shouldMaintainAvlTreeProperties(@ForAll("smallIntegerLists") @Size(max = 20) List<Integer> values) {
         AvlTree<Integer> tree = new AvlTree<>();
         values.forEach(tree::insert);
 
@@ -62,7 +62,7 @@ class TreePropertiesTest {
      * Verifies that a {@link RedBlackTree} maintains its properties (BST, Red-Black rules, logarithmic height).
      */
     @Property
-    void redBlackTreeMaintainsProperties(@ForAll("smallIntegerLists") @Size(max = 20) List<Integer> values) {
+    void shouldMaintainRedBlackTreeProperties(@ForAll("smallIntegerLists") @Size(max = 20) List<Integer> values) {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         values.forEach(tree::insert);
 
@@ -77,7 +77,7 @@ class TreePropertiesTest {
      * Verifies that the size of the tree equals the number of inserted elements.
      */
     @Property
-    void treeSizeEqualsNumberOfElements(@ForAll("integerLists") List<Integer> values) {
+    void shouldHaveSizeEqualToNumberOfElements(@ForAll("integerLists") List<Integer> values) {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
         values.forEach(tree::insert);
 
@@ -89,7 +89,7 @@ class TreePropertiesTest {
      * Verifies that all inserted elements can be found in the tree.
      */
     @Property
-    void insertedElementsAreFindable(@ForAll("integerLists") List<Integer> values) {
+    void shouldFindAllInsertedElements(@ForAll("integerLists") List<Integer> values) {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
         values.forEach(tree::insert);
 
@@ -102,7 +102,7 @@ class TreePropertiesTest {
      * Verifies that the height of a self-balancing tree remains logarithmic.
      */
     @Property
-    void balancedTreeHeightIsLogarithmic(@ForAll("largeIntegerLists") List<Integer> values,
+    void shouldMaintainLogarithmicHeightInBalancedTree(@ForAll("largeIntegerLists") List<Integer> values,
                                          @ForAll("selfBalancedTrees") BinarySearchTree<Integer> tree)
     {
         values.forEach(tree::insert);

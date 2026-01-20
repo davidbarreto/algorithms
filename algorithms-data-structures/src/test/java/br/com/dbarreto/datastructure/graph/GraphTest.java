@@ -1,6 +1,7 @@
 package br.com.dbarreto.datastructure.graph;
 
 import br.com.dbarreto.utils.GraphScenarios;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -25,7 +26,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("graphArguments")
-    void testDirectedGraph(Graph<String> graph) {
+    @DisplayName("Should handle directed graph operations correctly")
+    void shouldHandleDirectedGraphOperations(Graph<String> graph) {
         assertTrue(graph.containsVertex("A"));
         assertTrue(graph.hasEdge("A", "B"));
         assertTrue(graph.hasEdge("B", "C"));
@@ -46,7 +48,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("graphArguments")
-    void testDirectedMutableGraph(MutableGraph<String> graph) {
+    @DisplayName("Should handle mutable operations on directed graph")
+    void shouldHandleMutableOperationsOnDirectedGraph(MutableGraph<String> graph) {
         // Test remove edge
         graph.removeEdge("A", "B");
         assertFalse(graph.hasEdge("A", "B"));
@@ -66,7 +69,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("undirectedGraphArguments")
-    void testUndirectedGraph(Graph<String> graph) {
+    @DisplayName("Should handle undirected graph operations correctly")
+    void shouldHandleUndirectedGraphOperations(Graph<String> graph) {
         assertTrue(graph.containsVertex("A"));
         assertTrue(graph.hasEdge("A", "B"));
         assertTrue(graph.hasEdge("B", "A"));
@@ -87,7 +91,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("undirectedGraphArguments")
-    void testUndirectedMutableGraph(MutableGraph<String> graph) {
+    @DisplayName("Should handle mutable operations on undirected graph")
+    void shouldHandleMutableOperationsOnUndirectedGraph(MutableGraph<String> graph) {
         // Test remove edge
         graph.removeEdge("A", "B");
         assertFalse(graph.hasEdge("A", "B"));
@@ -108,7 +113,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("graphArguments")
-    void testGraphRobustness(MutableGraph<String> graph) {
+    @DisplayName("Should be robust against operations on non-existent elements")
+    void shouldBeRobustAgainstNonExistentElements(MutableGraph<String> graph) {
         int initialVertexCount = graph.vertexCount();
         int initialEdgeCount = graph.edgeCount();
 
@@ -126,7 +132,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("graphArguments")
-    void testIsolatedVertex(MutableGraph<String> graph) {
+    @DisplayName("Should handle isolated vertices correctly")
+    void shouldHandleIsolatedVertices(MutableGraph<String> graph) {
         graph.addVertex("Isolated");
 
         assertTrue(graph.containsVertex("Isolated"));
@@ -138,7 +145,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("graphArguments")
-    void testZeroWeightEdge(MutableGraph<String> graph) {
+    @DisplayName("Should throw exception when adding edge with zero weight")
+    void shouldThrowExceptionWhenAddingZeroWeightEdge(MutableGraph<String> graph) {
         assertThrows(IllegalArgumentException.class, () -> graph.addEdge("A", "B", 0.0));
     }
 
@@ -147,7 +155,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("emptyGraphArguments")
-    void testWeightedGraph(MutableGraph<String> graph) {
+    @DisplayName("Should handle weighted edges correctly")
+    void shouldHandleWeightedEdges(MutableGraph<String> graph) {
         assertTrue(graph.addEdge("A", "B", 5.0));
         assertTrue(graph.addEdge("B", "C", 2.5));
 
@@ -161,7 +170,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("emptyGraphArguments")
-    void testDefaultWeight(MutableGraph<String> graph) {
+    @DisplayName("Should use default weight when not specified")
+    void shouldUseDefaultWeight(MutableGraph<String> graph) {
         assertTrue(graph.addEdge("A", "B"));
 
         assertTrue(graph.hasEdge("A", "B"));
@@ -173,7 +183,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("emptyGraphArguments")
-    void testUpdateWeight(MutableGraph<String> graph) {
+    @DisplayName("Should not update weight when adding existing edge")
+    void shouldNotUpdateWeightWhenAddingExistingEdge(MutableGraph<String> graph) {
         assertTrue(graph.addEdge("A", "B", 3.0));
         assertThat(graph.weight("A", "B")).hasValue(3.0);
 
@@ -195,7 +206,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("emptyGraphArguments")
-    void testAddEdgeTwiceWithDifferentWeights(MutableGraph<String> graph) {
+    @DisplayName("Should not update weight when adding edge twice with different weights")
+    void shouldNotUpdateWeightWhenAddingEdgeTwice(MutableGraph<String> graph) {
         // First addition
         assertTrue(graph.addEdge("A", "B", 5.0));
         assertThat(graph.weight("A", "B")).isNotEmpty();
@@ -214,7 +226,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("emptyGraphArguments")
-    void testWeightOfNonExistentEdge(MutableGraph<String> graph) {
+    @DisplayName("Should return empty optional for weight of non-existent edge")
+    void shouldReturnEmptyForNonExistentEdgeWeight(MutableGraph<String> graph) {
         graph.addVertex("A");
         graph.addVertex("B");
 
@@ -229,7 +242,8 @@ class GraphTest {
      */
     @ParameterizedTest
     @MethodSource("emptyGraphArguments")
-    void testRemoveEdgeWithWeight(MutableGraph<String> graph) {
+    @DisplayName("Should clear weight when removing edge")
+    void shouldClearWeightWhenRemovingEdge(MutableGraph<String> graph) {
         graph.addEdge("A", "B", 5.0);
         graph.removeEdge("A", "B");
 

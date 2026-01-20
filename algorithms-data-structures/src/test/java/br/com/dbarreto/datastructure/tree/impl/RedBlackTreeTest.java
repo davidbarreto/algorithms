@@ -2,6 +2,7 @@ package br.com.dbarreto.datastructure.tree.impl;
 
 import br.com.dbarreto.datastructure.node.tree.binary.impl.RedBlackTreeNode;
 import br.com.dbarreto.datastructure.tree.binary.impl.RedBlackTree;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +15,8 @@ class RedBlackTreeTest {
      * Tests that inserting elements maintains the Red-Black Tree properties.
      */
     @Test
-    void testInsertMaintainsRedBlackProperties() {
+    @DisplayName("Should maintain Red-Black properties after insert")
+    void shouldMaintainRedBlackPropertiesAfterInsert() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         tree.insert(10);
         tree.insert(20);
@@ -29,7 +31,8 @@ class RedBlackTreeTest {
      * Tests the insertion and search functionality.
      */
     @Test
-    void testInsertAndSearch() {
+    @DisplayName("Should insert and search correctly")
+    void shouldInsertAndSearch() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         tree.insert(5);
         tree.insert(3);
@@ -49,7 +52,8 @@ class RedBlackTreeTest {
      * Tests the {@code min} and {@code max} methods.
      */
     @Test
-    void testMinMax() {
+    @DisplayName("Should return min and max values")
+    void shouldReturnMinAndMaxValues() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         tree.insert(5);
         tree.insert(3);
@@ -65,7 +69,8 @@ class RedBlackTreeTest {
      * Tests inserting a large number of elements.
      */
     @Test
-    void testLargeInsert() {
+    @DisplayName("Should handle large number of inserts")
+    void shouldHandleLargeInserts() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         for (int i = 0; i < 10; i++) {
             tree.insert(i);
@@ -79,7 +84,8 @@ class RedBlackTreeTest {
      * Tests the handling of duplicate elements.
      */
     @Test
-    void testDuplicates() {
+    @DisplayName("Should handle duplicate elements")
+    void shouldHandleDuplicateElements() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         tree.insert(10);
         tree.insert(10); // Duplicate goes right
@@ -92,7 +98,8 @@ class RedBlackTreeTest {
      * Tests the properties of an empty Red-Black Tree.
      */
     @Test
-    void testEmptyTree() {
+    @DisplayName("Should handle empty tree correctly")
+    void shouldHandleEmptyTree() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         assertNull(tree.root());
         assertFalse(tree.contains(1));
@@ -104,7 +111,8 @@ class RedBlackTreeTest {
      * Tests that the root of the tree is always black.
      */
     @Test
-    void testRootIsBlack() {
+    @DisplayName("Should have black root")
+    void shouldHaveBlackRoot() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         tree.insert(10);
         assertTrue(tree.root().color().isBlack());

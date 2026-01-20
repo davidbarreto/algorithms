@@ -23,7 +23,7 @@ public class GraphPropertiesTest {
      * Property: In an undirected graph, if there is an edge from A to B, there must be an edge from B to A.
      */
     @Property
-    void undirectedEdgesAreSymmetric(
+    void shouldHaveSymmetricEdgesInUndirectedGraph(
             @ForAll("undirectedGraphImplementations") GraphFactory<Integer> factory,
             @ForAll("edges") Set<Edge<Integer>> edges
     ) {
@@ -42,7 +42,7 @@ public class GraphPropertiesTest {
      * Property: In a directed graph, an edge from A to B does not imply an edge from B to A.
      */
     @Property
-    void directedEdgesAreNotSymmetric(
+    void shouldNotHaveSymmetricEdgesInDirectedGraph(
             @ForAll("directedGraphImplementations") GraphFactory<Integer> factory,
             @ForAll("edge") Edge<Integer> edge
     ) {
@@ -57,7 +57,7 @@ public class GraphPropertiesTest {
      * Property: Adding the same edge multiple times should not increase the edge count.
      */
     @Property
-    void addingSameEdgeTwiceDoesNotDuplicate(
+    void shouldNotDuplicateEdgesWhenAddedTwice(
             @ForAll("allGraphImplementations") GraphFactory<Integer> factory,
             @ForAll("edge") Edge<Integer> edge,
             @ForAll @IntRange(min = 2, max = 100) int repeat
@@ -74,7 +74,7 @@ public class GraphPropertiesTest {
      * Property: The edge count of the graph should match the number of unique edges added.
      */
     @Property
-    void edgeCountMatches(
+    void shouldMatchEdgeCountWithUniqueEdges(
             @ForAll("allGraphImplementations") GraphFactory<Integer> factory,
             @ForAll("edges") Set<Edge<Integer>> edges
     ) {
@@ -90,7 +90,7 @@ public class GraphPropertiesTest {
      * Property: The vertex count should match the number of unique nodes present in the added edges.
      */
     @Property
-    void vertexCountMatchesUniqueNodesInEdges(
+    void shouldMatchVertexCountWithUniqueNodesInEdges(
             @ForAll("allGraphImplementations") GraphFactory<Integer> factory,
             @ForAll("edges") Set<Edge<Integer>> edges
     ) {
@@ -109,7 +109,7 @@ public class GraphPropertiesTest {
      * Property: Removing an edge should decrease the edge count by exactly one.
      */
     @Property
-    void removingEdgeUpdatesCounts(
+    void shouldUpdateCountsWhenRemovingEdge(
             @ForAll("allGraphImplementations") GraphFactory<Integer> factory,
             @ForAll("edges") Set<Edge<Integer>> edges
     ) {
@@ -131,7 +131,7 @@ public class GraphPropertiesTest {
      * Property: Removing a vertex should remove all edges associated with that vertex.
      */
     @Property
-    void removingVertexRemovesAssociatedEdges(
+    void shouldRemoveAssociatedEdgesWhenRemovingVertex(
             @ForAll("allGraphImplementations") GraphFactory<Integer> factory,
             @ForAll("edges") Set<Edge<Integer>> edges
     ) {
@@ -156,7 +156,7 @@ public class GraphPropertiesTest {
      * Property: The neighbors of a vertex should be consistent with the edges defined in the graph.
      */
     @Property
-    void neighborsConsistency(
+    void shouldHaveConsistentNeighbors(
             @ForAll("allGraphImplementations") GraphFactory<Integer> factory,
             @ForAll("edges") Set<Edge<Integer>> edges
     ) {

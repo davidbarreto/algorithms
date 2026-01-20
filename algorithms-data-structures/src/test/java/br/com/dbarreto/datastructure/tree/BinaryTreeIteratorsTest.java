@@ -2,6 +2,7 @@ package br.com.dbarreto.datastructure.tree;
 
 import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinarySearchTree;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,7 +20,8 @@ class BinaryTreeIteratorsTest {
      * Tests the in-order iterator.
      */
     @Test
-    void inOrderIteratorWorks() {
+    @DisplayName("Should iterate in-order correctly")
+    void shouldIterateInOrder() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
         tree.insert(5);
         tree.insert(3);
@@ -42,7 +44,8 @@ class BinaryTreeIteratorsTest {
      * Tests the pre-order iterator.
      */
     @Test
-    void preOrderIteratorWorks() {
+    @DisplayName("Should iterate pre-order correctly")
+    void shouldIteratePreOrder() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
         tree.insert(5);
         tree.insert(3);
@@ -65,7 +68,8 @@ class BinaryTreeIteratorsTest {
      * Tests the post-order iterator.
      */
     @Test
-    void postOrderIteratorWorks() {
+    @DisplayName("Should iterate post-order correctly")
+    void shouldIteratePostOrder() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
         tree.insert(5);
         tree.insert(3);
@@ -88,7 +92,8 @@ class BinaryTreeIteratorsTest {
      * Tests the level-order iterator.
      */
     @Test
-    void levelOrderIteratorWorks() {
+    @DisplayName("Should iterate level-order correctly")
+    void shouldIterateLevelOrder() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
         tree.insert(5);
         tree.insert(3);
@@ -111,7 +116,8 @@ class BinaryTreeIteratorsTest {
      * Tests that all iterators work correctly on an empty tree.
      */
     @Test
-    void emptyTreeIterators() {
+    @DisplayName("Should handle empty tree iterators")
+    void shouldHandleEmptyTreeIterators() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
 
         assertThat(tree.inOrderIterator().hasNext()).isFalse();

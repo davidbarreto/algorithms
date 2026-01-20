@@ -1,6 +1,7 @@
 package br.com.dbarreto.datastructure.graph;
 
 import br.com.dbarreto.utils.GraphScenarios;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,7 +15,8 @@ class GraphEdgesTest {
 
     @ParameterizedTest
     @MethodSource("graphArguments")
-    void testPhysicalEdges(MutableGraph<String> graph) {
+    @DisplayName("Should return correct physical edges")
+    void shouldReturnCorrectPhysicalEdges(MutableGraph<String> graph) {
         Collection<Graph.Edge<String>> edges = graph.physicalEdges();
         
         // The default populated graph has 9 logical edges.
@@ -30,7 +32,8 @@ class GraphEdgesTest {
 
     @ParameterizedTest
     @MethodSource("graphArguments")
-    void testLogicalEdges(MutableGraph<String> graph) {
+    @DisplayName("Should return correct logical edges")
+    void shouldReturnCorrectLogicalEdges(MutableGraph<String> graph) {
         Collection<Graph.Edge<String>> edges = graph.logicalEdges();
         
         // Logical edges should always be 9 for the default populated graph.

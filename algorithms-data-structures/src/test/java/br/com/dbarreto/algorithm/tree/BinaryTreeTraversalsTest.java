@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,7 +28,8 @@ class BinaryTreeTraversalsTest {
      */
     @ParameterizedTest
     @MethodSource("inOrderArguments")
-    void traverseInOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
+    @DisplayName("Should traverse in-order correctly")
+    void shouldTraverseInOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
         List<Integer> actual = new ArrayList<>();
         BinaryTreeTraversals.traverseInOrder(binaryTree, actual::add);
         assertEquals(expected, actual);
@@ -38,7 +40,8 @@ class BinaryTreeTraversalsTest {
      */
     @ParameterizedTest
     @MethodSource("preOrderArguments")
-    void traversePreOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
+    @DisplayName("Should traverse pre-order correctly")
+    void shouldTraversePreOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
         List<Integer> actual = new ArrayList<>();
         BinaryTreeTraversals.traversePreOrder(binaryTree, actual::add);
         assertEquals(expected, actual);
@@ -49,7 +52,8 @@ class BinaryTreeTraversalsTest {
      */
     @ParameterizedTest
     @MethodSource("postOrderArguments")
-    void traversePostOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
+    @DisplayName("Should traverse post-order correctly")
+    void shouldTraversePostOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
         List<Integer> actual = new ArrayList<>();
         BinaryTreeTraversals.traversePostOrder(binaryTree, actual::add);
         assertEquals(expected, actual);
@@ -60,7 +64,8 @@ class BinaryTreeTraversalsTest {
      */
     @ParameterizedTest
     @MethodSource("levelOrderArguments")
-    void traverseLevelOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
+    @DisplayName("Should traverse level-order correctly")
+    void shouldTraverseLevelOrder(BinaryTree<Integer> binaryTree, List<Integer> expected) {
         List<Integer> actual = new ArrayList<>();
         BinaryTreeTraversals.traverseLevelOrder(binaryTree, actual::add);
         assertEquals(expected, actual);
@@ -70,7 +75,8 @@ class BinaryTreeTraversalsTest {
      * Tests that traversal methods do not fail on an empty tree.
      */
     @Test
-    void testTraversalOnEmptyTree() {
+    @DisplayName("Should handle empty tree traversal")
+    void shouldHandleEmptyTreeTraversal() {
         SimpleBinaryTree<Integer> tree = new SimpleBinaryTree<>();
         List<Integer> result = new ArrayList<>();
         BinaryTreeTraversals.traverseInOrder(tree, result::add);

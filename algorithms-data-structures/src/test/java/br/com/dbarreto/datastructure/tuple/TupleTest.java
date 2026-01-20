@@ -1,6 +1,7 @@
 package br.com.dbarreto.datastructure.tuple;
 
 import br.com.dbarreto.utils.TupleScenarios;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -22,7 +23,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleGetSpecificElementArguments")
-    void testGetSpecificElement(Tuple<Integer> tuple, int index, int expected) {
+    @DisplayName("Should get specific element by index")
+    void shouldGetSpecificElement(Tuple<Integer> tuple, int index, int expected) {
         assertThat(tuple.get(index)).isEqualTo(expected);
     }
 
@@ -31,7 +33,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("testGetSpecificElementOutOfRange")
-    void testGetSpecificElementOutOfRange(Tuple<Integer> tuple, int index) {
+    @DisplayName("Should throw exception when getting element out of range")
+    void shouldThrowExceptionWhenGettingElementOutOfRange(Tuple<Integer> tuple, int index) {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> tuple.get(index));
     }
 
@@ -40,7 +43,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleSliceExpressionArguments")
-    void testSliceExpression(Tuple<Integer> tuple, String expression, Integer[] expected) {
+    @DisplayName("Should slice tuple using string expression")
+    void shouldSliceUsingExpression(Tuple<Integer> tuple, String expression, Integer[] expected) {
         assertThat(tuple.slice(expression)).containsExactly(expected);
     }
 
@@ -49,7 +53,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleSliceExpressionOutOfRangeArguments")
-    void testSliceExpressionOutOfRange(Tuple<Integer> tuple, String expression) {
+    @DisplayName("Should throw exception when slicing with out of range expression")
+    void shouldThrowExceptionWhenSlicingWithOutOfRangeExpression(Tuple<Integer> tuple, String expression) {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> tuple.slice(expression));
     }
 
@@ -58,7 +63,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleSliceExpressionInvalidFormatArguments")
-    void testSliceExpressionInvalidFormat(Tuple<Integer> tuple, String expression) {
+    @DisplayName("Should throw exception when slicing with invalid format expression")
+    void shouldThrowExceptionWhenSlicingWithInvalidFormatExpression(Tuple<Integer> tuple, String expression) {
         assertThrows(NumberFormatException.class, () -> tuple.slice(expression));
     }
 
@@ -67,7 +73,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleSliceFromArguments")
-    void testSliceFrom(Tuple<Integer> tuple, int from, Integer[] expected) {
+    @DisplayName("Should slice tuple from index")
+    void shouldSliceFromIndex(Tuple<Integer> tuple, int from, Integer[] expected) {
         assertThat(tuple.sliceFrom(from)).containsExactly(expected);
     }
 
@@ -76,7 +83,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleSliceFromOutOfRangeArguments")
-    void testSliceFromOutOfRange(Tuple<Integer> tuple, int from) {
+    @DisplayName("Should throw exception when slicing from out of range index")
+    void shouldThrowExceptionWhenSlicingFromOutOfRangeIndex(Tuple<Integer> tuple, int from) {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> tuple.sliceFrom(from));
     }
 
@@ -85,7 +93,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleSliceToArguments")
-    void testSliceTo(Tuple<Integer> tuple, int to, Integer[] expected) {
+    @DisplayName("Should slice tuple to index")
+    void shouldSliceToIndex(Tuple<Integer> tuple, int to, Integer[] expected) {
         assertThat(tuple.sliceTo(to)).containsExactly(expected);
     }
 
@@ -94,7 +103,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleSliceToOutOfRangeArguments")
-    void testSliceToOutOfRange(Tuple<Integer> tuple, int to) {
+    @DisplayName("Should throw exception when slicing to out of range index")
+    void shouldThrowExceptionWhenSlicingToOutOfRangeIndex(Tuple<Integer> tuple, int to) {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> tuple.sliceTo(to));
     }
 
@@ -103,7 +113,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleSliceArguments")
-    void testSlice(Tuple<Integer> tuple, int from, int to, Integer[] expected) {
+    @DisplayName("Should slice tuple between indices")
+    void shouldSliceBetweenIndices(Tuple<Integer> tuple, int from, int to, Integer[] expected) {
         assertThat(tuple.slice(from, to)).containsExactly(expected);
     }
 
@@ -112,7 +123,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleSliceOutOfRangeArguments")
-    void testSliceOutOfRange(Tuple<Integer> tuple, int from, int to) {
+    @DisplayName("Should throw exception when slicing with out of range indices")
+    void shouldThrowExceptionWhenSlicingWithOutOfRangeIndices(Tuple<Integer> tuple, int from, int to) {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> tuple.slice(from, to));
     }
 
@@ -120,7 +132,8 @@ class TupleTest {
      * Tests reversing a tuple.
      */
     @Test
-    void testReverse() {
+    @DisplayName("Should reverse tuple")
+    void shouldReverseTuple() {
         Tuple<Integer> tuple = TupleScenarios.createNormalTuple();
         Tuple<Integer> reversed = tuple.reverse();
         assertThat(reversed).containsExactly(10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
@@ -133,7 +146,8 @@ class TupleTest {
      * Tests the {@code size} method.
      */
     @Test
-    void testSize() {
+    @DisplayName("Should return correct size")
+    void shouldReturnCorrectSize() {
         assertThat(TupleScenarios.createNormalTuple().size()).isEqualTo(10);
         assertThat(TupleScenarios.createEmptyTuple().size()).isZero();
     }
@@ -143,7 +157,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleIsEmptyArguments")
-    void testIsEmpty(Tuple<Integer> tuple, boolean expected) {
+    @DisplayName("Should check if tuple is empty")
+    void shouldCheckIfEmpty(Tuple<Integer> tuple, boolean expected) {
         assertThat(tuple.isEmpty()).isEqualTo(expected);
     }
 
@@ -151,7 +166,8 @@ class TupleTest {
      * Tests the iterator functionality.
      */
     @Test
-    void testIterator() {
+    @DisplayName("Should iterate over elements")
+    void shouldIterateOverElements() {
         Tuple<Integer> tuple = TupleScenarios.createNormalTuple();
         Iterator<Integer> iterator = tuple.iterator();
         
@@ -167,7 +183,8 @@ class TupleTest {
      */
     @ParameterizedTest
     @MethodSource("tupleToStringArguments")
-    void testToString(Tuple<Integer> tuple, String expected) {
+    @DisplayName("Should return correct string representation")
+    void shouldReturnCorrectStringRepresentation(Tuple<Integer> tuple, String expected) {
         assertThat(tuple).hasToString(expected);
     }
 

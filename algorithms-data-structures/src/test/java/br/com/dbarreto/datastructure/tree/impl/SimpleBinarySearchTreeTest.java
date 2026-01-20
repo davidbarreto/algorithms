@@ -5,6 +5,7 @@ import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
 import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,7 +28,8 @@ class SimpleBinarySearchTreeTest {
      */
     @ParameterizedTest
     @MethodSource("insertArguments")
-    void insert(SimpleBinarySearchTree<Integer> tree, List<Integer> expected) {
+    @DisplayName("Should insert elements correctly")
+    void shouldInsertElements(SimpleBinarySearchTree<Integer> tree, List<Integer> expected) {
         assertTree(tree, expected);
     }
 
@@ -36,7 +38,8 @@ class SimpleBinarySearchTreeTest {
      */
     @ParameterizedTest
     @MethodSource("deleteArguments")
-    void delete(Integer valueToDelete, List<Integer> expected) {
+    @DisplayName("Should delete elements correctly")
+    void shouldDeleteElements(Integer valueToDelete, List<Integer> expected) {
         var tree = BinarySearchTreeScenarios.createBstWithUnorderedInserts();
         tree.delete(valueToDelete);
         assertTree(tree, expected);
@@ -47,7 +50,8 @@ class SimpleBinarySearchTreeTest {
      */
     @ParameterizedTest
     @MethodSource("minArguments")
-    void min(BinarySearchTree<Integer> tree, Integer expected) {
+    @DisplayName("Should return minimum value")
+    void shouldReturnMinValue(BinarySearchTree<Integer> tree, Integer expected) {
         assertEquals(expected, tree.min());
     }
 
@@ -56,7 +60,8 @@ class SimpleBinarySearchTreeTest {
      */
     @ParameterizedTest
     @MethodSource("maxArguments")
-    void max(BinarySearchTree<Integer> tree, Integer expected) {
+    @DisplayName("Should return maximum value")
+    void shouldReturnMaxValue(BinarySearchTree<Integer> tree, Integer expected) {
         assertEquals(expected, tree.max());
     }
 
@@ -65,7 +70,8 @@ class SimpleBinarySearchTreeTest {
      */
     @ParameterizedTest
     @MethodSource("rootArguments")
-    void root(SimpleBinarySearchTree<Integer> tree, Integer expected) {
+    @DisplayName("Should return root value")
+    void shouldReturnRootValue(SimpleBinarySearchTree<Integer> tree, Integer expected) {
         assertEquals(expected, tree.root() != null ? tree.root().value() : null);
     }
 
@@ -74,7 +80,8 @@ class SimpleBinarySearchTreeTest {
      */
     @ParameterizedTest
     @MethodSource("containsArguments")
-    void contains(Integer searchedVal, boolean expected) {
+    @DisplayName("Should check if tree contains value")
+    void shouldCheckIfTreeContainsValue(Integer searchedVal, boolean expected) {
         var tree = BinarySearchTreeScenarios.createBstWithUnorderedInserts();
         assertEquals(expected, tree.contains(searchedVal));
     }
@@ -83,7 +90,8 @@ class SimpleBinarySearchTreeTest {
      * Tests both insertion and search functionality.
      */
     @Test
-    void testInsertAndSearch() {
+    @DisplayName("Should insert and search correctly")
+    void shouldInsertAndSearch() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
         tree.insert(5);
         tree.insert(3);
@@ -97,7 +105,8 @@ class SimpleBinarySearchTreeTest {
      * Tests the {@code min} and {@code max} methods.
      */
     @Test
-    void testMinMax() {
+    @DisplayName("Should return min and max values")
+    void shouldReturnMinAndMaxValues() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
         tree.insert(5);
         tree.insert(3);
@@ -110,7 +119,8 @@ class SimpleBinarySearchTreeTest {
      * Tests inserting a large number of elements.
      */
     @Test
-    void testLargeInsert() {
+    @DisplayName("Should handle large number of inserts")
+    void shouldHandleLargeInserts() {
         SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
         for (int i = 0; i < 100; i++) {
             tree.insert(i);
