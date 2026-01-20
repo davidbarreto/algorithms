@@ -86,8 +86,8 @@ public interface Trie extends Tree<CharSequence> {
      * Returns an {@link Iterable} of all words in the trie that start with the
      * given prefix.
      * <p>
-     * The words are returned in lexicographical order. If the prefix is an empty
-     * string, all words in the trie will be returned.
+     * The words are not guaranteed to be returned in any specific order.
+     * If the prefix is an empty string, all words in the trie will be returned.
      *
      * @param prefix the prefix to search for.
      * @return an {@link Iterable} containing all matching words.
