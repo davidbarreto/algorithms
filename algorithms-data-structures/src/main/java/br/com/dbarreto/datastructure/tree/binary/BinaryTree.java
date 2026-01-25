@@ -1,9 +1,7 @@
 package br.com.dbarreto.datastructure.tree.binary;
 
-import br.com.dbarreto.algorithm.tree.BinaryTreeOperations;
-import br.com.dbarreto.algorithm.tree.BinaryTreeTraversals;
 import br.com.dbarreto.datastructure.node.tree.binary.BinaryTreeNode;
-import br.com.dbarreto.datastructure.tree.RootedTree;
+import br.com.dbarreto.datastructure.tree.Tree;
 
 import java.util.Iterator;
 import java.util.function.Consumer;
@@ -17,30 +15,14 @@ import java.util.function.Consumer;
  *
  * @param <T> the type of elements stored in the tree
  */
-public interface BinaryTree<T> extends RootedTree<T> {
+public interface BinaryTree<T> extends Tree<T> {
 
     /**
      * Returns the root node of the binary tree.
      *
      * @return the root node, or {@code null} if the tree is empty
      */
-    @Override
     BinaryTreeNode<T> root();
-
-    @Override
-    default int height() {
-        return BinaryTreeOperations.height(this);
-    }
-
-    @Override
-    default int size() {
-        return BinaryTreeOperations.size(this);
-    }
-
-    @Override
-    default boolean contains(T value) {
-        return BinaryTreeOperations.contains(this, value);
-    }
 
     /**
      * Checks if the binary tree is balanced.
@@ -50,45 +32,35 @@ public interface BinaryTree<T> extends RootedTree<T> {
      *
      * @return {@code true} if the tree is balanced, {@code false} otherwise
      */
-    default boolean isBalanced() {
-        return BinaryTreeOperations.isBalanced(this);
-    }
+    boolean isBalanced();
 
     /**
      * Traverses the tree in in-order sequence (Left, Root, Right) and applies the visitor to each element.
      *
      * @param visitor the action to be performed for each element
      */
-    default void traverseInOrder(Consumer<T> visitor) {
-        BinaryTreeTraversals.traverseInOrder(this, visitor);
-    }
+    void traverseInOrder(Consumer<T> visitor);
 
     /**
      * Traverses the tree in pre-order sequence (Root, Left, Right) and applies the visitor to each element.
      *
      * @param visitor the action to be performed for each element
      */
-    default void traversePreOrder(Consumer<T> visitor) {
-        BinaryTreeTraversals.traversePreOrder(this, visitor);
-    }
+    void traversePreOrder(Consumer<T> visitor);
 
     /**
      * Traverses the tree in post-order sequence (Left, Right, Root) and applies the visitor to each element.
      *
      * @param visitor the action to be performed for each element
      */
-    default void traversePostOrder(Consumer<T> visitor) {
-        BinaryTreeTraversals.traversePostOrder(this, visitor);
-    }
+    void traversePostOrder(Consumer<T> visitor);
 
     /**
      * Traverses the tree in level-order sequence (Breadth-First) and applies the visitor to each element.
      *
      * @param visitor the action to be performed for each element
      */
-    default void traverseLevelOrder(Consumer<T> visitor) {
-        BinaryTreeTraversals.traverseLevelOrder(this, visitor);
-    }
+    void traverseLevelOrder(Consumer<T> visitor);
 
     /**
      * Returns an iterator for in-order traversal.
@@ -98,9 +70,7 @@ public interface BinaryTree<T> extends RootedTree<T> {
      *
      * @return an iterator over the elements in in-order sequence
      */
-    default Iterator<T> inOrderIterator() {
-        return BinaryTreeIterators.inOrder(this);
-    }
+   Iterator<T> inOrderIterator();
 
     /**
      * Returns an iterator for pre-order traversal.
@@ -110,9 +80,7 @@ public interface BinaryTree<T> extends RootedTree<T> {
      *
      * @return an iterator over the elements in pre-order sequence
      */
-    default Iterator<T> preOrderIterator() {
-        return BinaryTreeIterators.preOrder(this);
-    }
+    Iterator<T> preOrderIterator();
 
     /**
      * Returns an iterator for post-order traversal.
@@ -122,9 +90,7 @@ public interface BinaryTree<T> extends RootedTree<T> {
      *
      * @return an iterator over the elements in post-order sequence
      */
-    default Iterator<T> postOrderIterator() {
-        return BinaryTreeIterators.postOrder(this);
-    }
+    Iterator<T> postOrderIterator();
 
     /**
      * Returns an iterator for level-order traversal.
@@ -134,7 +100,5 @@ public interface BinaryTree<T> extends RootedTree<T> {
      *
      * @return an iterator over the elements in level-order sequence
      */
-    default Iterator<T> levelOrderIterator() {
-        return BinaryTreeIterators.levelOrder(this);
-    }
+    Iterator<T> levelOrderIterator();
 }

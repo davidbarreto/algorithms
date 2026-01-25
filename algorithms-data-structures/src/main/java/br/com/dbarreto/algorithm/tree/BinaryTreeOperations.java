@@ -1,10 +1,8 @@
 package br.com.dbarreto.algorithm.tree;
 
 import java.util.Objects;
-import java.util.function.Function;
 
 import br.com.dbarreto.datastructure.node.tree.binary.BinaryTreeNode;
-import br.com.dbarreto.datastructure.node.tree.binary.MutableBinaryTreeNode;
 import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 
 public class BinaryTreeOperations {
@@ -78,22 +76,5 @@ public class BinaryTreeOperations {
             return false;
         }
         return equals(node1.left(), node2.left()) && equals(node1.right(), node2.right());
-    }
-
-    public static <T, M extends BinaryTree<T>, N extends MutableBinaryTreeNode<T, N>> M deepCopy(BinaryTree<T> oldTree, Function<N, M> treeConstructor, Function<T, N> nodeConstructor) {
-        return treeConstructor.apply(deepCopy(oldTree.root(), nodeConstructor));
-    }
-
-    public static <T, N extends MutableBinaryTreeNode<T, N>> N deepCopy(BinaryTreeNode<T> oldRoot, Function<T, N> constructor) {
-        if (oldRoot == null) {
-            return null;
-        }
-
-        N newRoot = constructor.apply(oldRoot.value());
-
-        newRoot.setLeft(deepCopy(oldRoot.left(), constructor));
-        newRoot.setRight(deepCopy(oldRoot.right(), constructor));
-
-        return newRoot;
     }
 }

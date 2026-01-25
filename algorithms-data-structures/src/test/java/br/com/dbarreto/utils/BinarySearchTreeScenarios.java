@@ -4,7 +4,7 @@ import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
 import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 import br.com.dbarreto.datastructure.tree.binary.impl.AvlTree;
 import br.com.dbarreto.datastructure.tree.binary.impl.RedBlackTree;
-import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinarySearchTree;
+import br.com.dbarreto.datastructure.tree.binary.impl.StandardBinarySearchTree;
 
 /**
  * Utility class for creating various Binary Search Tree (BST) scenarios for testing purposes.
@@ -16,22 +16,22 @@ import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinarySearchTree;
 public class BinarySearchTreeScenarios {
 
     /**
-     * Creates an empty {@link SimpleBinarySearchTree}.
+     * Creates an empty {@link StandardBinarySearchTree}.
      *
      * @return an empty BST
      */
     public static BinarySearchTree<Integer> createEmptyBst() {
-        return new SimpleBinarySearchTree<>();
+        return new StandardBinarySearchTree<>();
     }
 
     /**
-     * Creates a {@link SimpleBinarySearchTree} by inserting elements in ascending order,
+     * Creates a {@link StandardBinarySearchTree} by inserting elements in ascending order,
      * resulting in a completely unbalanced tree (like a linked list).
      *
      * @return an unbalanced BST
      */
     public static BinarySearchTree<Integer> createBstWithOrderedInserts() {
-        var tree = new SimpleBinarySearchTree<Integer>();
+        var tree = new StandardBinarySearchTree<Integer>();
         tree.insert(1);
         tree.insert(2);
         tree.insert(3);
@@ -41,12 +41,12 @@ public class BinarySearchTreeScenarios {
     }
 
     /**
-     * Creates a {@link SimpleBinarySearchTree} by inserting elements in a non-sequential order.
+     * Creates a {@link StandardBinarySearchTree} by inserting elements in a non-sequential order.
      *
      * @return a BST with a more complex structure
      */
     public static BinarySearchTree<Integer> createBstWithUnorderedInserts() {
-        var tree = new SimpleBinarySearchTree<Integer>();
+        var tree = new StandardBinarySearchTree<Integer>();
         tree.insert(2);
         tree.insert(0);
         tree.insert(3);
@@ -95,12 +95,12 @@ public class BinarySearchTreeScenarios {
     }
 
     /**
-     * Creates a {@link SimpleBinarySearchTree} with a perfect structure.
+     * Creates a {@link StandardBinarySearchTree} with a perfect structure.
      *
      * @return a perfectly balanced BST
      */
     public static BinaryTree<Integer> createSimpleBstWithPerfectStructure() {
-        var tree = new SimpleBinarySearchTree<Integer>();
+        var tree = new StandardBinarySearchTree<Integer>();
         // Insert in order to match the BST structure: 4,2,6,1,3,5,7
         tree.insert(4);
         tree.insert(2);

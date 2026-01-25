@@ -4,10 +4,10 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Random;
 
-import br.com.dbarreto.datastructure.node.tree.binary.impl.SimpleBinaryTreeNode;
 import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
-import br.com.dbarreto.datastructure.tree.binary.builder.SimpleBinaryTreeBuilder;
-import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinaryTree;
+import br.com.dbarreto.datastructure.tree.binary.impl.StandardBinaryTree;
+import br.com.dbarreto.datastructure.tuple.Pair;
+import br.com.dbarreto.datastructure.tuple.impl.SimplePair;
 
 /**
  * Utility class for creating various binary tree scenarios for testing purposes.
@@ -21,10 +21,10 @@ public class BinaryTreeScenarios {
     /**
      * Creates an empty binary tree.
      *
-     * @return an empty {@link SimpleBinaryTree}
+     * @return an empty {@link StandardBinaryTree}
      */
     public static BinaryTree<Integer> createEmptyBinaryTree() {
-        return new SimpleBinaryTree<>();
+        return new StandardBinaryTree<>();
     }
 
     /**
@@ -33,7 +33,7 @@ public class BinaryTreeScenarios {
      * @return a {@link BinaryTree} that is perfect
      */
     public static BinaryTree<Integer> createPerfectBinaryTree() {
-        return new SimpleBinaryTreeBuilder<>(1)
+        return new StandardBinaryTree.Builder<>(1)
                 .root()
                     .left(2)
                         .left(4).end()
@@ -53,7 +53,7 @@ public class BinaryTreeScenarios {
      * @return a {@link BinaryTree} with missing nodes
      */
     public static BinaryTree<Integer> createMissingChildrenBinaryTree() {
-        return new SimpleBinaryTreeBuilder<>(1)
+        return new StandardBinaryTree.Builder<>(1)
                 .root()
                     .left(2)
                         .left(4).end()
@@ -74,7 +74,7 @@ public class BinaryTreeScenarios {
      * @return a left-unbalanced {@link BinaryTree}
      */
     public static BinaryTree<Integer> createLeftUnbalancedBinaryTree() {
-        return new SimpleBinaryTreeBuilder<>(1)
+        return new StandardBinaryTree.Builder<>(1)
                 .root()
                     .left(2)
                         .left(4)
@@ -99,7 +99,7 @@ public class BinaryTreeScenarios {
      * @return a right-unbalanced {@link BinaryTree}
      */
     public static BinaryTree<Integer> createRightUnbalancedBinaryTree() {
-        return new SimpleBinaryTreeBuilder<>(1)
+        return new StandardBinaryTree.Builder<>(1)
                 .root()
                     .left(2)
                         .left(4).end()
@@ -128,34 +128,29 @@ public class BinaryTreeScenarios {
      */
     public static BinaryTree<Integer> createBigBinaryTree() {
 
-        record Pair(SimpleBinaryTreeNode<Integer> node, Integer level) {}
-
         var random = new Random();
-        Queue<Pair> queue = new ArrayDeque<>();
-        var root = new SimpleBinaryTreeNode<>(1);
-        queue.add(new Pair(root, 1));
+        var builder = new StandardBinaryTree.Builder<>(1);
+        Queue<Pair<StandardBinaryTree.Builder.NodeBuilder<?, Integer>, Integer>> queue = new ArrayDeque<>();
+        queue.add(new SimplePair<>(builder.root(), 1));
 
         int maxLevels = 10; // total elements = 2^(maxLevels) - 1
         while (!queue.isEmpty()) {
             var pair = queue.poll();
-            var node = pair.node();
-            var currentLevel = pair.level() + 1;
+            var node = pair.first();
+            var currentLevel = pair.second() + 1;
 
             if (currentLevel > maxLevels) {
                 break;
             }
 
-            var left = new SimpleBinaryTreeNode<>(random.nextInt());
-            var right = new SimpleBinaryTreeNode<>(random.nextInt());
+            var left = node.left(random.nextInt());
+            var right = node.right(random.nextInt());
 
-            node.setLeft(left);
-            node.setRight(right);
-
-            queue.add(new Pair(left, currentLevel));
-            queue.add(new Pair(right, currentLevel));
+            queue.add(new SimplePair<>(left, currentLevel));
+            queue.add(new SimplePair<>(right, currentLevel));
         }
 
-        return new SimpleBinaryTree<>(root);
+        return builder.build();
     }
 
     /**
@@ -164,7 +159,7 @@ public class BinaryTreeScenarios {
      * @return a simple {@link BinaryTree}
      */
     public static BinaryTree<Integer> createSimpleBinaryTree() {
-        return new SimpleBinaryTreeBuilder<>(200)
+        return new StandardBinaryTree.Builder<>(200)
                 .root()
                     .left(5).end()
                     .right(3).end()
@@ -178,7 +173,7 @@ public class BinaryTreeScenarios {
      * @return a {@link BinaryTree} that is also a valid BST
      */
     public static BinaryTree<Integer> createBstBinaryTree() {
-        return new SimpleBinaryTreeBuilder<>(20)
+        return new StandardBinaryTree.Builder<>(20)
                 .root()
                     .left(17)
                         .left(15)
@@ -200,7 +195,7 @@ public class BinaryTreeScenarios {
      * @return a perfect {@link BinaryTree} that is also a valid BST
      */
     public static BinaryTree<Integer> createPerfectBstTree() {
-        return new SimpleBinaryTreeBuilder<>(4)
+        return new StandardBinaryTree.Builder<>(4)
                 .root()
                     .left(2)
                         .left(1).end()

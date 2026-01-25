@@ -1,13 +1,7 @@
-package br.com.dbarreto.datastructure.tree;
+package br.com.dbarreto.datastructure.tree.binary.impl;
 
 import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
-import br.com.dbarreto.datastructure.tree.binary.impl.AvlTree;
-import br.com.dbarreto.datastructure.tree.binary.impl.RedBlackTree;
-import br.com.dbarreto.datastructure.node.tree.binary.impl.SimpleMutableHeightBinarySearchTreeNode;
-import br.com.dbarreto.datastructure.node.tree.binary.impl.RedBlackTreeNode;
-import br.com.dbarreto.datastructure.node.tree.binary.BinarySearchTreeNode;
 import br.com.dbarreto.datastructure.node.tree.binary.BinaryTreeNode;
-import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinarySearchTree;
 import net.jqwik.api.*;
 import net.jqwik.api.constraints.Size;
 
@@ -17,9 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import static br.com.dbarreto.datastructure.node.tree.binary.ColoredBinarySearchTreeNode.Color.RED;
-import static br.com.dbarreto.datastructure.node.tree.binary.ColoredBinarySearchTreeNode.Color.BLACK;
 
 /**
  * Property-based tests for tree data structures.
@@ -31,11 +22,11 @@ import static br.com.dbarreto.datastructure.node.tree.binary.ColoredBinarySearch
 class TreePropertiesTest {
 
     /**
-     * Verifies that the Binary Search Tree property holds for a {@link SimpleBinarySearchTree}.
+     * Verifies that the Binary Search Tree property holds for a {@link StandardBinarySearchTree}.
      */
     @Property
     void shouldMaintainBinarySearchTreeProperty(@ForAll("integerLists") List<Integer> values) {
-        SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
+        StandardBinarySearchTree<Integer> tree = new StandardBinarySearchTree<>();
         values.forEach(tree::insert);
 
         isValidBST(tree.root());
@@ -78,7 +69,7 @@ class TreePropertiesTest {
      */
     @Property
     void shouldHaveSizeEqualToNumberOfElements(@ForAll("integerLists") List<Integer> values) {
-        SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
+        StandardBinarySearchTree<Integer> tree = new StandardBinarySearchTree<>();
         values.forEach(tree::insert);
 
         // BST allows duplicates, so size should equal total insertions
@@ -90,7 +81,7 @@ class TreePropertiesTest {
      */
     @Property
     void shouldFindAllInsertedElements(@ForAll("integerLists") List<Integer> values) {
-        SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
+        StandardBinarySearchTree<Integer> tree = new StandardBinarySearchTree<>();
         values.forEach(tree::insert);
 
         for (Integer value : values) {
@@ -148,11 +139,11 @@ class TreePropertiesTest {
 
     // Helper methods for property validation
 
-    private void isValidBST(BinarySearchTreeNode<Integer> node) {
+    private void isValidBST(BinaryTreeNode<Integer> node) {
         isValidBST(node, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    private void isValidBST(BinarySearchTreeNode<Integer> node, int min, int max) {
+    private void isValidBST(BinaryTreeNode<Integer> node, int min, int max) {
         if (node == null) {
             return;
         }
@@ -168,60 +159,45 @@ class TreePropertiesTest {
     }
 
     private void isValidAvlTree(AvlTree<Integer> tree) {
-        isValidAvlTree(tree, tree.root());
+        isValidAvlTree(tree, tree.getRoot());
     }
 
-    private void isValidAvlTree(AvlTree<Integer> tree, BinaryTreeNode<Integer> node) {
+    private void isValidAvlTree(AvlTree<Integer> tree, AvlTree.AvlNode<Integer> node) {
         if (node == null) return;
 
-        // Must be a height-aware node for AVL validation
-        if (!(node instanceof SimpleMutableHeightBinarySearchTreeNode<Integer> heightNode)) {
-            throw new AssertionError("Node is not a height-aware AVL node");
-        }
-
         // Check balance factor using tree's method
-        int balance = tree.balanceFactor(heightNode);
-        if (Math.abs(balance) > 1) {
+        int balance;
+        if (Math.abs(balance = AvlTree.balanceFactor(node)) < -1) {
             throw new AssertionError("Balance factor violation: " + balance + " (must be between -1 and 1)");
         }
 
         // Recursively check subtrees
-        isValidAvlTree(tree, node.left());
-        isValidAvlTree(tree, node.right());
+        isValidAvlTree(tree, node.left);
+        isValidAvlTree(tree, node.right);
     }
 
     private void isValidRedBlackTree(RedBlackTree<Integer> tree) {
-        isValidRedBlackTree(tree, tree.root());
+        isValidRedBlackTree(tree, tree.getRoot());
     }
 
-    private void isValidRedBlackTree(RedBlackTree<Integer> tree, BinaryTreeNode<Integer> node) {
+    private void isValidRedBlackTree(RedBlackTree<Integer> tree, RedBlackTree.RedBlackNode<Integer> node) {
         if (node == null) {
             return;
         }
 
-        // Must be a colored node for RB validation
-        if (!(node instanceof RedBlackTreeNode<Integer> rbNode)) {
-            throw new AssertionError("Node is not a Red-Black tree node");
-        }
-
-        // Property 1: Every node is either red or black
-        if (rbNode.color() != RED && rbNode.color() != BLACK) {
-            throw new AssertionError("Property 1 violation: Node has invalid color");
-        }
-
         // Property 4: If a node is red, both children must be black
-        if (rbNode.color() == RED && (isRed(rbNode.leftMutable()) || isRed(rbNode.rightMutable()))) {
-                throw new AssertionError("Property 4 violation: Red node has red child");
+        if (RedBlackTree.isRed(node) && (RedBlackTree.isRed(node.left) || RedBlackTree.isRed(node.right))) {
+            throw new AssertionError("Property 4 violation: Red node has red child");
         }
 
         // Property 5: Every path from node to leaf has same number of black nodes
-        if (tree.blackHeight(rbNode) == -1) {
+        if (RedBlackTree.blackHeight(node) == -1) {
             throw new AssertionError("Property 5 violation: Inconsistent black heights in subtrees");
         }
 
         // Recursively check subtrees
-        isValidRedBlackTree(tree, node.left());
-        isValidRedBlackTree(tree, node.right());
+        isValidRedBlackTree(tree, node.left);
+        isValidRedBlackTree(tree, node.right);
     }
 
     private void isHeightLogarithmic(BinarySearchTree<Integer> tree) {
@@ -233,10 +209,6 @@ class TreePropertiesTest {
             throw new AssertionError("Height [" + height + "] exceeds max height allowed [2*log2("
                     + n + "] = [" + maxHeightAllowed + ")]");
         }
-    }
-
-    private boolean isRed(RedBlackTreeNode<Integer> node) {
-        return node != null && node.color() == RED;
     }
 
     /**

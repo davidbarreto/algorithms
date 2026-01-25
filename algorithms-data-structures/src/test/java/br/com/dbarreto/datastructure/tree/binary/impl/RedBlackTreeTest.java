@@ -1,9 +1,9 @@
-package br.com.dbarreto.datastructure.tree.impl;
+package br.com.dbarreto.datastructure.tree.binary.impl;
 
-import br.com.dbarreto.datastructure.node.tree.binary.impl.RedBlackTreeNode;
-import br.com.dbarreto.datastructure.tree.binary.impl.RedBlackTree;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static br.com.dbarreto.datastructure.tree.binary.impl.RedBlackTree.isRed;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -115,65 +115,47 @@ class RedBlackTreeTest {
     void shouldHaveBlackRoot() {
         RedBlackTree<Integer> tree = new RedBlackTree<>();
         tree.insert(10);
-        assertTrue(tree.root().color().isBlack());
+        assertFalse(isRed(tree.getRoot()));
     }
 
     // Helper methods to validate Red-Black properties
 
     private boolean isValidRedBlackTree(RedBlackTree<Integer> tree) {
-        if (tree.root() == null) {
+
+        var root = tree.getRoot();
+
+        if (root == null) {
             return true;
         }
 
         // Property 2: Root is black
-        if (tree.root().color().isRed()) {
+        if (isRed(root)) {
             return false;
         }
 
         // Check other properties
-        return checkProperties(tree.root());
+        return checkProperties(root);
     }
 
-    private boolean checkProperties(RedBlackTreeNode<Integer> node) {
+    private boolean checkProperties(RedBlackTree.RedBlackNode<Integer> node) {
         if (node == null) {
             return true;
         }
 
         // Property 4: If node is red, both children must be black
-        if (isRed(node) && (isRed(node.leftMutable()) || isRed(node.rightMutable()))) {
+        if (isRed(node) && (isRed(node.left) || isRed(node.right))) {
             return false;
         }
 
         // Recursively check children
-        if (!checkProperties(node.left())) {
+        if (!checkProperties(node.left)) {
             return false;
         }
-        if (!checkProperties(node.right())) {
+        if (!checkProperties(node.right)) {
             return false;
         }
 
         // Property 5: All paths have same black height
-        int leftBlackHeight = blackHeight(node.left());
-        int rightBlackHeight = blackHeight(node.right());
-        return leftBlackHeight == rightBlackHeight;
-    }
-
-    private boolean isRed(RedBlackTreeNode<Integer> node) {
-        return node != null && node.color().isRed();
-    }
-
-    private int blackHeight(RedBlackTreeNode<Integer> node) {
-        if (node == null) {
-            return 1; // null nodes are black
-        }
-
-        int leftHeight = blackHeight(node.left());
-        int rightHeight = blackHeight(node.right());
-
-        if (leftHeight != rightHeight) {
-            return -1; // Invalid
-        }
-
-        return leftHeight + (node.color().isBlack() ? 1 : 0);
+        return RedBlackTree.blackHeight(node.left) == RedBlackTree.blackHeight(node.right);
     }
 }

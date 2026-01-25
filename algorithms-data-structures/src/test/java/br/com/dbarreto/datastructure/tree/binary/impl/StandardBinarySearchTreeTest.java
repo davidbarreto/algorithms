@@ -1,10 +1,11 @@
-package br.com.dbarreto.datastructure.tree.impl;
+package br.com.dbarreto.datastructure.tree.binary.impl;
 
-import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinarySearchTree;
+import br.com.dbarreto.algorithm.tree.BinaryTreeOperations;
 import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
 import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
 
+import br.com.dbarreto.utils.BinaryTreeScenarios;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,9 +20,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class for {@link SimpleBinarySearchTree}.
+ * Test class for {@link StandardBinarySearchTree}.
  */
-class SimpleBinarySearchTreeTest {
+class StandardBinarySearchTreeTest {
 
     /**
      * Tests the {@code insert} method.
@@ -29,7 +30,7 @@ class SimpleBinarySearchTreeTest {
     @ParameterizedTest
     @MethodSource("insertArguments")
     @DisplayName("Should insert elements correctly")
-    void shouldInsertElements(SimpleBinarySearchTree<Integer> tree, List<Integer> expected) {
+    void shouldInsertElements(StandardBinarySearchTree<Integer> tree, List<Integer> expected) {
         assertTree(tree, expected);
     }
 
@@ -71,7 +72,7 @@ class SimpleBinarySearchTreeTest {
     @ParameterizedTest
     @MethodSource("rootArguments")
     @DisplayName("Should return root value")
-    void shouldReturnRootValue(SimpleBinarySearchTree<Integer> tree, Integer expected) {
+    void shouldReturnRootValue(StandardBinarySearchTree<Integer> tree, Integer expected) {
         assertEquals(expected, tree.root() != null ? tree.root().value() : null);
     }
 
@@ -92,7 +93,7 @@ class SimpleBinarySearchTreeTest {
     @Test
     @DisplayName("Should insert and search correctly")
     void shouldInsertAndSearch() {
-        SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
+        StandardBinarySearchTree<Integer> tree = new StandardBinarySearchTree<>();
         tree.insert(5);
         tree.insert(3);
         tree.insert(7);
@@ -107,7 +108,7 @@ class SimpleBinarySearchTreeTest {
     @Test
     @DisplayName("Should return min and max values")
     void shouldReturnMinAndMaxValues() {
-        SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
+        StandardBinarySearchTree<Integer> tree = new StandardBinarySearchTree<>();
         tree.insert(5);
         tree.insert(3);
         tree.insert(7);
@@ -121,12 +122,35 @@ class SimpleBinarySearchTreeTest {
     @Test
     @DisplayName("Should handle large number of inserts")
     void shouldHandleLargeInserts() {
-        SimpleBinarySearchTree<Integer> tree = new SimpleBinarySearchTree<>();
+        StandardBinarySearchTree<Integer> tree = new StandardBinarySearchTree<>();
         for (int i = 0; i < 100; i++) {
             tree.insert(i);
         }
         assertEquals(99, tree.max());
         assertTrue(tree.contains(50));
+    }
+
+    /**
+     * Tests the {@link StandardBinarySearchTree#StandardBinarySearchTree(BinaryTree)} method.
+     */
+    @ParameterizedTest
+    @MethodSource("copyTreeArguments")
+    @DisplayName("Should deep copy tree that happens to be a BST")
+    <T> void shouldCopyBstTree(BinaryTree<Integer> source) {
+        var copiedTree = new StandardBinarySearchTree<>(source);
+        assertTrue(BinaryTreeOperations.equals(source, copiedTree));
+        // Verify it's a different instance
+        assertNotSame(source, copiedTree);
+    }
+
+    /**
+     * Tests the {@link StandardBinarySearchTree#StandardBinarySearchTree(BinaryTree)} method.
+     */
+    @ParameterizedTest
+    @MethodSource("copyTreeFailedArguments")
+    @DisplayName("Should NOT copy tree which is not a BST")
+    <T> void shouldNotCopyNonBstTree(BinaryTree<Integer> source) {
+        assertThrows(IllegalArgumentException.class, () -> new StandardBinarySearchTree<>(source));
     }
 
     private void assertTree(BinaryTree<Integer> tree, List<Integer> expected) {
@@ -190,6 +214,20 @@ class SimpleBinarySearchTreeTest {
                 Arguments.of(Integer.MAX_VALUE, false),
                 Arguments.of(null, false),
                 Arguments.of(100_000, false)
+        );
+    }
+
+    private static Stream<Arguments> copyTreeArguments() {
+        return Stream.of(
+                Arguments.of(BinaryTreeScenarios.createEmptyBinaryTree()),
+                Arguments.of(BinarySearchTreeScenarios.createSimpleBstWithPerfectStructure())
+        );
+    }
+
+    private static Stream<Arguments> copyTreeFailedArguments() {
+        return Stream.of(
+                Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree()),
+                Arguments.of(BinaryTreeScenarios.createMissingChildrenBinaryTree())
         );
     }
 }

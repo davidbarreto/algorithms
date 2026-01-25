@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import br.com.dbarreto.utils.BinaryTreeScenarios;
 import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
-import br.com.dbarreto.datastructure.tree.binary.impl.SimpleBinaryTree;
+import br.com.dbarreto.datastructure.tree.binary.impl.StandardBinaryTree;
 
 /**
  * Test class for {@link BinaryTreeTraversals}.
@@ -77,7 +77,7 @@ class BinaryTreeTraversalsTest {
     @Test
     @DisplayName("Should handle empty tree traversal")
     void shouldHandleEmptyTreeTraversal() {
-        SimpleBinaryTree<Integer> tree = new SimpleBinaryTree<>();
+        StandardBinaryTree<Integer> tree = new StandardBinaryTree<>();
         List<Integer> result = new ArrayList<>();
         BinaryTreeTraversals.traverseInOrder(tree, result::add);
         assertTrue(result.isEmpty());

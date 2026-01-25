@@ -1,6 +1,5 @@
-package br.com.dbarreto.datastructure.tree.impl;
+package br.com.dbarreto.datastructure.tree.binary.impl;
 
-import br.com.dbarreto.datastructure.tree.binary.impl.AvlTree;
 import br.com.dbarreto.utils.BinarySearchTreeScenarios;
 
 import org.junit.jupiter.api.DisplayName;

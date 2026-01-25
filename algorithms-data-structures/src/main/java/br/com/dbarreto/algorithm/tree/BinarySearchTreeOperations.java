@@ -1,6 +1,5 @@
 package br.com.dbarreto.algorithm.tree;
 
-import br.com.dbarreto.datastructure.node.tree.binary.BinarySearchTreeNode;
 import br.com.dbarreto.datastructure.node.tree.binary.BinaryTreeNode;
 import br.com.dbarreto.datastructure.tree.binary.BinarySearchTree;
 import br.com.dbarreto.datastructure.tree.binary.BinaryTree;
@@ -15,7 +14,7 @@ public class BinarySearchTreeOperations {
         return min(tree.root());
     }
 
-    public static <T extends Comparable<T>> T min(BinarySearchTreeNode<T> root) {
+    public static <T extends Comparable<T>> T min(BinaryTreeNode<T> root) {
         if (root == null) {
             return null;
         }
@@ -32,7 +31,7 @@ public class BinarySearchTreeOperations {
         return max(tree.root());
     }
 
-    public static <T extends Comparable<T>> T max(BinarySearchTreeNode<T> root) {
+    public static <T extends Comparable<T>> T max(BinaryTreeNode<T> root) {
         if (root == null) {
             return null;
         }
@@ -49,7 +48,7 @@ public class BinarySearchTreeOperations {
         return contains(binaryTree.root(), value);
     }
 
-    public static <T extends Comparable<T>> boolean contains(BinarySearchTreeNode<T> root, T value) {
+    public static <T extends Comparable<T>> boolean contains(BinaryTreeNode<T> root, T value) {
         if (root == null || value == null) return false;
         if (Objects.equals(root.value(), value)) return true;
 
