@@ -341,6 +341,6 @@ public class RedBlackTree<T extends Comparable<T>> extends StandardBinarySearchT
     }
 
     enum Color {
-        RED, BLACK;
+        RED, BLACK
     }
 }

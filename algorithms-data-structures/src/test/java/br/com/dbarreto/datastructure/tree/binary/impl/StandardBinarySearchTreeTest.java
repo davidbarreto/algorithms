@@ -136,7 +136,7 @@ class StandardBinarySearchTreeTest {
     @ParameterizedTest
     @MethodSource("copyTreeArguments")
     @DisplayName("Should deep copy tree that happens to be a BST")
-    <T> void shouldCopyBstTree(BinaryTree<Integer> source) {
+    void shouldCopyBstTree(BinaryTree<Integer> source) {
         var copiedTree = new StandardBinarySearchTree<>(source);
         assertTrue(BinaryTreeOperations.equals(source, copiedTree));
         // Verify it's a different instance
@@ -149,7 +149,7 @@ class StandardBinarySearchTreeTest {
     @ParameterizedTest
     @MethodSource("copyTreeFailedArguments")
     @DisplayName("Should NOT copy tree which is not a BST")
-    <T> void shouldNotCopyNonBstTree(BinaryTree<Integer> source) {
+    void shouldNotCopyNonBstTree(BinaryTree<Integer> source) {
         assertThrows(IllegalArgumentException.class, () -> new StandardBinarySearchTree<>(source));
     }
 
