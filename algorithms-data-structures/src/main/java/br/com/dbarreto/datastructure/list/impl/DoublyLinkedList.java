@@ -1,52 +1,76 @@
 package br.com.dbarreto.datastructure.list.impl;
 
 import br.com.dbarreto.datastructure.list.Deque;
-import br.com.dbarreto.datastructure.node.list.impl.DoublyListNode;
+import br.com.dbarreto.datastructure.node.list.DoublyLinkedNode;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class DoublyLinkedList<E> implements Deque<E> {
 
-    private DoublyListNode<E> head;
-    private DoublyListNode<E> tail;
+    private Node<E> head;
+    private Node<E> tail;
+    private int size = 0;
 
     @Override
     public void addFirst(E value) {
-        addFirst(new DoublyListNode<>(value));
+        addFirst(new Node<>(value));
     }
 
-    public void addFirst(DoublyListNode<E> node) {
+    public void addFirst(DoublyLinkedNode<E> node) {
+        if (node instanceof Node<E> n) {
+            addFirst(n);
+        } else {
+            throw new IllegalArgumentException("Node type not supported");
+        }
+    }
+
+    private void addFirst(Node<E> node) {
         if (head == null) {
-            node.setPrevious(null);
-            node.setNext(null);
+            node.previous = null;
             head = node;
             tail = node;
         } else {
-            node.setPrevious(null);
-            node.setNext(head);
-            head.setPrevious(node);
+            node.previous = null;
+            node.next = head;
+            head.previous = node;
             head = node;
         }
+        size++;
     }
 
     @Override
     public void addLast(E value) {
-        addLast(new DoublyListNode<>(value));
+        addLast(new Node<>(value));
     }
 
-    public void addLast(DoublyListNode<E> node) {
+    public DoublyLinkedNode<E> addToLast(E value) {
+        Node<E> node = new Node<>(value);
+        addLast(node);
+        return node;
+    }
+
+    public void addLast(DoublyLinkedNode<E> node) {
+        if (node instanceof Node<E> n) {
+            addLast(n);
+        } else {
+            throw new IllegalArgumentException("Node type not supported");
+        }
+    }
+
+    private void addLast(Node<E> node) {
         if (head == null) {
-            node.setPrevious(null);
-            node.setNext(null);
+            node.previous = null;
+            node.next = null;
             head = node;
             tail = node;
         } else {
-            tail.setNext(node);
-            node.setPrevious(tail);
-            node.setNext(null);
+            tail.next = node;
+            node.previous = tail;
+            node.next = null;
             tail = node;
         }
+        size++;
     }
 
     @Override
@@ -59,37 +83,55 @@ public class DoublyLinkedList<E> implements Deque<E> {
         return remove(tail);
     }
 
-    public E remove(DoublyListNode<E> node) {
+    public E remove(DoublyLinkedNode<E> node) {
+        if (node instanceof Node<E> n) {
+            return remove(n);
+        } else {
+            throw new IllegalArgumentException("Node type not supported");
+        }
+    }
+
+    private E remove(Node<E> node) {
+
         if (node == null) {
             return null;
         }
 
         if (node == head) {
-            head = node.next();
+            head = node.next;
             if (head != null) {
-                head.setPrevious(null);
+                head.previous = null;
             } else {
                 tail = null;
             }
+            size--;
             return node.value();
         }
 
         if (node == tail) {
-            tail = node.previous();
+            tail = node.previous;
             if (tail != null) {
-                tail.setNext(null);
+                tail.next = null;
             } else {
                 head = null;
             }
+            size--;
             return node.value();
         }
 
+        boolean unlinked = false;
         if (node.previous() != null) {
-            node.previous().setNext(node.next());
+            node.previous.next = node.next;
+            unlinked = true;
         }
 
         if (node.next() != null) {
-            node.next().setPrevious(node.previous());
+            node.next.previous = node.previous;
+            unlinked = true;
+        }
+
+        if (unlinked) {
+            size--;
         }
 
         return node.value();
@@ -102,21 +144,15 @@ public class DoublyLinkedList<E> implements Deque<E> {
 
     @Override
     public int size() {
-        int size = 0;
-        var current = head;
-        while (current != null) {
-            size++;
-            current = current.next();
-        }
         return size;
     }
 
-    public void moveToHead(DoublyListNode<E> node) {
+    public void moveToHead(DoublyLinkedNode<E> node) {
         remove(node);
         addFirst(node);
     }
 
-    public void moveToTail(DoublyListNode<E> node) {
+    public void moveToTail(DoublyLinkedNode<E> node) {
         remove(node);
         addLast(node);
     }
@@ -125,12 +161,13 @@ public class DoublyLinkedList<E> implements Deque<E> {
     public void clear() {
         head = null;
         tail = null;
+        size = 0;
     }
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
-            private DoublyListNode<E> current = head;
+            private Node<E> current = head;
 
             @Override
             public boolean hasNext() {
@@ -142,10 +179,41 @@ public class DoublyLinkedList<E> implements Deque<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                E value = current.value();
-                current = current.next();
+                E value = current.value;
+                current = current.next;
                 return value;
             }
         };
+    }
+
+    private static class Node<E> implements DoublyLinkedNode<E> {
+
+        private E value;
+        private Node<E> next;
+        private Node<E> previous;
+
+        public Node(E value) {
+            this.value = value;
+        }
+
+        @Override
+        public E value() {
+            return value;
+        }
+
+        @Override
+        public void setValue(E value) {
+            this.value = value;
+        }
+
+        @Override
+        public DoublyLinkedNode<E> next() {
+            return next;
+        }
+
+        @Override
+        public DoublyLinkedNode<E> previous() {
+            return previous;
+        }
     }
 }

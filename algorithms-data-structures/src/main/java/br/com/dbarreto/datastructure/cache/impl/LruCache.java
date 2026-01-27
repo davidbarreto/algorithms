@@ -2,7 +2,7 @@ package br.com.dbarreto.datastructure.cache.impl;
 
 import br.com.dbarreto.datastructure.cache.Cache;
 import br.com.dbarreto.datastructure.list.impl.DoublyLinkedList;
-import br.com.dbarreto.datastructure.node.list.impl.DoublyListNode;
+import br.com.dbarreto.datastructure.node.list.DoublyLinkedNode;
 import br.com.dbarreto.datastructure.tuple.Pair;
 import br.com.dbarreto.datastructure.tuple.impl.SimplePair;
 
@@ -13,11 +13,14 @@ import java.util.stream.Collectors;
 
 public class LruCache<K, V> implements Cache<K, V> {
 
-    private DoublyLinkedList<Pair<K, V>> queue;
-    private Map<K, DoublyListNode<Pair<K, V>>> cache;
+    private final DoublyLinkedList<Pair<K, V>> queue;
+    private final Map<K, DoublyLinkedNode<Pair<K, V>>> cache;
     private int capacity;
 
-    LruCache(int capacity) {
+    public LruCache(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be greater than 0");
+        }
         this.capacity = capacity;
         this.queue = new DoublyLinkedList<>();
         this.cache = new HashMap<>();
@@ -48,8 +51,7 @@ public class LruCache<K, V> implements Cache<K, V> {
            evict();
         }
         Pair<K, V> pair = new SimplePair<>(key, value);
-        var node = new DoublyListNode<>(pair);
-        this.queue.addLast(node);
+        var node = this.queue.addToLast(pair);
         this.cache.put(key, node);
 
         return null;
@@ -60,7 +62,7 @@ public class LruCache<K, V> implements Cache<K, V> {
         if (!this.cache.containsKey(key)) {
             return null;
         }
-        DoublyListNode<Pair<K, V>> node = this.cache.remove(key);
+        DoublyLinkedNode<Pair<K, V>> node = this.cache.remove(key);
         this.queue.remove(node);
         return node.value().second();
     }
@@ -92,13 +94,23 @@ public class LruCache<K, V> implements Cache<K, V> {
                 collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().value().second())));
     }
 
+    public void setCapacity(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be greater than 0");
+        }
+        this.capacity = capacity;
+        while (this.cache.size() > this.capacity) {
+            evict();
+        }
+    }
+
     private void evict() {
         K key = this.queue.removeFirst().first();
         this.cache.remove(key);
     }
 
     private void updateUsage(K key) {
-        DoublyListNode<Pair<K, V>> node = this.cache.get(key);
+        DoublyLinkedNode<Pair<K, V>> node = this.cache.get(key);
         this.queue.moveToTail(node);
     }
 }
