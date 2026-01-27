@@ -2,9 +2,9 @@ package br.com.dbarreto.datastructure.list.impl;
 
 import br.com.dbarreto.datastructure.list.Deque;
 import br.com.dbarreto.datastructure.node.list.DoublyLinkedNode;
+import br.com.dbarreto.datastructure.node.list.SinglyLinkedNode;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class DoublyLinkedList<E> implements Deque<E> {
 
@@ -14,7 +14,13 @@ public class DoublyLinkedList<E> implements Deque<E> {
 
     @Override
     public void addFirst(E value) {
-        addFirst(new Node<>(value));
+        addFirstAndReturn(value);
+    }
+
+    public SinglyLinkedNode<E> addFirstAndReturn(E value) {
+        Node<E> node = new Node<>(value);
+        addFirst(node);
+        return node;
     }
 
     public void addFirst(DoublyLinkedNode<E> node) {
@@ -41,10 +47,10 @@ public class DoublyLinkedList<E> implements Deque<E> {
 
     @Override
     public void addLast(E value) {
-        addLast(new Node<>(value));
+        addLastAndReturn(value);
     }
 
-    public DoublyLinkedNode<E> addToLast(E value) {
+    public DoublyLinkedNode<E> addLastAndReturn(E value) {
         Node<E> node = new Node<>(value);
         addLast(node);
         return node;
@@ -132,6 +138,8 @@ public class DoublyLinkedList<E> implements Deque<E> {
 
         if (unlinked) {
             size--;
+        } else {
+            throw new IllegalArgumentException("Node not present in this list");
         }
 
         return node.value();
@@ -166,24 +174,7 @@ public class DoublyLinkedList<E> implements Deque<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<>() {
-            private Node<E> current = head;
-
-            @Override
-            public boolean hasNext() {
-                return current != null;
-            }
-
-            @Override
-            public E next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                E value = current.value;
-                current = current.next;
-                return value;
-            }
-        };
+        return new LinkedListIterator<>(head);
     }
 
     private static class Node<E> implements DoublyLinkedNode<E> {

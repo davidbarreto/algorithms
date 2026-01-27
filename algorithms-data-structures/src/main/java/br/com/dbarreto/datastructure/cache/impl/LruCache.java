@@ -51,7 +51,7 @@ public class LruCache<K, V> implements Cache<K, V> {
            evict();
         }
         Pair<K, V> pair = new SimplePair<>(key, value);
-        var node = this.queue.addToLast(pair);
+        var node = this.queue.addLastAndReturn(pair);
         this.cache.put(key, node);
 
         return null;
