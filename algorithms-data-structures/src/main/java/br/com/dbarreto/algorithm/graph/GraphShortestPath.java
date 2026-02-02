@@ -1,6 +1,8 @@
 package br.com.dbarreto.algorithm.graph;
 
 import br.com.dbarreto.datastructure.graph.Graph;
+import br.com.dbarreto.datastructure.tree.heap.Heap;
+import br.com.dbarreto.datastructure.tree.heap.impl.BinaryHeap;
 import br.com.dbarreto.datastructure.tuple.Pair;
 import br.com.dbarreto.datastructure.tuple.impl.SimplePair;
 
@@ -13,18 +15,18 @@ public class GraphShortestPath {
     public static <V> Map<V, Double> dijkstra(Graph<V> graph, V from) {
 
         Collection<V> vertices = graph.vertices();
-        PriorityQueue<Pair<V, Double>> queue = new PriorityQueue<>(Comparator.comparing(Pair::second));
+        Heap<Pair<V, Double>> queue = new BinaryHeap<>(Comparator.comparing(Pair::second));
         Map<V, Double> distance = new HashMap<>();
 
         for (V v : vertices) {
             distance.put(v, Double.POSITIVE_INFINITY);
         }
 
-        queue.add(new SimplePair<>(from, 0.0));
+        queue.insert(new SimplePair<>(from, 0.0));
         distance.put(from, 0.0);
 
         while (!queue.isEmpty()) {
-            V minimumDistanceVertex = queue.poll().first();
+            V minimumDistanceVertex = queue.extract().first();
             for (V neighbor : graph.neighborsOf(minimumDistanceVertex)) {
 
                 double weight = graph.weight(minimumDistanceVertex, neighbor)
@@ -34,7 +36,7 @@ public class GraphShortestPath {
                 double newDistance = distance.get(minimumDistanceVertex) + weight;
                 if (newDistance < distance.get(neighbor)) {
                     distance.put(neighbor, newDistance);
-                    queue.add(new SimplePair<>(neighbor, newDistance));
+                    queue.insert(new SimplePair<>(neighbor, newDistance));
                 }
             }
 
