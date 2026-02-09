@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import br.com.dbarreto.datastructure.graph.GraphType;
 import br.com.dbarreto.datastructure.node.graph.GraphNode;
-import br.com.dbarreto.datastructure.node.graph.impl.SimpleGraphNode;
 
 /**
  * Implementation of a graph using an object-oriented node structure.
@@ -143,6 +142,54 @@ public class NodeBasedGraph<V> extends AbstractGraph<V> {
             
             this.vertices.remove(v);
             this.edgeCount -= edgesToRemove;
+        }
+    }
+
+    private static class SimpleGraphNode<T> implements GraphNode<T> {
+
+        private final T value;
+        private final Map<GraphNode<T>, Double> neighbors;
+
+        /**
+         * Creates a new graph node with the specified value.
+         *
+         * @param value the value to be held by the node
+         */
+        public SimpleGraphNode(T value) {
+            this.neighbors = new HashMap<>();
+            this.value = value;
+        }
+
+        @Override
+        public Map<GraphNode<T>, Double> neighbors() {
+            return this.neighbors;
+        }
+
+        @Override
+        public void addNeighbor(GraphNode<T> neighbor, double weight) {
+            this.neighbors.put(neighbor, weight);
+        }
+
+        @Override
+        public void removeNeighbor(GraphNode<T> neighbor) {
+            this.neighbors.remove(neighbor);
+        }
+
+        @Override
+        public T value() {
+            return this.value;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof SimpleGraphNode<?> that)) return false;
+            return Objects.equals(value, that.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value);
         }
     }
 }
