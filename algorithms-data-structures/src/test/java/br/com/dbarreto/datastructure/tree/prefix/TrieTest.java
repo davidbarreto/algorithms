@@ -1,15 +1,11 @@
 package br.com.dbarreto.datastructure.tree.prefix;
 
-import br.com.dbarreto.datastructure.node.tree.prefix.MutableTrieNode;
-import br.com.dbarreto.datastructure.node.tree.prefix.impl.ArrayTrieNode;
-import br.com.dbarreto.datastructure.node.tree.prefix.impl.MapTrieNode;
 import br.com.dbarreto.datastructure.tree.prefix.impl.StandardTrie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,34 +14,31 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * Unit tests for {@link Trie} implementations.
  * <p>
- * These tests verify the behavior of {@link StandardTrie} with different {@link MutableTrieNode} implementations.
+ * These tests verify the behavior of {@link StandardTrie} with different Node implementations.
  */
 class TrieTest {
 
     @ParameterizedTest
-    @MethodSource("nodeSuppliers")
+    @MethodSource("trieNodeImplementations")
     @DisplayName("Should add words correctly")
-    void shouldAddWords(Supplier<MutableTrieNode> nodeSupplier) {
-        Trie trie = new StandardTrie(nodeSupplier);
+    void shouldAddWords(Trie trie) {
         assertThat(trie.add("shells")).isTrue();
         assertThat(trie.add("shell")).isTrue();
         assertThat(trie.add("she")).isTrue();
     }
 
     @ParameterizedTest
-    @MethodSource("nodeSuppliers")
+    @MethodSource("trieNodeImplementations")
     @DisplayName("Should not add duplicate words")
-    void shouldNotAddDuplicateWords(Supplier<MutableTrieNode> nodeSupplier) {
-        Trie trie = new StandardTrie(nodeSupplier);
+    void shouldNotAddDuplicateWords(Trie trie) {
         trie.add("shell");
         assertThat(trie.add("shell")).isFalse();
     }
 
     @ParameterizedTest
-    @MethodSource("nodeSuppliers")
+    @MethodSource("trieNodeImplementations")
     @DisplayName("Should check if contains word")
-    void shouldCheckContains(Supplier<MutableTrieNode> nodeSupplier) {
-        Trie trie = new StandardTrie(nodeSupplier);
+    void shouldCheckContains(Trie trie) {
         trie.add("she");
         trie.add("shell");
 
@@ -56,10 +49,9 @@ class TrieTest {
     }
 
     @ParameterizedTest
-    @MethodSource("nodeSuppliers")
+    @MethodSource("trieNodeImplementations")
     @DisplayName("Should check if starts with prefix")
-    void shouldCheckStartsWith(Supplier<MutableTrieNode> nodeSupplier) {
-        Trie trie = new StandardTrie(nodeSupplier);
+    void shouldCheckStartsWith(Trie trie) {
         trie.add("shell");
 
         assertThat(trie.startsWith("she")).isTrue();
@@ -70,10 +62,9 @@ class TrieTest {
     }
 
     @ParameterizedTest
-    @MethodSource("nodeSuppliers")
+    @MethodSource("trieNodeImplementations")
     @DisplayName("Should return correct size")
-    void shouldReturnCorrectSize(Supplier<MutableTrieNode> nodeSupplier) {
-        Trie trie = new StandardTrie(nodeSupplier);
+    void shouldReturnCorrectSize(Trie trie) {
         assertThat(trie.size()).isZero();
 
         trie.add("she");
@@ -87,10 +78,9 @@ class TrieTest {
     }
 
     @ParameterizedTest
-    @MethodSource("nodeSuppliers")
+    @MethodSource("trieNodeImplementations")
     @DisplayName("Should return correct height")
-    void shouldReturnCorrectHeight(Supplier<MutableTrieNode> nodeSupplier) {
-        Trie trie = new StandardTrie(nodeSupplier);
+    void shouldReturnCorrectHeight(Trie trie) {
         assertThat(trie.height()).isEqualTo(-1);
 
         trie.add("she");
@@ -107,10 +97,9 @@ class TrieTest {
     }
 
     @ParameterizedTest
-    @MethodSource("nodeSuppliers")
+    @MethodSource("trieNodeImplementations")
     @DisplayName("Should get all words with prefix")
-    void shouldGetAllWordsWithPrefix(Supplier<MutableTrieNode> nodeSupplier) {
-        Trie trie = new StandardTrie(nodeSupplier);
+    void shouldGetAllWordsWithPrefix(Trie trie) {
         trie.add("she");
         trie.add("shell");
         trie.add("shells");
@@ -133,10 +122,9 @@ class TrieTest {
     }
 
     @ParameterizedTest
-    @MethodSource("nodeSuppliers")
+    @MethodSource("trieNodeImplementations")
     @DisplayName("Should get all words with prefix")
-    void shouldGetCorrectLongestPrefix(Supplier<MutableTrieNode> nodeSupplier) {
-        Trie trie = new StandardTrie(nodeSupplier);
+    void shouldGetCorrectLongestPrefix(Trie trie) {
         trie.add("she");
         trie.add("shell");
         trie.add("shells");
@@ -154,10 +142,9 @@ class TrieTest {
     }
 
     @ParameterizedTest
-    @MethodSource("nodeSuppliers")
+    @MethodSource("trieNodeImplementations")
     @DisplayName("Should remove words correctly")
-    void shouldRemoveWords(Supplier<MutableTrieNode> nodeSupplier) {
-        Trie trie = new StandardTrie(nodeSupplier);
+    void shouldRemoveWords(Trie trie) {
         trie.add("shell");
         trie.add("she");
 
@@ -171,10 +158,9 @@ class TrieTest {
     }
 
     @ParameterizedTest
-    @MethodSource("nodeSuppliers")
+    @MethodSource("trieNodeImplementations")
     @DisplayName("Should not remove non-existent words")
-    void shouldNotRemoveNonExistentWords(Supplier<MutableTrieNode> nodeSupplier) {
-        Trie trie = new StandardTrie(nodeSupplier);
+    void shouldNotRemoveNonExistentWords(Trie trie) {
         trie.add("shell");
 
         assertThat(trie.remove("she")).isFalse();
@@ -187,7 +173,7 @@ class TrieTest {
     @DisplayName("Should throw exception when adding null or empty word")
     void shouldThrowExceptionWhenAddingInvalidWord(String word) {
         // We can use any implementation here since the validation is in the Trie class
-        Trie trie = new StandardTrie(MapTrieNode::new);
+        Trie trie = StandardTrie.newTrieWithMapNode();
         assertThatThrownBy(() -> trie.add(word))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Word cannot be null nor empty");
@@ -198,7 +184,7 @@ class TrieTest {
     @DisplayName("Should throw exception when removing null or empty word")
     void shouldThrowExceptionWhenRemovingInvalidWord(String word) {
         // We can use any implementation here since the validation is in the Trie class
-        Trie trie = new StandardTrie(MapTrieNode::new);
+        Trie trie = StandardTrie.newTrieWithMapNode();
         assertThatThrownBy(() -> trie.remove(word))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Word cannot be null nor empty");
@@ -209,16 +195,16 @@ class TrieTest {
     @DisplayName("Should throw exception when removing null or empty word")
     void shouldThrowExceptionWhenGettingLongestPrefixOfInvalidWord(String word) {
         // We can use any implementation here since the validation is in the Trie class
-        Trie trie = new StandardTrie(MapTrieNode::new);
+        Trie trie = StandardTrie.newTrieWithMapNode();
         assertThatThrownBy(() -> trie.longestPrefixOf(word))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Word cannot be null nor empty");
     }
 
-    static Stream<Supplier<MutableTrieNode>> nodeSuppliers() {
+    static Stream<Trie> trieNodeImplementations() {
         return Stream.of(
-                MapTrieNode::new,
-                ArrayTrieNode::new
+                StandardTrie.newTrieWithArrayNode(),
+                StandardTrie.newTrieWithMapNode()
         );
     }
 }

@@ -1,14 +1,12 @@
 package br.com.dbarreto.datastructure.tree.prefix.impl;
 
-import br.com.dbarreto.datastructure.node.tree.prefix.MutableTrieNode;
 import br.com.dbarreto.datastructure.node.tree.prefix.TrieNode;
 import br.com.dbarreto.datastructure.tree.prefix.Trie;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * A standard implementation of the {@link Trie} interface.
@@ -28,11 +26,19 @@ public class StandardTrie implements Trie {
      *
      * @param nodeSupplier a supplier that creates new instances of {@link MutableTrieNode}.
      */
-    public StandardTrie(Supplier<MutableTrieNode> nodeSupplier) {
+    private StandardTrie(Supplier<MutableTrieNode> nodeSupplier) {
         this.nodeSupplier = nodeSupplier;
         this.root = this.nodeSupplier.get();
         this.size = 0;
         this.height = -1;
+    }
+
+    public static Trie newTrieWithArrayNode() {
+        return new StandardTrie(ArrayTrieNode::new);
+    }
+
+    public static Trie newTrieWithMapNode() {
+        return new StandardTrie(MapTrieNode::new);
     }
 
     @Override
@@ -213,5 +219,162 @@ public class StandardTrie implements Trie {
     @Override
     public Iterator<String> iterator() {
         return wordsWithPrefix("").iterator();
+    }
+
+    /**
+     * Represents a mutable {@link TrieNode}.
+     * <p>
+     * This interface extends {@link TrieNode} to provide methods for modifying the node's state,
+     * such as marking it as a word end, adding children, or removing children.
+     */
+    private interface MutableTrieNode extends TrieNode {
+
+        /**
+         * Retrieves the mutable child node associated with the given character.
+         *
+         * @param ch the character to look up.
+         * @return the child {@link MutableTrieNode} associated with the character, or {@code null} if not found.
+         */
+        MutableTrieNode getMutable(Character ch);
+
+        /**
+         * Retrieves the child node associated with the given character.
+         * <p>
+         * This default implementation delegates to {@link #getMutable(Character)}.
+         *
+         * @param ch the character to look up.
+         * @return the child {@link TrieNode} associated with the character, or {@code null} if not found.
+         */
+        @Override
+        default TrieNode get(Character ch) {
+            return getMutable(ch);
+        }
+
+        /**
+         * Sets whether the path to this node represents a complete word.
+         *
+         * @param isWord {@code true} to mark it as a word, {@code false} otherwise.
+         */
+        void setWord(boolean isWord);
+
+        /**
+         * Adds or replaces a child node for a given character.
+         *
+         * @param ch   the character representing the child link.
+         * @param node the child node to add.
+         */
+        void put(Character ch, MutableTrieNode node);
+
+        /**
+         * Removes the child node associated with the given character.
+         *
+         * @param ch the character of the child to remove.
+         */
+        void remove(Character ch);
+    }
+
+    private static class ArrayTrieNode implements MutableTrieNode {
+
+        private static final int SIZE = 256;
+
+        private final MutableTrieNode[] children;
+        private boolean isWord;
+
+        /**
+         * Constructs a new {@code ArrayTrieNode} with no children and not marked as a word.
+         */
+        public ArrayTrieNode() {
+            this.children = new ArrayTrieNode[SIZE];
+            this.isWord = false;
+        }
+
+        @Override
+        public MutableTrieNode getMutable(Character ch) {
+            return this.children[ch];
+        }
+
+        @Override
+        public void setWord(boolean isWord) {
+            this.isWord = isWord;
+        }
+
+        @Override
+        public void put(Character ch, MutableTrieNode node) {
+            this.children[ch] = node;
+        }
+
+        @Override
+        public void remove(Character ch) {
+            this.children[ch] = null;
+        }
+
+        @Override
+        public boolean isWord() {
+            return this.isWord;
+        }
+
+        @Override
+        public Collection<Character> keys() {
+            return IntStream.range(0, SIZE)
+                    .filter(i -> this.children[i] != null)
+                    .mapToObj(i -> (char) i)
+                    .toList();
+        }
+
+        @Override
+        public Collection<TrieNode> children() {
+            return Arrays.stream(this.children)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+        }
+    }
+
+    private static class MapTrieNode implements MutableTrieNode {
+
+        private final Map<Character, MutableTrieNode> children;
+        private boolean isWord;
+
+        /**
+         * Constructs a new {@code MapTrieNode} with no children and not marked as a word.
+         */
+        public MapTrieNode() {
+            this.isWord = false;
+            this.children = new HashMap<>();
+        }
+
+        @Override
+        public boolean isWord() {
+            return this.isWord;
+        }
+
+        @Override
+        public MutableTrieNode getMutable(Character ch) {
+            return this.children.get(ch);
+        }
+
+        @Override
+        public Collection<Character> keys() {
+            return Collections.unmodifiableCollection(this.children.keySet());
+        }
+
+        @Override
+        public Collection<TrieNode> children() {
+            return Collections.unmodifiableCollection(this.children.values());
+        }
+
+        @Override
+        public void setWord(boolean isWord) {
+            this.isWord = isWord;
+        }
+
+        @Override
+        public void put(Character ch, MutableTrieNode node) {
+            this.children.put(ch, node);
+        }
+
+        @Override
+        public void remove(Character ch) {
+            this.children.remove(ch);
+        }
     }
 }

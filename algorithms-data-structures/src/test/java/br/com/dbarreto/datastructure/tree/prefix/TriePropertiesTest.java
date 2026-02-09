@@ -1,7 +1,5 @@
 package br.com.dbarreto.datastructure.tree.prefix;
 
-import br.com.dbarreto.datastructure.node.tree.prefix.impl.ArrayTrieNode;
-import br.com.dbarreto.datastructure.node.tree.prefix.impl.MapTrieNode;
 import br.com.dbarreto.datastructure.tree.prefix.impl.StandardTrie;
 import net.jqwik.api.*;
 import net.jqwik.api.constraints.AlphaChars;
@@ -137,8 +135,8 @@ class TriePropertiesTest {
     @Provide
     Arbitrary<TrieFactory> trieImplementations() {
         return Arbitraries.of(
-                new TrieFactory("StandardTrie + ArrayTrieNode", () -> new StandardTrie(ArrayTrieNode::new)),
-                new TrieFactory("StandardTrie + MapTrieNode", () -> new StandardTrie(MapTrieNode::new))
+                new TrieFactory("StandardTrie + ArrayTrieNode", StandardTrie::newTrieWithArrayNode),
+                new TrieFactory("StandardTrie + MapTrieNode", StandardTrie::newTrieWithMapNode)
         );
     }
 
