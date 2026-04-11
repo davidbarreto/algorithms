@@ -75,18 +75,18 @@ public class BinarySearchTreeOperations {
     }
 
     public static <T extends Comparable<T>> boolean isBinarySearchTree(BinaryTreeNode<T> root) {
+        return isBinarySearchTree(root, null, null);
+    }
+
+    private static <T extends Comparable<T>> boolean isBinarySearchTree(BinaryTreeNode<T> root, T min, T max) {
         if (root == null) {
             return true;
         }
 
-        var value = root.value();
-        var left = root.left();
-        var right = root.right();
-
-        if (left != null && left.value().compareTo(value) > 0 || right != null && right.value().compareTo(value) < 0) {
+        if (min != null && root.value().compareTo(min) < 0 || max != null && root.value().compareTo(max) > 0) {
             return false;
         }
 
-        return isBinarySearchTree(left) && isBinarySearchTree(right);
+        return isBinarySearchTree(root.left(), min, root.value()) && isBinarySearchTree(root.right(), root.value(), max);
     }
 }

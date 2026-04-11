@@ -100,8 +100,12 @@ class BinarySearchTreeOperationsTest {
                 Arguments.of(BinaryTreeScenarios.createPerfectBinaryTree(), false),
                 Arguments.of(BinaryTreeScenarios.createMissingChildrenBinaryTree(), false),
                 Arguments.of(BinaryTreeScenarios.createSimpleBinaryTree(), false),
+                Arguments.of(BinaryTreeScenarios.createNonBstBinaryTreeCase1(), false),
+                Arguments.of(BinaryTreeScenarios.createNonBstBinaryTreeCase2(), false),
+                Arguments.of(BinaryTreeScenarios.createNonBstBinaryTreeCase3(), false),
                 // Binary tree that happens to be a BST
-                Arguments.of(BinaryTreeScenarios.createBstBinaryTree(), true),
+                Arguments.of(BinaryTreeScenarios.createBstBinaryTreeCase1(), true),
+                Arguments.of(BinaryTreeScenarios.createBstBinaryTreeCase2(), true),
                 // BinarySearchTree instances - these return true immediately via instanceof check
                 Arguments.of(BinarySearchTreeScenarios.createBstWithUnorderedInserts(), true),
                 Arguments.of(BinarySearchTreeScenarios.createBstWithOrderedInserts(), true),

@@ -168,23 +168,91 @@ public class BinaryTreeScenarios {
     }
 
     /**
-     * Creates a binary tree that happens to satisfy the BST property.
+     * Creates binary tree that is not BST
      *
+     * @return a simple {@link BinaryTree}
+     */
+    public static BinaryTree<Integer> createNonBstBinaryTreeCase1() {
+        return new StandardBinaryTree.Builder<>(5)
+                .root()
+                    .left(4).end()
+                    .right(6)
+                        .left(3).end()
+                        .right(7).end()
+                    .end()
+                .end()
+                .build();
+    }
+
+    /**
+     * Creates binary tree that is not BST
+     *
+     * @return a simple {@link BinaryTree}
+     */
+    public static BinaryTree<Integer> createNonBstBinaryTreeCase2() {
+        return new StandardBinaryTree.Builder<>(5)
+                .root()
+                    .left(1).end()
+                    .right(4)
+                        .left(3).end()
+                        .right(6).end()
+                    .end()
+                .end()
+                .build();
+    }
+
+    /**
+     * Creates binary tree that is not BST
+     *
+     * @return a simple {@link BinaryTree}
+     */
+    public static BinaryTree<Integer> createNonBstBinaryTreeCase3() {
+        return new StandardBinaryTree.Builder<>(32)
+                .root()
+                    .left(26)
+                        .left(19)
+                            .right(27).end()
+                        .end()
+                    .end()
+                    .right(47)
+                        .right(56).end()
+                    .end()
+                .end()
+                .build();
+    }
+
+    // Creates a binary tree that happens to satisfy the BST property.
+
+    /**
+     * Binary tree that happens to be a BST. Case 1
      * @return a {@link BinaryTree} that is also a valid BST
      */
-    public static BinaryTree<Integer> createBstBinaryTree() {
+    public static BinaryTree<Integer> createBstBinaryTreeCase1() {
         return new StandardBinaryTree.Builder<>(20)
                 .root()
                     .left(17)
                         .left(15)
                             .left(12).end()
                         .end()
-                        .right(28)
-                            .right(35).end()
+                        .right(18)
+                            .right(19).end()
                         .end()
                     .end()
                     .right(38)
                     .end()
+                .end()
+                .build();
+    }
+
+    /**
+     * Binary tree that happens to be a BST. Case 2
+     * @return a {@link BinaryTree} that is also a valid BST
+     */
+    public static BinaryTree<Integer> createBstBinaryTreeCase2() {
+        return new StandardBinaryTree.Builder<>(2)
+                .root()
+                    .left(1).end()
+                    .right(3).end()
                 .end()
                 .build();
     }
