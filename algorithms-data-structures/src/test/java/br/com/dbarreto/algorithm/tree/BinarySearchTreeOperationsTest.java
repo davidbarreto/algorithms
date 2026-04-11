@@ -39,7 +39,7 @@ class BinarySearchTreeOperationsTest {
     }
 
     /**
-     * Tests the {@link BinarySearchTree#contains(Comparable)} method.
+     * Tests the {@link BinarySearchTree#contains(Object)} method.
      */
     @ParameterizedTest
     @MethodSource("containsArguments")
